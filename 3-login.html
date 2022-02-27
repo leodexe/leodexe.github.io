@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
+    <title>YARD Sale | Login</title>
+    <style>
+        :root {
+              --black: #000000;
+              --gray: #777777;
+              --white: #FFFFFF;
+              --sm: 12px;
+              --md: 16px;
+              --lg: 20px;
+              --very-light-pink: #C7C7C7;
+              --text-input-field: #F7F7F7;
+              --hospital-green: #ACD9B2;
+          }
+        body {
+            font-family: 'Quicksand', sans-serif;
+            margin: 0;
+        }
+        .next {
+            position: absolute;
+            right: 0;
+        }
+        .login {
+            width: 100%;
+            height: 100vh;
+            display: grid;
+            place-items: center;
+        }
+        .form-container {
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            width: 320px;
+        }
+        .logo {
+             width: 160px;
+             margin-bottom: 48px;
+             justify-self: center;
+             display: none;
+        }
+        .form {
+            display: flex;
+            flex-direction: column;
+        }
+        .form div {
+            display: flex;
+            flex-direction: column;
+        }
+        .label {
+            font-size: var(--sm);
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .input {
+            background-color: var(--text-input-field);
+            border: none;
+            border-radius: 8px;
+            height: 32px;
+            font-size: var(--md);
+            padding: 4px;
+            margin-bottom: 24px;
+        }
+        .primary-button {
+            width: 100%;
+            background: var(--hospital-green);
+            border: none;
+            border-radius: 4px;
+            color: var(--white);
+            cursor: pointer;
+            font-size: var(--md);
+            font-weight: bold;
+            height: 48px;
+        }
+        .login-button {
+            margin-top: 12px;
+            margin-bottom: 12px;
+        }
+        .forgot {
+            text-align: center;
+        }
+        .forgot a {
+            text-decoration: none;
+            color: var(--hospital-green);
+        }
+        .signup-button {
+            width: 100%;
+            height: 48px;
+            background: var(--white);
+            border: solid 1px var(--hospital-green);
+            border-radius: 4px;
+            color: var(--hospital-green);
+            cursor: pointer;
+            font-size: var(--md);
+            font-weight: bold;
+            margin: 12px 0 32px 0;
+        }
+        @media (max-width: 800px) {
+            .logo {
+                margin-top: 32px;
+                display: inherit;
+            }
+            .form-container {
+                height: 100%;
+            }
+            .form {
+                height: 100%;
+                justify-content: space-between;
+            }
+            .forgot {
+                margin-bottom: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="2-emailsent.html">Clase 2: emailsent.html</a>
+    <a href="4-createacc.html" class="next">Clase 4: createacc.html</a>
+    <div class="login"> <!-- div principal, contiene toda la página-->
+        <div class="form-container"> <!-- div secundario, contiene el formulario-->
+            <img src="./logos/logo_yard_sale.svg" class="logo" alt="logo">
+            <form action="/5-editacc.html" class="form">
+                <div>
+                    <label for="email" class="label">Email</label>
+                    <input required type="email" id="email" class="input input-email" placeholder="email@example.com">
+                    <label for="password" class="label">Password</label>
+                    <input required type="password" id="password" class="input input-password" placeholder="Enter your password">
+                    <input type="submit" class="primary-button login-button" value="Login">
+                    <p class="forgot">
+                        <a href="/2.3-forgotpassword.html">Forgot my password</a>
+                    </p>
+                </div>
+            </form>
+            <a href="/4-createacc.html"><button class="secondary-button signup-button" href="/">Sign up</button></a>
+        </div>
+    </div>
+</body>
+</html>

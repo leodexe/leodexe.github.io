@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+        <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
+        <title>Yard Sale | Navbar</title>
+        <style>
+            :root {
+                  --black: #000000;
+                  --gray: #777777;
+                  --white: #FFFFFF;
+                  --sm: 12px;
+                  --md: 16px;
+                  --lg: 20px;
+                  --very-light-pink: #C7C7C7;
+                  --text-input-field: #F7F7F7;
+                  --hospital-green: #ACD9B2;
+              }
+            body {
+                margin: 0;
+                font-family: 'Quicksand', sans-serif;
+            }
+            .next {
+                position: absolute;
+                right: 0;
+            }
+            .navbar {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                border-bottom: 1px solid var(--very-light-pink);
+            }
+            .menu-href {
+                align-self: center;
+                display: none;
+                padding-left: 16px;
+            }
+            .flexrow {
+                display: flex;
+                align-items: center;
+                list-style: none;
+            }
+            .flexrow a {
+                text-decoration: none;
+            }
+            .nav-left {
+                display: flex;
+                padding-left: 32px;
+            }
+            .logo {
+                width: 128px;
+            }
+            .nav-left ul li a {
+                border-radius: 8px;
+                color: var(--very-light-pink);
+                padding: 0 16px;
+            }
+            .nav-left ul li a:hover {
+                border: solid 1px var(--hospital-green);
+                color: var(--hospital-green);
+            }
+            .nav-right {
+                display: flex;
+                padding-right: 16px;
+            }
+            .nav-right .flexrow li {
+                display: flex;
+            }
+            .nav-email {
+                display: inherit;
+                color: var(--very-light-pink);
+                font-size: var(--sm);
+                padding-right: 32px;
+            }
+            .shopping-cart {
+                position: relative;
+                width: 32px;
+                height: 32px;
+            }
+            .nav-cart-qty {
+                display: grid;
+                place-content: center;
+                width: 16px;
+                height: 16px;
+                background: var(--hospital-green);
+                border-radius: 50%;
+                font-size: var(--sm);
+                font-weight: bold;
+                position: absolute;
+                top: 23px;
+                right: 19px;
+            }
+            @media (max-width: 800px) {
+                .menu-href {
+                    display: inherit;
+                }
+                .nav-left ul {
+                    display: none;
+                }
+                .navbar .nav-right .nav-email {
+                    display: none;
+                }
+            }
+            </style>
+    </head>
+<body>
+    <a href="10-myorders.html">Clase 10: myorders.html</a>
+    <a href="12-productdetail.html" class="next">Clase 12: product.html</a>
+    <nav class="navbar">
+        <a href="8-menumobile.html" class="menu-href">
+            <img src="/icons/icon_menu.svg" alt="menu" class="menu">
+        </a>
+        <div class="nav-left">
+            <img src="/logos/logo_yard_sale.svg" alt="logo" class="logo">
+            <ul class="flexrow">
+                <li>
+                    <a href="">All</a>
+                </li>
+                <li>
+                    <a href="">Clothes</a>
+                </li>
+                <li>
+                    <a href="">Electronics</a>
+                </li>
+                <li>
+                    <a href="">Furniture</a>
+                </li>
+                <li>
+                    <a href="">Toys</a>
+                </li>
+                <li>
+                    <a href="">Others</a>
+                </li>
+            </ul>
+        </div>
+        <div class="nav-right">
+            <ul class="flexrow">
+                <li class="nav-email">camilayokoo@gmail.com</li>
+                <li class="nav-cart">
+                    <img src="/icons/icon_shopping_cart.svg" alt="shopping-cart">
+                    <div class="nav-cart-qty">2</div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</body>
+</html>
