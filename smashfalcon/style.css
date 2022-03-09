@@ -19,29 +19,30 @@ main {
 header, footer {
     background: black;
     color: white;
-    width: 100vw;
-    height: 2.5vw;
+    width: 100%;
+    height: 2.5vh;
 }
 header nav, footer nav {
     display: flex;
     align-items: center;
-    width: 100vw;
+    width: 100%;
     height: 100%;
 }
 header nav img {
     margin-left: 3.2rem;
 }
-.title {
-    display: block;
-    text-align: center;
-    font-size: 2.4rem;
-}
-ul {
+.desktop__header, .responsive__header {
+    width: 100%;
     display: flex;
     list-style: none;
 }
-ul li {
-    padding: 0 3.2rem;
+.responsive__header {
+    display: none;
+}
+footer nav ul {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
 }
 a {
     color: yellow;
@@ -49,39 +50,72 @@ a {
 a:visited {
     color: lime;
 }
+.title {
+    display: block;
+    text-align: center;
+    font-size: 2.0rem;
+}
+.title-responsive {
+    text-align: center;
+    display: none;
+}
+.year {
+    text-align: center;
+}
 .centerfield {
     display: flex;
     width: 100vw;
-    height: 90vh;
+    height: 92.25vh;
 }
-figure img {
-    width: 100%;
+.a2019, .a2020 {
+    width: 80%;
+    height: 100%;
 }
-.section1 {
-    display: flex;
-    height: 90vw;
-    height: 100vh;
+.a2021 {
+    width: 40%;
 }
-/*.article {
-    background: green;
-    width: 90vw;
-    height: 90vh;
-}*/
-article a {
+.links, .a2019 a {
     display: block;
+    text-align: center;
 }
-.su2019 {
+.su2019, .su2020, .su2021 {
+    object-fit: cover;
     width: 100%;
-    height: 55%;
-}
-.su2020 {
-    width: 100%;
-}
-.su2021 {
-    width: 57.2%;
-    height: 40%;
 }
 footer {
     background: yellow;
     color: black;
+}
+.lastdiv {
+    display: none;
+}
+@media (max-width: 1024px) {
+    body {
+        background: gray;
+    }
+    header nav img {
+        margin: 1.6rem;
+    }
+    .desktop__header {
+        display: none;
+    }
+    .responsive__header {
+        display: flex;
+        justify-content: space-around;
+    }
+    .centerfield {
+        height: 100vh;
+        flex-direction: column;
+    }
+    .a2019, .a2020, .a2021 {
+        width: 100%;
+    }
+    .title {
+        display: none;
+    }
+    .title-responsive {
+        display: initial;
+        text-align: center;
+        font-size: 1.8rem;
+    }
 }
