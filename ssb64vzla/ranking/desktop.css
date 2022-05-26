@@ -1,0 +1,14 @@
+@media (min-width: 640px) {
+    body {
+        font-size: 1.6rem;
+    }
+    .container {
+        display: flex;
+        justify-content: space-evenly;
+        align-content: space-between;
+    }
+    .container__section {
+        text-align: left;
+    }
+}
+
