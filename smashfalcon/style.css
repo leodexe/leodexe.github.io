@@ -43,10 +43,6 @@ header nav img {
 a:not(.fli) {
     color: yellow;
 }
-footer ul {
-    display: flex;
-    justify-content: space-between;
-}
 a:visited {
     color: lime;
 }
@@ -97,7 +93,10 @@ footer {
     color: black;
     margin-top: auto;
 }
-
+footer ul {
+    display: flex;
+    justify-content: space-evenly;
+}
 @media (max-width: 1024px) {
 
     header nav img {
