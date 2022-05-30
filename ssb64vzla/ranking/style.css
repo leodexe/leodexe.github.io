@@ -46,7 +46,14 @@ main {
  .standings {
      margin-bottom: 0.6rem;
  }
-
+.ranking2021_2022{
+    display: flex;
+    justify-content: space-between;
+}
+.box2021, .box2022 {
+    text-align: center;
+    margin: 0 0rem;
+}
 .piedepagina {
     margin-top: auto;
 }
