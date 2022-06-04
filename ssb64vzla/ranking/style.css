@@ -43,12 +43,8 @@ main {
      margin-bottom: 0.8rem;
  }
 
- .standings {
-     margin-bottom: 0.6rem;
- }
-
 .placements {
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.8rem;
 }
 
 .placements img {
@@ -60,6 +56,12 @@ main {
     display: flex;
     justify-content: space-between;
 }
+
+.ranking2021_2022 img{
+    width: 16px;
+    height: 16px;
+}
+
 .box2021, .box2022 {
     text-align: center;
     margin: 0 0rem;
