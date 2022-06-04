@@ -46,6 +46,16 @@ main {
  .standings {
      margin-bottom: 0.6rem;
  }
+
+.placements {
+    margin-bottom: 0.4rem;
+}
+
+.placements img {
+    width: 16px;
+    height: 16px;
+}
+
 .ranking2021_2022{
     display: flex;
     justify-content: space-between;
