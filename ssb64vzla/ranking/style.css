@@ -47,7 +47,7 @@ main {
     margin-bottom: 0.8rem;
 }
 
-.placements img {
+.placements img, .ranking2021_2022 img {
     width: 16px;
     height: 16px;
 }
