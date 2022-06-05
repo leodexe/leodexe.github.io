@@ -54,7 +54,8 @@ main {
 
 .ranking2021_2022{
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: space-evenly;
 }
 
 .ranking2021_2022 img{
