@@ -3,15 +3,12 @@
     margin: 0;
     padding: 0;
 }
-
 html {
     font-size: 62.5%;
 }
-
 body {
     font-size: 1.5rem;
 }
-
 main {
     min-width: 100vw;
     min-height: 100vh;
@@ -19,58 +16,42 @@ main {
     flex-direction: column;
     background: pink;
 }
-
 .encabezado, .piedepagina {
     width: 100%;
 }
-
 .main-lista {
     display: flex;
     list-style: none;
     justify-content: space-evenly;
 }
-
 .titular {
     margin: 2.0rem;
     text-align: center;
 }
-
-.container__section {
+.container, .container__section {
     text-align: center;
 }
-
- .container__h2 {
+ .container__h2, .placements {
      margin-bottom: 0.8rem;
  }
-
-.placements {
-    margin-bottom: 0.8rem;
-}
-
 .placements img, .ranking2021_2022 img {
     width: 16px;
     height: 16px;
 }
-
+.lastp {
+    margin: 0;
+}
 .ranking2021_2022{
     display: flex;
-    flex-direction: column;
     justify-content: space-evenly;
+    margin-top: 0.8rem;
 }
-
-.ranking2021_2022 img{
-    width: 16px;
-    height: 16px;
-}
-
-.box2021, .box2022 {
-    text-align: center;
-    margin: 0 0rem;
+.link2021_2022desktop {
+    display: none;
 }
 .piedepagina {
     margin-top: auto;
 }
-
  .footnav {
      display: flex;
      list-style: none;

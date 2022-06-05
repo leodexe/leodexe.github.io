@@ -10,5 +10,15 @@
     .container__section {
         text-align: left;
     }
+    .link2021_2022mobile {
+        display: none;
+    }
+    .link2021_2022desktop {
+        display: initial;
+    }
+    .ranking2021_2022{
+        flex-direction: column;
+        margin-top: initial;
+    }
 }
 
