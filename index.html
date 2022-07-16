@@ -1,102 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
-    <title>Índice de mis proyectos</title>
-    <style>
-        :root {
-              --black: #000000;
-              --gray: #777777;
-              --white: #FFFFFF;
-              --sm: 12px;
-              --md: 16px;
-              --lg: 20px;
-              --very-light-pink: #C7C7C7;
-              --text-input-field: #F7F7F7;
-              --hospital-green: #ACD9B2;
-        }
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        html {
-              font-size: 62.5%;
-        }
-        body {
-            font-family: 'Quicksand', sans-serif;
-            font-size: 1.6rem;
-            background: red;
-        }
-        main {
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-        }
-        .smash {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 50%;
-            height: 50%;
-            font-size: 2.4rem;
-            background: cyan;
-        }
-        .img-container-smash img {
-            width: 100%;
-        }
-        .ssb64ve {
-            margin-top: auto;
-        }
-        .platzi {
-            background: gray;
-            text-align: center;
-            width: 50%;
-            height: 50%
-        }
-        .platzi__title {
-            margin: 28px 0;
-        }
-        .platzi a {
-            display: block;
-        }
-      </style>
-  </head>
-  <body>
-      <main>
-          <section class="smash">
-              <div class="smash__subsection">
-                  <!--figure class="img-container-smash">
-                      <! a href="https://www.facebook.com/groups/309981195779334/" class="facebook-group-img"><img src="https://scontent-mia3-1.xx.fbcdn.net/v/t31.18172-8/10661951_10203000218987414_2267462662718031696_o.jpg?_nc_cat=111&ccb=1-5&_nc_sid=8631f5&_nc_ohc=btuOVpK6HBwAX8PGlo7&_nc_ht=scontent-mia3-1.xx&oh=00_AT90ezrh0PfctoMmWnv_4-g8_cxkgtROOOI444E1Vm45Eg&oe=624C299C" alt=""></a-->
-                  </figure>
-
-              </div>
-              <h1 class="smash__title">Super Smash Bros.</h1>
-              <a class="ssbfalcon" href="./smashfalcon/index.html"><img src="https://ssb.wiki.gallery/images/thumb/8/82/SSB_Icon.png/24px-SSB_Icon.png" alt="ssbicon">Smash Falcón</a> (En construcción)
-              <a class="ssb64ve" href="./ssb64vzla/ranking/index.html"><img src="https://ssb.wiki.gallery/images/thumb/1/1e/SSB64_Icon.png/24px-SSB64_Icon.png" alt="ssbicon">Smash64 Venezuela</a> (En construcción)
-
-        </section>
-        <section class="platzi">
-            <h1 class="platzi__title">Platzi: Curso de Frontend Developer Práctico</h1>
-            <a href="1-password.html" class="clase1">Clase 1: password.html</a>
-            <a href="2-emailsent.html" class="clase2">Clase 2: emailsent.html</a>
-            <a href="3-login.html" class="clase2">Clase 3: login.html</a>
-            <a href="4-createacc.html" class="clase2">Clase 4:create-acc.html</a>
-            <a href="5-editacc.html" class="clase2">Clase 5: editacc.html</a>
-            <a href="6-searchpage.html" class="clase2">Clase 6: searchpage.html</a>
-            <a href="7-menudesktop.html" class="clase2">Clase 7: menudesktop.html</a>
-            <a href="8-menumobile.html" class="clase2">Clase 8: menumobile.html</a>
-            <a href="9-myorder.html" class="clase2">Clase 9: myorder.html</a>
-            <a href="10-myorders.html" class="clase2">Clase 10: myorders.html</a>
-            <a href="11-navbar.html" class="clase2">Clase 11: navbar.html</a>
-            <a href="12-productdetail.html" class="clase2">Clase 12: productdetail.html</a>
-            <a href="13-shoppingcart.html" class="clase2">Clase 13: shoppingcart.html</a>
-          </section>
-
-      </main>
-  </body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="https://ssb.wiki.gallery/images/thumb/8/82/SSB_Icon.png/24px-SSB_Icon.png" type="image/x-icon">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+        <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="./style.css">
+        <title>Índice de mis proyectos</title>
+    </head>
+    <body>
+        <main>
+            <h1 class="smash__title">Super Smash Bros.</h1>
+            <span><a class="ssbfalcon" href="./smashfalcon/index.html"><img class="ssb"src="https://ssb.wiki.gallery/images/thumb/8/82/SSB_Icon.png/24px-SSB_Icon.png" alt="ssbicon">Smash Falcón</a> (Desactualizado)</span>
+            <span><a class="ssb64ve" href="./ssb64vzla/ranking/index.html"><img class="ssb" src="https://ssb.wiki.gallery/images/thumb/1/1e/SSB64_Icon.png/24px-SSB64_Icon.png" alt="ssbicon">Smash64 Venezuela</a> (En construcción)</span>
+            <div class="separator"></div>
+            <h2 class="projects">Mis proyectos</h2>
+            <span class="clonegoogle"><a href="https://leodexe.github.io/clonegoogle/index.html" class="acg">Clone Google</a> (con responsive)</span>
+            <span class="clonewiki"><a href="https://leodexe.github.io/clonewiki/index.html" class="acg">Clone Wiki</a> (sin responsive)</span>
+            <span class="shoppingcart"><a href="./1-password.html" class="acg">Mi primera web</a> (algo responsive)</span>
+            <div class="separator"></div>
+            <span class="activity">Última actualización: 16/07/2022</span>
+            <!--section class="smash">
+                <div class="smash__subsection">
+                    <!--figure class="img-container-smash">
+                        <! a href="https://www.facebook.com/groups/309981195779334/" class="facebook-group-img"><img src="https://scontent-mia3-1.xx.fbcdn.net/v/t31.18172-8/10661951_10203000218987414_2267462662718031696_o.jpg?_nc_cat=111&ccb=1-5&_nc_sid=8631f5&_nc_ohc=btuOVpK6HBwAX8PGlo7&_nc_ht=scontent-mia3-1.xx&oh=00_AT90ezrh0PfctoMmWnv_4-g8_cxkgtROOOI444E1Vm45Eg&oe=624C299C" alt=""></a-->
+                    </figure>
+    
+                </div>
+    
+            </section-->
+            <!--section class="platzi">
+                <h1 class="platzi__title">Platzi: Curso de Frontend Developer Práctico</h1>
+                <a href="1-password.html" class="clase1">Clase 1: password.html</a>
+                <a href="2-emailsent.html" class="clase2">Clase 2: emailsent.html</a>
+                <a href="3-login.html" class="clase2">Clase 3: login.html</a>
+                <a href="4-createacc.html" class="clase2">Clase 4:create-acc.html</a>
+                <a href="5-editacc.html" class="clase2">Clase 5: editacc.html</a>
+                <a href="6-searchpage.html" class="clase2">Clase 6: searchpage.html</a>
+                <a href="7-menudesktop.html" class="clase2">Clase 7: menudesktop.html</a>
+                <a href="8-menumobile.html" class="clase2">Clase 8: menumobile.html</a>
+                <a href="9-myorder.html" class="clase2">Clase 9: myorder.html</a>
+                <a href="10-myorders.html" class="clase2">Clase 10: myorders.html</a>
+                <a href="11-navbar.html" class="clase2">Clase 11: navbar.html</a>
+                <a href="12-productdetail.html" class="clase2">Clase 12: productdetail.html</a>
+                <a href="13-shoppingcart.html" class="clase2">Clase 13: shoppingcart.html</a>
+            </section-->
+        </main>
+        <footer>
+            <ul>
+                <li><a href="https://leodexe.github.io">leodexe.github.io</a></li>
+            </ul>
+        </footer>
+    </body>
   </html>

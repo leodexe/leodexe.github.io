@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="./wikipedia.ico" type="image/x-icon">
+    <link rel="license" href="//creativecommons.org/licenses/by-sa/3.0/">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap" rel="stylesheet">
+    <title>Wiki Clone</title>
+    </head>
+    <body>
+        <main>
+            <h1 class="wikititle">
+                <img src="./wikipedia.png" alt="" class="wikipedia">
+                <p class="wikislogan">La enciclopedia libre</p>
+            </h1>
+            <section class="maincontent">
+                <div class="leftcontent">
+                    <div class="lang-container es-container" title="Español -- Wikipedia -- La enciclopedia libre">
+                        <a href="https://es.wikipedia.org/" class="spanish">Español</a>
+                        <p class="articles">1 755 000+ artículos</p>
+                    </div>
+                    <div class="lang-container ja-container" title="Nihongo — ウィキペディア — フリー百科事典">
+                        <a href="https://ja.wikipedia.org/" class="japanese">日本語</a>
+                        <p class="articles">1 314 000+ 記事</p>
+                    </div>
+                    <div class="lang-container de-container" title="Deutsch — Wikipedia — Die freie Enzyklopädie">
+                        <a href="https://de.wikipedia.org/" class="deutsch">Deutsch</a>
+                        <p class="articles">2 667 000+ Artikel</p>
+                    </div>
+                    <div class="lang-container it-container" title="Italiano -- Wikipedia -- L'enciclopedia libera">
+                        <a href="https://it.wikipedia.org/" class="italiano">Italiano</a>
+                        <p class="articles">1 742 000+ voci</p>
+                    </div>
+                    <div class="last-container pt-container" title="Português — Wikipédia — A enciclopédia livre">
+                        <a href="https://pt.wikipedia.org/" class="portugues">Português</a>
+                        <p class="articles">1 085 000+ artigos</p>
+                    </div>
+                </div>
+                <div class="centercontent">
+                    <img src="./Wikipedia-logo-v2.png" alt="" class="wikiglobe">
+                </div>
+                <div class="rightcontent">
+                    <div class="lang-container en-container" title="English -- Wikipedia -- The Free Encyclopedia">
+                        <a href="https://en.wikipedia.org/" class="english">English</a>
+                        <p class="articles">6 458 000+ articles</p>
+                    </div>
+                    <div class="lang-container ru-container" title="Russkiy — Википедия — Свободная энциклопедия ">
+                        <a href="https://ru.wikipedia.org/" class="russian">Русский</a>
+                        <p class="articles">1 798 000+ статей</p>
+                    </div>
+                    <div class="lang-container fr-container" title="Français — Wikipédia — L’encyclopédie libre">
+                        <a href="https://fr.wikipedia.org/" class="francais">Français</a>
+                        <p class="articles">2 400 000+ articles</p>
+                    </div>
+                    <div class="lang-container zh-container" title="Zhōngwén — 维基百科 / 維基百科 — 自由的百科全书 / 自由的百科全書">
+                        <a href="https://zh.wikipedia.org/" class="chinese">中文</a>
+                        <p class="articles">1 256 000+ 条目 / 條目</p>
+                    </div>
+                    <div class="last-container pl-container" title="Polski -- Wikipedia -- Wolna encyklopedia">
+                        <a href="https://pl.wikipedia.org/" class="polski">Polski</a>
+                        <p class="articles">1 512 000+ haseł</p>
+                    </div>
+                </div>
+            </section>
+            <section class="searchbox">
+                <div class="main-search-container">
+                    <div class="search-container">
+                        <input type="text" class="search" placeholder="Nota: No incluye responsive">
+                        <select name="langbox" id="langbox">
+                            <option value="spanish">Español</option>
+                            <option value="english">English</option>
+                            <option value="deutsch">Deutsch</option>
+                            <option value="french">Français</option>
+                            <option value="italiano">Italiano</option>
+                            <option value="portugues">Português</option>
+                            <option value="polski">Polski</option>
+                            <option value="russian">Russkiy</option>
+                            <option value="japanese">Nihongo</option>
+                            <option value="chinese">Zhōngwén</option>
+                        </select>
+                        <p href="#" class="searchicon">
+                            <a class="blueicon"></a>
+                        </p>
+                    </div>
+                </div>
+                <div class="otherlanguage">
+                    <div class="button-container">
+                        <span class="leftline"></span>
+                        <button class="button-item">
+                            <p class="kanji-text"></p>
+                            Leer Wikipedia un tu idioma
+                            <p class="arrowblue"></p></button>
+                        <span class="rightline"></span>
+                    </div>
+                    <div class="article-container">
+                        <p class="articlenumbers">1 000 000+ artículos</p>
+                        <div class="millionsa">
+                            <a href="#" class="apolski">Polski</a>
+                            <a href="#" class="armenian">Armenia</a>
+                            <a href="#" class="adeutsch">Deutsch</a>
+                            <a href="#" class="aenglish">English</a>
+                            <a href="#" class="aspanish">Spanish</a>
+                            <a href="#" class="afrancais">Francais</a>
+                            <a href="#" class="aitaliano">Italiano</a>
+                            <a href="#" class="arzmasri">Masri</a>
+                            <a href="#" class="anetherlands">Netherlands</a>
+                            <a href="#" class="ajapanese">Japanese</a>
+                            <a href="#" class="aportuguese">Portuguese</a>
+                            <a href="#" class="russian">Russkiy</a>
+                            <a href="#" class="sinugboanong">Sinugboanong</a>
+                            <a href="#" class="binisaya">Binisaya</a>
+                            <a href="#" class="svenska">Svenska</a>
+                            <a href="#" class="ukrainian">Ukrainian</a>
+                            <a href="#" class="vietnamese">Vietnam</a>
+                            <a href="#" class="winaray">Winaray</a>
+                            <a href="#" class="achinese">Chinese</a>
+                        </div>
+                        <p class="articlenumbers">100 000+ artículos</p>
+                        <div class="hundredthousandsa">
+                            <a href="#" class="apolski">Polski</a>
+                            <a href="#" class="armenian">Armenia</a>
+                            <a href="#" class="adeutsch">Deutsch</a>
+                            <a href="#" class="aenglish">English</a>
+                            <a href="#" class="aspanish">Spanish</a>
+                            <a href="#" class="afrancais">Francais</a>
+                            <a href="#" class="aitaliano">Italiano</a>
+                            <a href="#" class="arzmasri">Masri</a>
+                            <a href="#" class="anetherlands">Netherlands</a>
+                            <a href="#" class="ajapanese">Japanese</a>
+                            <a href="#" class="aportuguese">Portuguese</a>
+                            <a href="#" class="russian">Russkiy</a>
+                            <a href="#" class="sinugboanong">Sinugboanong</a>
+                            <a href="#" class="binisaya">Binisaya</a>
+                            <a href="#" class="svenska">Svenska</a>
+                            <a href="#" class="ukrainian">Ukrainian</a>
+                            <a href="#" class="vietnamese">Vietnam</a>
+                            <a href="#" class="winaray">Winaray</a>
+                            <a href="#" class="achinese">Chinese</a>
+                            <a href="#" class="apolski">Polski</a>
+                            <a href="#" class="armenian">Armenia</a>
+                            <a href="#" class="adeutsch">Deutsch</a>
+                            <a href="#" class="aenglish">English</a>
+                            <a href="#" class="aspanish">Spanish</a>
+                            <a href="#" class="afrancais">Francais</a>
+                            <a href="#" class="aitaliano">Italiano</a>
+                            <a href="#" class="arzmasri">Masri</a>
+                            <a href="#" class="anetherlands">Netherlands</a>
+                            <a href="#" class="ajapanese">Japanese</a>
+                            <a href="#" class="aportuguese">Portuguese</a>
+                            <a href="#" class="russian">Russkiy</a>
+                            <a href="#" class="sinugboanong">Sinugboanong</a>
+                            <a href="#" class="binisaya">Binisaya</a>
+                            <a href="#" class="svenska">Svenska</a>
+                            <a href="#" class="ukrainian">Ukrainian</a>
+                            <a href="#" class="vietnamese">Vietnam</a>
+                            <a href="#" class="winaray">Winaray</a>
+                            <a href="#" class="achinese">Chinese</a>
+                            <a href="#" class="apolski">Polski</a>
+                            <a href="#" class="armenian">Armenia</a>
+                            <a href="#" class="adeutsch">Deutsch</a>
+                            <a href="#" class="aenglish">English</a>
+                            <a href="#" class="aspanish">Spanish</a>
+                            <a href="#" class="afrancais">Francais</a>
+                            <a href="#" class="aitaliano">Italiano</a>
+                            <a href="#" class="arzmasri">Masri</a>
+                            <a href="#" class="anetherlands">Netherlands</a>
+                            <a href="#" class="ajapanese">Japanese</a>
+                            <a href="#" class="aportuguese">Portuguese</a>
+                            <a href="#" class="russian">Russkiy</a>
+                            <a href="#" class="sinugboanong">Sinugboanong</a>
+                            <a href="#" class="binisaya">Binisaya</a>
+                            <a href="#" class="svenska">Svenska</a>
+                            <a href="#" class="aenglish">English</a>
+                            <a href="#" class="aspanish">Spanish</a>
+                            <a href="#" class="afrancais">Francais</a>
+                            <a href="#" class="ukrainian">Ukrainian</a>
+                            <a href="#" class="vietnamese">Vietnam</a>
+                            <a href="#" class="winaray">Winaray</a>
+                            <a href="#" class="achinese">Chinese</a>
+                        </div>
+                        <p class="articlenumbers">10 000+ artículos</p>
+                        <div class="dozenthousandsa">
+                            <a href="#" class="apolski">Polski</a>
+                            <a href="#" class="armenian">Armenia</a>
+                            <a href="#" class="adeutsch">Deutsch</a>
+                            <a href="#" class="aenglish">English</a>
+                            <a href="#" class="aspanish">Spanish</a>
+                            <a href="#" class="afrancais">Francais</a>
+                            <a href="#" class="aitaliano">Italiano</a>
+                            <a href="#" class="arzmasri">Masri</a>
+                            <a href="#" class="anetherlands">Netherlands</a>
+                            <a href="#" class="ajapanese">Japanese</a>
+                            <a href="#" class="aportuguese">Portuguese</a>
+                            <a href="#" class="russian">Russkiy</a>
+                            <a href="#" class="sinugboanong">Sinugboanong</a>
+                            <a href="#" class="binisaya">Binisaya</a>
+                            <a href="#" class="svenska">Svenska</a>
+                            <a href="#" class="ukrainian">Ukrainian</a>
+                            <a href="#" class="vietnamese">Vietnam</a>
+                            <a href="#" class="winaray">Winaray</a>
+                            <a href="#" class="achinese">Chinese</a>
+                            <a href="#" class="apolski">Polski</a>
+                            <a href="#" class="armenian">Armenia</a>
+                            <a href="#" class="adeutsch">Deutsch</a>
+                            <a href="#" class="aenglish">English</a>
+                            <a href="#" class="aspanish">Spanish</a>
+                            <a href="#" class="afrancais">Francais</a>
+                            <a href="#" class="aitaliano">Italiano</a>
+                            <a href="#" class="arzmasri">Masri</a>
+                            <a href="#" class="anetherlands">Netherlands</a>
+                            <a href="#" class="ajapanese">Japanese</a>
+                            <a href="#" class="aportuguese">Portuguese</a>
+                            <a href="#" class="russian">Russkiy</a>
+                            <a href="#" class="sinugboanong">Sinugboanong</a>
+                            <a href="#" class="binisaya">Binisaya</a>
+                            <a href="#" class="svenska">Svenska</a>
+                            <a href="#" class="ukrainian">Ukrainian</a>
+                            <a href="#" class="vietnamese">Vietnam</a>
+                            <a href="#" class="winaray">Winaray</a>
+                            <a href="#" class="achinese">Chinese</a>
+                            <a href="#" class="apolski">Polski</a>
+                            <a href="#" class="armenian">Armenia</a>
+                            <a href="#" class="adeutsch">Deutsch</a>
+                            <a href="#" class="aenglish">English</a>
+                            <a href="#" class="aspanish">Spanish</a>
+                            <a href="#" class="afrancais">Francais</a>
+                            <a href="#" class="aitaliano">Italiano</a>
+                            <a href="#" class="svenska">Svenska</a>
+                            <a href="#" class="ukrainian">Ukrainian</a>
+                            <a href="#" class="vietnamese">Vietnam</a>
+                            <a href="#" class="winaray">Winaray</a>
+                            <a href="#" class="achinese">Chinese</a>
+                            <a href="#" class="arzmasri">Masri</a>
+                            <a href="#" class="anetherlands">Netherlands</a>
+                            <a href="#" class="ajapanese">Japanese</a>
+                            <a href="#" class="aportuguese">Portuguese</a>
+                            <a href="#" class="russian">Russkiy</a>
+                            <a href="#" class="sinugboanong">Sinugboanong</a>
+                            <a href="#" class="binisaya">Binisaya</a>
+                            <a href="#" class="svenska">Svenska</a>
+                            <a href="#" class="ukrainian">Ukrainian</a>
+                            <a href="#" class="vietnamese">Vietnam</a>
+                            <a href="#" class="winaray">Winaray</a>
+                            <a href="#" class="achinese">Chinese</a>
+                            <a href="#" class="apolski">Polski</a>
+                            <a href="#" class="armenian">Armenia</a>
+                            <a href="#" class="adeutsch">Deutsch</a>
+                            <a href="#" class="aenglish">English</a>
+                            <a href="#" class="aspanish">Spanish</a>
+                            <a href="#" class="afrancais">Francais</a>
+                            <a href="#" class="aitaliano">Italiano</a>
+                            <a href="#" class="arzmasri">Masri</a>
+                            <a href="#" class="anetherlands">Netherlands</a>
+                            <a href="#" class="ajapanese">Japanese</a>
+                            <a href="#" class="aportuguese">Portuguese</a>
+                            <a href="#" class="russian">Russkiy</a>
+                            <a href="#" class="sinugboanong">Sinugboanong</a>
+                            <a href="#" class="binisaya">Binisaya</a>
+                            <a href="#" class="svenska">Svenska</a>
+                            <a href="#" class="ukrainian">Ukrainian</a>
+                            <a href="#" class="vietnamese">Vietnam</a>
+                            <a href="#" class="winaray">Winaray</a>
+                        </div>
+                        <p class="articlenumbers">1000+ artículos</p>
+                        <div class="thousandsa">
+                            <a href="#" class="apolski">Polski</a>
+                            <a href="#" class="armenian">Armenia</a>
+                            <a href="#" class="adeutsch">Deutsch</a>
+                            <a href="#" class="aenglish">English</a>
+                            <a href="#" class="aspanish">Spanish</a>
+                            <a href="#" class="afrancais">Francais</a>
+                            <a href="#" class="aitaliano">Italiano</a>
+                            <a href="#" class="arzmasri">Masri</a>
+                            <a href="#" class="anetherlands">Netherlands</a>
+                            <a href="#" class="ajapanese">Japanese</a>
+                            <a href="#" class="aportuguese">Portuguese</a>
+                            <a href="#" class="russian">Russkiy</a>
+                            <a href="#" class="sinugboanong">Sinugboanong</a>
+                            <a href="#" class="binisaya">Binisaya</a>
+                            <a href="#" class="svenska">Svenska</a>
+                            <a href="#" class="ukrainian">Ukrainian</a>
+                            <a href="#" class="vietnamese">Vietnam</a>
+                            <a href="#" class="winaray">Winaray</a>
+                            <a href="#" class="achinese">Chinese</a>
+                            <a href="#" class="apolski">Polski</a>
+                            <a href="#" class="armenian">Armenia</a>
+                            <a href="#" class="adeutsch">Deutsch</a>
+                            <a href="#" class="aenglish">English</a>
+                            <a href="#" class="aspanish">Spanish</a>
+                            <a href="#" class="afrancais">Francais</a>
+                            <a href="#" class="aitaliano">Italiano</a>
+                            <a href="#" class="arzmasri">Masri</a>
+                            <a href="#" class="anetherlands">Netherlands</a>
+                            <a href="#" class="ajapanese">Japanese</a>
+                            <a href="#" class="aportuguese">Portuguese</a>
+                            <a href="#" class="russian">Russkiy</a>
+                            <a href="#" class="sinugboanong">Sinugboanong</a>
+                            <a href="#" class="binisaya">Binisaya</a>
+                            <a href="#" class="svenska">Svenska</a>
+                            <a href="#" class="ukrainian">Ukrainian</a>
+                            <a href="#" class="vietnamese">Vietnam</a>
+                            <a href="#" class="winaray">Winaray</a>
+                            <a href="#" class="achinese">Chinese</a>
+                            <a href="#" class="apolski">Polski</a>
+                            <a href="#" class="armenian">Armenia</a>
+                            <a href="#" class="adeutsch">Deutsch</a>
+                            <a href="#" class="aenglish">English</a>
+                            <a href="#" class="aspanish">Spanish</a>
+                            <a href="#" class="afrancais">Francais</a>
+                            <a href="#" class="aitaliano">Italiano</a>
+                            <a href="#" class="svenska">Svenska</a>
+                            <a href="#" class="ukrainian">Ukrainian</a>
+                            <a href="#" class="vietnamese">Vietnam</a>
+                            <a href="#" class="winaray">Winaray</a>
+                            <a href="#" class="achinese">Chinese</a>
+                            <a href="#" class="arzmasri">Masri</a>
+                            <a href="#" class="anetherlands">Netherlands</a>
+                            <a href="#" class="ajapanese">Japanese</a>
+                            <a href="#" class="aportuguese">Portuguese</a>
+                            <a href="#" class="russian">Russkiy</a>
+                            <a href="#" class="sinugboanong">Sinugboanong</a>
+                            <a href="#" class="binisaya">Binisaya</a>
+                            <a href="#" class="svenska">Svenska</a>
+                            <a href="#" class="ukrainian">Ukrainian</a>
+                            <a href="#" class="vietnamese">Vietnam</a>
+                            <a href="#" class="winaray">Winaray</a>
+                            <a href="#" class="achinese">Chinese</a>
+                            <a href="#" class="apolski">Polski</a>
+                            <a href="#" class="armenian">Armenia</a>
+                            <a href="#" class="adeutsch">Deutsch</a>
+                            <a href="#" class="aenglish">English</a>
+                            <a href="#" class="aspanish">Spanish</a>
+                            <a href="#" class="afrancais">Francais</a>
+                            <a href="#" class="aitaliano">Italiano</a>
+                            <a href="#" class="arzmasri">Masri</a>
+                            <a href="#" class="anetherlands">Netherlands</a>
+                            <a href="#" class="ajapanese">Japanese</a>
+                            <a href="#" class="aportuguese">Portuguese</a>
+                            <a href="#" class="russian">Russkiy</a>
+                            <a href="#" class="sinugboanong">Sinugboanong</a>
+                            <a href="#" class="binisaya">Binisaya</a>
+                            <a href="#" class="svenska">Svenska</a>
+                            <a href="#" class="ukrainian">Ukrainian</a>
+                            <a href="#" class="vietnamese">Vietnam</a>
+                            <a href="#" class="winaray">Winaray</a>
+                            <a href="#" class="achinese">Chinese</a>
+                            <a href="#" class="apolski">Polski</a>
+                            <a href="#" class="armenian">Armenia</a>
+                            <a href="#" class="adeutsch">Deutsch</a>
+                            <a href="#" class="aenglish">English</a>
+                            <a href="#" class="aspanish">Spanish</a>
+                            <a href="#" class="afrancais">Francais</a>
+                            <a href="#" class="aitaliano">Italiano</a>
+                            <a href="#" class="arzmasri">Masri</a>
+                            <a href="#" class="anetherlands">Netherlands</a>
+                            <a href="#" class="ajapanese">Japanese</a>
+                            <a href="#" class="aportuguese">Portuguese</a>
+                            <a href="#" class="russian">Russkiy</a>
+                            <a href="#" class="sinugboanong">Sinugboanong</a>
+                            <a href="#" class="binisaya">Binisaya</a>
+                            <a href="#" class="svenska">Svenska</a>
+                            <a href="#" class="ukrainian">Ukrainian</a>
+                            <a href="#" class="vietnamese">Vietnam</a>
+                            <a href="#" class="winaray">Winaray</a>
+                            <a href="#" class="achinese">Chinese</a>
+                            <a href="#" class="apolski">Polski</a>
+                            <a href="#" class="armenian">Armenia</a>
+                            <a href="#" class="adeutsch">Deutsch</a>
+                            <a href="#" class="aenglish">English</a>
+                            <a href="#" class="aspanish">Spanish</a>
+                            <a href="#" class="afrancais">Francais</a>
+                            <a href="#" class="aitaliano">Italiano</a>
+                            <a href="#" class="sinugboanong">Sinugboanong</a>
+                            <a href="#" class="binisaya">Binisaya</a>
+                        </div>
+                        <p class="articlenumbers">100+ artículos</p>
+                        <div class="hundredsa">
+                            <a href="#" class="akan">Akan</a>
+                            <a href="#" class="bamanankan">Bamanankan</a>
+                            <a href="#" class="chamoru">Chamoru</a>
+                            <a href="#" class="chichewa">Chichewa</a>
+                            <a href="#" class="euegbe">Euegbe</a>
+                            <a href="#" class="fulfulde">Fulfulde</a>
+                            <a href="#" class="gutisk">Gutisk</a>
+                            <a href="#" class="inuktitut">Inuktitut</a>
+                            <a href="#" class="inupiak">Inupiak</a>
+                            <a href="#" class="kalaallisut">Kalaallisut</a>
+                            <a href="#" class="madhura">Madhura</a>
+                            <a href="#" class="nehiyawewin">Nehiyawewin</a>
+                            <a href="#" class="norfukpitkern">Norfuk / Pitkern</a>
+                            <a href="#" class="pangcah">Pangcah</a>
+                            <a href="#" class="pinayuanan">pinayuanan</a>
+                            <a href="#" class="pontiaka">Pontiaka</a>
+                            <a href="#" class="rdzongkha">Rdzhong-Kha</a>
+                            <a href="#" class="romanichib">romani chib</a>
+                            <a href="#" class="ikirundi">Ikirundi</a>
+                            <a href="#" class="sango">Sängö</a>
+                            <a href="#" class="sesotho">Sesotho</a>
+                            <a href="#" class="setswana">Setswana</a>
+                            <a href="#" class="siswati">SiSwati</a>
+                            <a href="#" class="tegerena">Tegereña</a>
+                            <a href="#" class="thucnjan">Thucnjän</a>
+                            <a href="#" class="Tsehesenestsestotse">Tsėhesenėstsestotse</a>
+                            <a href="#" class="xitsonga">Xitsonga</a>
+                            <a href="#" class="tshivenda">Tshivenda</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="lowerhalf">
+                <div class="columnleft">
+                    <div class="wikimedia-container">
+                        <div class="wiki-img-container wikimedia-img-container">
+                            <img src="./wikimedia.png" alt="" class="wiki-img wikimedia-img">
+                        </div>                
+                        <span class="wikimedia-text-container">
+                            <span class="wikimedia-text">Wikipedia es alojada por la Fundación Wikimedia, una organización sin fines de lucro que también alberga una gama de otros proyectos.</span>
+                            <a href="https://donate.wikimedia.org/?utm_medium=portal&utm_campaign=portalFooter&utm_source=portalFooter" class="donate">Puedes apoyar nuestro trabajo con una donación.</a> 
+                        </span>
+                    </div>
+                    <div class="wikiapp-container">
+                        <div class="wikiapp-img-container">
+                            <img src="wikipedia.ico" alt="" class="wikiapp-img">
+                        </div>                
+                        <span class="wikiapp-text-container">
+                            <b class="wikiapp-b">Descargar Wikipedia para Android o iOS</b>
+                            <p href="#" class="wikiapp-p">Guarda tus artículos favoritos para leerlos sin conexión, sincroniza tus listas de lectura en varios dispositivos y personaliza tu experiencia de lectura con la aplicación oficial de Wikipedia.</p> 
+                        </span>
+                        <a href="https://play.google.com/store/apps/details?id=org.wikipedia&referrer=utm_source%3Dportal%26utm_medium%3Dbutton%26anid%3Dadmob" class="aappstore-google"><img src="./playstore.png" alt="" class="playstore-img"></a>
+                        <a href="https://itunes.apple.com/app/apple-store/id324715238?pt=208305&ct=portal&mt=8" class="appstore-apple"><img src="./appstore.png" alt="" class="appstore-img"></a>
+                    </div>
+                </div>
+                <div class="emptyspace"></div>
+                <div class="columnmidleft">
+                    <div class="wiki-container common-container">
+                        <div class="wiki-img-container common-img-container">
+                            <img src="./commons.svg" alt="" class="wiki-img common-img">
+                        </div>
+                        <div class="common-text-container">
+                            <a href="https://commons.wikimedia.org/" class="acommon">Commons</a>
+                            <p class="pcommon">Fotos libremente utilizables y más</p>
+                        </div>
+                    </div>
+                    <div class="wiki-container wikibooks-container">
+                        <div class="wiki-img-container wikibooks-img-container">
+                            <img src="./wikibooks.png" alt="" class="wiki-img wikibooks-img">
+                        </div>
+                        <div class="wikibooks-text-container">
+                            <a href="https://www.wikibooks.org/" class="awikibooks">Wikilibros</a>
+                            <p class="pwikibooks">Libros de contenido libre</p>
+                        </div>
+                    </div>
+                    <div class="wiki-container wikiversity-container">
+                        <div class="wiki-img-container wikiversity-img-container">
+                            <img src="./wikiversity.png" alt="" class="wiki-img wikiversity-img">
+                        </div>
+                        <div class="wikiversity-text-container">
+                            <a href="https://www.wikiversity.org/" class="awikiversity">Wikiversidad</a>
+                            <p class="pwikiversity">Plataforma educativa libre</p>
+                        </div>
+                    </div>
+                    <div class="wiki-container wikisource-container">
+                        <div class="wiki-img-container wikisource-img-container">
+                            <img src="./wikisource.png" alt="" class="wiki-img wikisource-img">
+                        </div>
+                        <div class="wikisource-text-container">
+                            <a href="https://www.wikisource.org/" class="awikisource">Wikisource</a>
+                            <p class="pwikisource">La biblioteca libre</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="columnmidright">
+                    <div class="wiki-container wikivoyage-container">
+                        <div class="wiki-img-container wikivoyage-img-container">
+                            <img src="./wikivoyage.png" alt="" class="wiki-img wikivoyage-img">
+                        </div>
+                        <div class="wikivoyage-text-container">
+                            <a href="https://www.wikivoyage.org/" class="awikivoyage">Wikiviajes</a>
+                            <p class="pwikivoyage">La guía de viajes libre</p>
+                        </div>
+                    </div>
+                    <div class="wiki-container wikinews-container">
+                        <div class="wiki-img-container wikinews-img-container">
+                            <img src="./wikinews.png" alt="" class="wiki-img wikinews-img">
+                        </div>
+                        <div class="wikinews-text-container">
+                            <a href="https://www.wikinews.org/" class="awikinews">Wikinoticias</a>
+                            <p class="pwikinews">La fuente de noticias libres</p>
+                        </div>
+                    </div>
+                    <div class="wiki-container wikiquote-container">
+                        <div class="wiki-img-container wikiquote-img-container">
+                            <img src="./wikiquote.png" alt="" class="wiki-img wikiquote-img">
+                        </div>
+                        <div class="wikiquote-text-container">
+                            <a href="https://www.wikiquote.org/" class="awikiquote">Wikiquote</a>
+                            <p class="pwikiquote">La colección de citas</p>
+                        </div>
+                    </div>
+                    <div class="wiki-container wikispecies-container">
+                        <div class="wiki-img-container wikispecies-img-container">
+                            <img src="./wikispecies.png" alt="" class="wiki-img wikispecies-img">
+                        </div>
+                        <div class="wikispecies-text-container">
+                            <a href="https://species.wikimedia.org/" class="awikispecies">Wikispecies</a>
+                            <p class="pwikispecies">Directorio de especies libre</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="columnright">
+                    <div class="wiki-container wiktionary-container">
+                        <div class="wiki-img-container wiktionary-img-container">
+                            <img src="./wiktionary.png" alt="" class="wiki-img wiktionary-img">
+                        </div>
+                        <div class="wiktionary-text-container">
+                            <a href="https://www.wiktionary.org/" class="awiktionary">Wikcionario</a>
+                            <p class="pwiktionary">El diccionario libre</p>
+                        </div>
+                    </div>
+                    <div class="wiki-container wikidata-container">
+                        <div class="wiki-img-container wikidata-img-container">
+                            <img src="./wikidata.png" alt="" class="wiki-img wikidata-img">
+                        </div>
+                        <div class="wikidata-text-container">
+                            <a href="https://www.wikidata.org/" class="awikidata">Wikidata</a>
+                            <p class="pwikidata">Base de conocimiento libre</p>
+                        </div>
+                    </div>
+                    <div class="wiki-container mediawiki-container">
+                        <div class="wiki-img-container mediawiki-img-container">
+                            <img src="./mediawiki.png" alt="" class="wiki-img mediawiki-img">
+                        </div>
+                        <div class="mediawiki-text-container">
+                            <a href="https://www.mediawiki.org/" class="amediawiki">Mediawiki</a>
+                            <p class="pmediawiki">Aplicación wiki libre y abierta</p>
+                        </div>
+                    </div>
+                    <div class="wiki-container metawiki-container">
+                        <div class="wiki-img-container metawiki-img-container">
+                            <img src="./metawiki.png" alt="" class="wiki-img metawiki-img">
+                        </div>
+                        <div class="metawiki-text-container">
+                            <a href="https://meta.wikimedia.org/" class="ametawiki">Meta-Wiki</a>
+                            <p class="pmetawiki">Coordinación y documentación comunitaria</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <footer class="wikifooter">
+            <ul class="wikilist">
+                <span class="creativecommons">
+                    Esta página está disponible bajo la <a href="https://creativecommons.org/licenses/by-sa/3.0/" class="acc">licencia Creative Commons Atribución-CompartirIgual</a>
+                </span>
+                <li class="tos"><a href="https://meta.wikimedia.org/wiki/Terms_of_use/es" class="atos">Términos de uso</a></li>
+                <li class="policy"><a href="https://meta.wikimedia.org/wiki/Privacy_policy/es" class="apolicy">Normativa de Privacidad</a></li>
+                <li class="contact"><a href="https://leodexe.github.io" class="aboutme">leodexe.github.io</a></li>
+            </ul>
+        </footer>
+    </body>
+</html>

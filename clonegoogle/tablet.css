@@ -1,0 +1,22 @@
+    main {
+        height: 80vh;
+    }
+    .search-container {
+        max-width: 56rem;
+    }
+    .main-footer {
+        height: 10vh;
+    }
+     .firsthalf, .secondhalf {
+        height: 50%;
+    }
+    .mainlist {
+        width: max-content;
+        height: 100%;
+        padding: 0 1.2rem;
+    }
+    .howto {
+        width: max-content;
+        height: initial;
+        justify-content: flex-end;
+    }

@@ -1,0 +1,229 @@
+:root {
+    --sm: 1.4rem;
+    --md: 1.6rem;
+    --header-tx-color: #000000de;
+    --input-border-color: #dfe1e5;
+    --button-bg-color: #f8f9fa;
+    --button-tx-color: #3c4043;
+    --lang-tx-color: #4d5156;
+    --border-color: #dadce0;
+    --footer-bg-color: #f2f2f2;
+    --footer-tx-color: #70757a;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+html {
+    font-size: 62.5%;
+}
+body {
+    font-size: 1.6rem;
+    min-height: 100vh;
+}
+
+header {
+    width: 100vw;
+    height: 5vh;
+    padding: 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+ul li a:hover {
+    text-decoration: underline;
+}
+
+.headlist {
+    display: flex;
+    align-items: center;
+    list-style: none;
+}
+
+.gmail, .images, .more, .avatar {
+    margin: 0 1.6rem;
+}
+
+.headlist li a {
+    color: var(--header-tx-color);
+    font-size: var(--sm);
+}
+
+.amore, .aavatar {
+    display: flex;
+}
+
+.headlist .avatar {
+    margin: 0 0 0 1.6rem;
+}
+
+.optiondots {
+    height: 1.6rem;
+}
+
+.avatarimg {
+    border-radius: 50%;
+}
+
+main {
+    width: 100vw;
+    height: 75vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+section {    
+    width: 100vw;
+    height: 49vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.sub-container {
+    width: max-content;
+    display: flex;
+    justify-content: center;
+}
+
+.googlelogo {
+    cursor: pointer;
+}
+
+.search-container {
+    width: 95vw;
+    height: 4.2rem;
+    border: 0.1rem solid var(--input-border-color);
+    border-radius: 10rem;
+    margin: 2.6rem 0 2.9rem;
+    display: flex;
+    align-items: center;
+}
+
+.search-container:hover {
+    box-shadow: 0px 1px 4px 2px rgba(64,64,64,0.125);
+}
+
+.search-icon {
+    background-image: url('https://img.icons8.com/android/24/000000/search.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 16px;
+    height: 16px;
+}
+
+.inputform {
+    width: 87.5%;
+    height: 100%;
+    border: none;
+    font-size: 1.6rem;
+    padding: 0 1.6rem;
+    outline: none;
+}
+
+.micro-icon {
+    background-image: url('https://www.gstatic.com/images/branding/googlemic/2x/googlemic_color_24dp.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.button-container {
+    width: max-content;
+    margin-bottom: 3rem;
+    justify-content: center;
+}
+
+.buttons {
+    background: var(--button-bg-color);
+    border-radius: 0.4rem;
+    color: var(--button-tx-color);
+    border: none;
+    padding: 1rem 0.45rem;
+    font-size: var(--sm);
+}
+
+.buttons:hover {
+    border: 1px solid #dadce0;
+}
+
+.buscar {
+    margin-right: 1.2rem;
+}
+
+.language {
+    color: var(--lang-tx-color);
+    font-size: var(--sm);
+    width: max-content;
+    text-align: center;
+}
+
+#idcountry{
+    width: 100vw;
+    height: 5vh;
+    justify-content: flex-start;
+    padding-left: 2.8rem;
+    border-bottom: solid 0.1rem var(--border-color);
+    align-self: flex-end;
+    margin-top: auto;
+}
+
+.country-footer, .main-footer, .firsthalf, .mainlist, .secondhalf {
+    background: var(--footer-bg-color);
+    color: var(--footer-tx-color);
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+}
+
+.main-footer {
+    width: 100vw;
+    height: 15vh;
+    align-self: flex-end;
+}
+
+.firsthalf, .mainlist, .secondhalf {
+    width: 100%;
+}
+
+.firsthalf {
+    height: 67%;
+}
+
+.mainlist {
+    height: 50%;
+}
+
+.secondhalf {
+    height: 33%;
+}
+
+.howto {
+    width: 100vw;
+    height: 83%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.main-footer ul li a {
+    color: var(--footer-tx-color);
+}
+
+.mainlist li, .secondhalf li {
+    margin: 0 0.44rem;
+}
+

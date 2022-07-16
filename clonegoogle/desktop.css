@@ -1,0 +1,28 @@
+    header {
+        justify-content: flex-end;
+    }
+    .headlist .avatar {
+        margin-right: 4.8rem;
+    }
+    main {
+        height: 85vh;
+    }
+    .main-footer {
+        height: 5vh;
+    }
+    .firsthalf, .secondhalf {
+        width: 50vw;
+        height: 100%;
+        justify-content: center;
+    }
+    .firsthalf {
+        justify-content: flex-start;
+    }
+    .secondhalf {
+        justify-content: flex-end;
+    }
+
+    .mainlist {
+        padding: 0;
+        margin-left: 0.46539vh;
+    }

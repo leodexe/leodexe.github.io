@@ -8,26 +8,66 @@ html {
     font-size: 62.5%;
 }
 body {
+    width: 100vw;
+    min-height: 100vh;
     font-size: 1.5rem;
 }
 main {
-    min-width: 100vw;
+    width: 100vw;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     background: pink;
+    overflow: hidden;
 }
 a:hover {
     color: white;
 }
+
 .encabezado, .piedepagina {
     width: 100%;
+    height: 3.6vh;
+    background: yellow;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-.main-lista {
+.headnav, .footnav {
+    width: 100%;
+    height: 100%;
     display: flex;
     list-style: none;
-    justify-content: space-evenly;
+    text-align: center;
 }
+.ssb64, .melee, .pm, .ulti {
+    width: 25%;
+    background: red;
+    border: solid 1px black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.ssb64 a, .melee a, .pm a, .ulti a {
+    width: 100%;
+    height: 100%;
+    border-radius: 24rem;
+    border: solid 1px maroon;
+    position: relative;
+    top: -99rem;
+    transition: all .5s;
+}
+.ssb64:hover a, .melee:hover a, .pm:hover a, .ulti:hover a {
+    background: palegoldenrod;
+    top: 0;
+    transition: all .5s;
+}
+
+.ssb64:hover > a:hover, .melee:hover a:hover, .pm:hover a:hover, .ulti:hover a:hover {
+    background: goldenrod;
+    color: black;
+}
+
 .titular {
     margin: 2.0rem;
     text-align: center;
@@ -37,10 +77,13 @@ a:hover {
 }
  .container__h2, .placements {
      margin-bottom: 0.8rem;
- }
+}
+ .placements {
+    border: solid 1px black;
+}
  .container__h3 {
     margin-top: 1.6rem;
- }
+}
 .placements img, .ranking2021_2022 img {
     width: 16px;
     height: 16px;
@@ -60,8 +103,38 @@ a:hover {
     margin-top: auto;
 }
  .footnav {
-     display: flex;
-     list-style: none;
-     justify-content: space-evenly;
+    background: cyan;
+}
+ .footnav > li {
+    width: 25%;
+    border: solid 1px blue;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
 
- }
+} 
+.fblink a, .ytlink a, .github a {
+    width: 100%;
+    height: 100%;
+    background: lightblue;
+    border: solid 1px white;
+    border-radius: 25rem;
+    position: relative; 
+    bottom: -99rem;
+    transition: all .5s;
+}
+
+.footnav > li:hover {
+    overflow: visible;
+}
+
+.fblink:hover a, .ytlink:hover a, .github:hover a {
+    bottom: 0;
+    transition: all .5s;
+}
+
+.fblink:hover a:hover, .ytlink:hover a:hover, .github:hover a:hover {
+    background: lightskyblue;
+    color: darkblue;
+}
