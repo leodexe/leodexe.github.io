@@ -18,11 +18,11 @@ main {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background: pink;
+    background: beige;
     overflow: hidden;
 }
 a:hover {
-    color: white;
+    color: darkblue;
 }
 
 .encabezado, .piedepagina {
@@ -37,20 +37,34 @@ a:hover {
     width: 100%;
     height: 100%;
     display: flex;
+    justify-content: center;
     list-style: none;
     text-align: center;
 }
 .ssb64, .melee, .pm, .ulti {
-    width: 25%;
+    width: 24%;
     background: red;
     border: solid 1px black;
     display: flex;
     flex-direction: column;
     align-items: center;
+    transition: background .5s;
 }
+
+.ssb64:hover, .melee:hover, .pm:hover, .ulti:hover {
+    background: sandybrown;
+    transition: background .5s;
+}
+
+li > a {
+    width: max-content;
+    height: max-content;
+}
+
 .ssb64 a, .melee a, .pm a, .ulti a {
     width: 100%;
-    height: 100%;
+    height: max-content;
+    background: palegoldenrod;
     border-radius: 24rem;
     border: solid 1px maroon;
     position: relative;
@@ -58,7 +72,6 @@ a:hover {
     transition: all .5s;
 }
 .ssb64:hover a, .melee:hover a, .pm:hover a, .ulti:hover a {
-    background: palegoldenrod;
     top: 0;
     transition: all .5s;
 }
@@ -66,24 +79,34 @@ a:hover {
 .ssb64:hover > a:hover, .melee:hover a:hover, .pm:hover a:hover, .ulti:hover a:hover {
     background: goldenrod;
     color: black;
+    transition: all .5s;
 }
-
 .titular {
     margin: 2.0rem;
     text-align: center;
 }
+.placements:hover {
+    background: khaki;
+    transition: background .5s;
+}
 .container, .container__section {
     text-align: center;
 }
- .container__h2, .placements {
-     margin-bottom: 0.8rem;
+.container__h2, .placements {
+     margin-bottom: 0.6rem;
 }
- .placements {
+
+.box2021 > .container__1h3 + .placements ~ .eighthplace {
+    border-bottom: solid 1px black;
+}
+
+.placements {
     border: solid 1px black;
 }
- .container__h3 {
-    margin-top: 1.6rem;
+.container__1h3, .container__2h3 {
+    margin: 0.6rem 0;
 }
+
 .placements img, .ranking2021_2022 img {
     width: 16px;
     height: 16px;
@@ -93,30 +116,45 @@ a:hover {
 }
 .ranking2021_2022{
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-evenly;
     margin-top: 0.8rem;
 }
+
+.box2021, .box2022 {
+    width: 100%
+}
+
 .link2021_2022desktop {
     display: none;
 }
+
+.box2022 > .container__2h3 + .placements ~ .eighthplace {
+    margin-bottom: 0.6rem;
+}
+
 .piedepagina {
     margin-top: auto;
 }
  .footnav {
-    background: cyan;
+    background: slateblue;
 }
  .footnav > li {
     width: 25%;
+    background: orchid;
     border: solid 1px blue;
     overflow: hidden;
     display: flex;
     flex-direction: column-reverse;
     align-items: center;
-
 } 
-.fblink a, .ytlink a, .github a {
+.footnav > li:hover {
+    background: cyan;
+    transition: all .5s;
+}
+.fblink a, .ytlink a, .github a  {
     width: 100%;
-    height: 100%;
+    height: max-content;
     background: lightblue;
     border: solid 1px white;
     border-radius: 25rem;
@@ -135,6 +173,6 @@ a:hover {
 }
 
 .fblink:hover a:hover, .ytlink:hover a:hover, .github:hover a:hover {
-    background: lightskyblue;
-    color: darkblue;
+    background: royalblue;
+    color: white;
 }
