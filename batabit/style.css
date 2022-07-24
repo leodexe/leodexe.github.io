@@ -1,0 +1,641 @@
+/* 
+1. Posicionamiento (position)
+2. Modelo de caja (width, height, margin, padding)
+3.Tipografía (font-family, font-size, font-weight)
+4. Visuales
+5. Otros
+*/
+:root {
+    --linear-bg: linear-gradient(207.8deg, #201E1C 16.69%, #F7931A 100%);
+    --bitcoin-orange: #FF9536;
+    --soft-orange: #FFE9D5;
+    --secondary-blue: #1A9AF7;
+    --soft-blue: #E7F5FF;
+    --warm-black: #201E1C;
+    --warm-blackplus: #282623;
+    --off-white: #FAF8F7;
+    --white: #FFFFFF;
+}
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+html {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 62.5%;
+    font-weight: 500;
+    scroll-behavior: smooth;
+}
+body {
+    max-width: 100vw;
+    min-height: 100vh;
+    font-size: 1.6rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+a:hover {
+    text-decoration: underline;
+}
+header {
+    min-width: 240px;
+    max-width: 1280px;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: var(--linear-bg);
+}
+.header-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.header-container img {
+    width: 66%;
+    margin: 3.2rem 0;
+}
+
+
+.header-container .title {
+    width: 90%;
+    max-width: 460px;
+    font-size: 2.4rem;
+    line-height: 1.25;
+    margin-bottom: 2.4rem;
+    color: var(--white);
+}
+
+.header-container .header-text {
+    width: 100%;
+    margin-bottom: 5.2rem;
+    font-size: 1.4rem;
+    font-weight: medium;
+    line-height: 1.5;
+    color: var(--soft-orange);
+}
+
+.plan-button{
+    min-width: 22rem;
+    width: 100%;
+    max-width: 26rem;
+    height: 48px;
+    background: var(off-white);
+    align-self: flex-end;
+    border: none;
+    position: absolute;
+    bottom: -2.2rem;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+}
+
+.plan-button-link {
+    width: 90%;
+    height: 100%;
+    border: none;
+    outline: none;
+    border-radius: 4px;
+    font-weight: bold;
+    display: flex;
+    box-shadow: 0 4px 8px rgba(89, 73, 30, 0.15);
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.plan-button-link:hover {
+    outline: none;
+    border: solid 1px var(--secondary-blue);
+}
+
+.plan-button-link .arrow-icon {
+    width: 13px;
+    height: 8px;
+    background: url('./assets/icons/down-arrow.svg');
+
+}
+
+main {
+    min-width: 240px;
+    max-width: 1280px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: var(--off-white);
+}
+
+.currencies {
+    width: 100%;
+    background: var(--off-white);
+    padding: 6.4rem 1.2rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.currencies .bg-container {
+    width: 195px;
+    height: 195px;
+    background-image: url('./assets/img/Bitcoin.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.currencies-text-container {
+    width: 100%;
+    margin-top: 3.6rem;
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.currencies-text-container .currencies-title {
+    width: 100%;
+    color: var(--warm-black);
+    line-height: 1.33;
+    text-align: center;
+    margin-bottom: 2.4rem;
+}
+
+.currencies-text-container .currencies-paragraph {
+    width: 100%;
+    max-width: 400px;
+    color: var(--warm-blackplus);
+    line-height: 1.5;
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 4.4rem;
+}
+
+/* background: url('./assets/images/bitcoin.svg') center/cover no-repeat; */
+
+.currencies .chart-container {
+    width: 100%;
+    max-width: 640px;
+    position: relative;
+    overflow-x: scroll;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    display: flex;
+    align-items: center;
+}
+
+.chartandarrow-container {
+    display: flex;
+    align-items: center;
+}
+
+.currencies-chart-table {
+    scroll-snap-align: center;
+    width: 100%;
+    position: relative;
+    color: var(--warm-black);
+    font-family: 'Inter', sans-serif;
+    font-size: 1.4rem;
+    margin: 0 8rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.currencies-chart-title, .exchanges-chart-title {
+    max-width: 163px;
+    width: 95%;
+    color: #703200;
+    font-family: 'DM Sans', sans-serif;
+    text-align: left;
+}
+
+.currencies-chart-table .chartarrowbox {
+    display: flex;
+    align-items: center;
+}
+
+.currencies-chart-table .currencies-chart-table-coin {
+    background: var(--white);
+    border-right: solid 2px var(--off-white);
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+    letter-spacing: -0.02em;
+}
+
+.currencies-chart-table .currencies-chart-table-coin p {
+    height: 24%;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.currencies-chart-table .currencies-chart-table-value p {
+    font-weight: 400;
+    font-size: 1.4rem;
+    padding: 0.5rem 0.44rem;
+    display: flex;
+    align-items: center;
+}
+
+.currencies-chart-table .table {
+    border-bottom: solid 2px var(--off-white);
+}
+
+.currencies-chart-table .table, .coinxlm, .valuexlm {
+    width: 100%;
+}
+
+.currencies-chart-table .currencies-chart-table-value {
+    background: var(--white);
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    width: 41%;
+    height: 100%;
+    color: var(--warm-blackplus);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.currencies-chart-table .currencies-chart-table-value p .trending-img {
+    width: 12px;
+}
+
+.chart-table-rightarrow {
+    width: 8px;
+    height: 12px;
+    margin-left: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+}
+
+.currencies-chart-date-container {
+    width: 100%;
+    height: 100%;
+    margin-top: 3.6rem;
+    display: flex;
+    justify-content: center;
+}
+
+.currencies-chart-date, .exchanges-chart-date {
+    width: max-content;
+    height: 3.2rem;
+    margin-bottom: 2.4rem;
+    padding: 1rem;
+    border-radius: 8px;
+    background: var(--soft-orange);
+    color: var(--warm-blackplus);
+    font-size: 1.2rem;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.exchanges-chart-table {
+    scroll-snap-align: center;
+    width: 100%;
+    height: 100%;
+    font-size: 1.5rem;
+    margin-right: 8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all .5s;
+}
+
+.exchanges-chart-title {
+    width: 75%;
+    color: #120f99;
+}
+
+.exchanges-chart-table-rate {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.chart-table-leftarrow {
+    width: 8px;
+    height: 100%;
+    margin-right: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.main-exchange-table tr .name {
+    background: var(--white);
+    color: var(--warm-black);
+    padding: 0.5rem;
+    border-right: solid 2px var(--off-white);
+}
+
+
+.main-exchange-table tr .rate {
+    background: var(--white);
+    color: var(--warm-blackplus);
+    font-size: 1.4rem;
+    font-weight: 400;
+    text-align: center;
+    padding: 0 1rem;
+}
+
+.topleft {
+    border-top-left-radius: 8px;
+}
+
+.topright {
+    border-top-right-radius: 8px;
+}
+
+.botleft {
+    border-bottom-left-radius: 8px;
+}
+
+.botright {
+    border-bottom-right-radius: 8px;
+}
+
+.borderbot {
+    border-bottom: solid 2px var(--off-white);
+}
+
+.exchanges-chart-date-container {
+    margin-top: 3.6rem;
+    display: flex;
+    justify-content: center;
+}
+
+.exchanges-chart-date {
+    background: var(--soft-blue);
+}
+
+.benefits {
+    min-width: 240px;
+    max-width: 1280px;
+    min-height: 240px;
+    margin: 0 auto;
+    padding: 3rem 0;
+    width: 100%;
+    position: relative;
+    color: var(--white);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    background: var(--warm-black);
+}
+
+.benefits-logo {
+    position: absolute;
+    top: -1.25%;
+    left: calc(50% - 24px);
+}
+
+.benefits-title, .benefits-text {
+    width: 87%;
+    margin-bottom: 2rem;
+    line-height: 1.25;   
+    text-align: center;
+}
+
+.benefits-subcontainer {
+    background: var(--warm-blackplus);
+    width: 81%;
+    max-width: 444px;
+    margin-top: 2.4rem;
+    padding: 1rem;
+}
+
+.benefits-subcontainer-title {
+    margin: 0.8rem 0;
+}
+
+.benefits-text, .benefits-subcontainer-text {
+    color: var(--off-white);
+    font-size: 1.4rem;
+    line-height: 1.5;
+}
+
+.moneygirl {
+    min-width: 240px;
+    max-width: 1280px;
+    width: 100%;
+    position: relative;
+    margin-bottom: 3.6rem;
+    background: var(--off-white);
+}
+
+.moneygirl-title {
+    width: 100%;
+    font-size: 7.5vw;
+    color: var(--white);
+    position: absolute;
+    top: calc(22% - 31px);
+    left: 0;
+    text-align: center;
+}
+
+.moneygirl-img-container, .moneygirl-img {
+    width: 100%;
+}
+
+.plans {
+    min-width: 240px;
+    max-width: 1280px;
+    width: 100%;
+    background: var(--off-white);
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+.plans-title, .plans-text {
+    width: 77%;
+    margin-bottom: 2.4rem;
+}
+
+.plans-text, .plans-card {
+    font-size: 1.4rem;
+}
+
+.plans-card-container {
+    width: 100%;
+    padding: 0 1rem;
+    background: var(--off-white);
+    position: relative;
+    overflow-x: scroll;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    display: flex;
+}
+
+.plans-leftcard, .plans-rightcard {
+    height: 100%;
+    margin: 0 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.plans-card {
+    min-width: 200px;
+    width: 270px;
+    max-width: 360px;
+    position: relative;
+    margin: 2.4rem 0 4.8rem 0;
+    padding: 2.4rem 0;
+    scroll-snap-align: center;
+    background: var(--white);
+    border-radius: 4px;
+    box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.5);
+    flex-shrink: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.plans-card-option {
+    position: absolute;
+    top: -1.8rem;
+    background: var(--bitcoin-orange);
+    border-radius: 4px;
+    color: var(--warmblack);
+    font-size: 1.2rem;
+    padding: 0.8rem;
+}
+
+.main-exchange-table, .exchanges-chart-date, .plans-card-option, .plans-card-value * {
+    font-family: 'Inter', sans-serif;
+}
+
+.plans-card-paymode {
+    width: 100%;
+    margin-bottom: 0.8rem;
+}
+
+.plans-card-value {
+    font-size: 1.2rem;
+}
+
+.plans-card-value-number {
+    font-size: 5.2rem;
+    font-weight: bold;
+    vertical-align: top;
+}
+.plans-card .plans-card-info {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.plans-card-info .plans-card-info-text {
+    font-size: 1.2rem;
+    width: 77%;
+}
+
+.plans-card .plans-card-button {
+    width: 80%;
+    border: solid 2px var(--bitcoin-orange);
+    background: var(--off-white);
+    border-radius: 4px;
+    font-size: 1.4rem;
+    font-family: 'DM Sans', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1.6rem;
+    padding: 0.8rem 1.2rem;
+    column-gap: 0.8rem;;
+}
+
+#plan2 .plans-card-option {
+    color: var(--white);
+    background: #800080;
+}
+
+#plan2 .plans-card-button {
+    border-color: purple;
+}
+
+#plan3 .plans-card-option {
+    color: var(--white);
+    background: green;
+}
+
+#plan3 .plans-card-button {
+    border-color: #008000;
+}
+
+footer {
+    min-width: 240px;
+    max-width: 1280px;
+    width: 100%;
+    min-height: 80px;
+    display: flex;
+    justify-content: center;
+    margin-top: auto;
+    background: var(--bitcoin-orange);
+}
+
+/*
+.container-footer-list {
+    width: 100%;
+    max-width: 720px;
+    min-height: 120px;
+    max-height: 240px;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+*/
+.footer-leftsection, .footer-rightsection {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+footer .footer-leftsection a {
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--warm-blackplus);
+    line-height: 1.5;
+    text-align: center;
+    padding: 0.2rem 0;
+}
+
+@media (min-width: 270px) {
+    .currencies-chart-table, .exchanges-chart-table {
+        font-size: 1.6rem;
+    }
+    .currencies-chart-table .currencies-chart-table-value p {
+        padding: 0.65rem 0.44rem;
+    }
+}

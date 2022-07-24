@@ -1,0 +1,16 @@
+    header .header-container .title {
+        font-size: 3rem;
+    }
+    header .header-container .header-text {
+        font-size: 1.8rem;
+    }
+    .currencies .chart-container {
+        overflow-x: auto;
+    }
+    .footer-leftsection {
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+    footer .footer-leftsection a {
+        padding: 0 1rem;
+    }
