@@ -1,0 +1,9 @@
+.contact {
+    grid-template-columns: 1fr 1fr;
+    margin-top: 4vh;
+}
+.contact .contact-like {
+    grid-row: 1;
+    grid-column: 2;
+    margin-top: 0;
+}

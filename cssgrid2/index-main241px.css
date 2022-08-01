@@ -1,0 +1,12 @@
+header .header-container-bottom .aboutme {
+    font-size: 1.4rem;
+}
+main .bg-container .bg-img-title {
+    max-width: 315px;
+    font-size: 1.2rem;
+    top: 40%;
+}
+
+main .bg-container .bg-img-button {
+    top: 65%;
+}

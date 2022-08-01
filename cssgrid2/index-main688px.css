@@ -1,0 +1,13 @@
+main .bg-container .bg-img-title {
+    max-width: 783px;
+    letter-spacing: 1rem;
+}
+main .bg-container .bg-img-button {
+    top: 63%;
+}
+
+@media (min-width: 1250px) {
+    main .bg-container .bg-img-title {
+        font-size: 4rem;
+    }
+}

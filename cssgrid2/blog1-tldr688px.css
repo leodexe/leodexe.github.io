@@ -1,0 +1,11 @@
+.tldr .tldr-imgcontainer {
+    display: grid;
+    justify-items: center;
+}
+.tldr .tldr-imgcontainer .imgcontainer--img {
+    max-height: 66vh;
+    max-width: 66vw;
+}
+.tldr .tldr-text {
+    margin-bottom: 0;
+}

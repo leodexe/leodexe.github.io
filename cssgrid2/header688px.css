@@ -1,0 +1,9 @@
+header .header-container-bottom .aboutme {
+    font-size: 1.8rem;
+}
+header .header-container-top {
+    justify-content: flex-end;
+}
+header .header-container-top a {
+    margin-right: 4vw;
+}

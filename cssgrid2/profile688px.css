@@ -1,0 +1,25 @@
+main {
+    grid-template-columns: 1fr 1.5fr;
+    max-height: 60vh;
+    padding-bottom: 3.3vh;
+}
+main .-imgcontainer {
+    max-width: 33vw;
+}
+main .-imgcontainer .--img {
+    max-height: 25vw;
+    justify-self: end;
+}
+main .-textholder {
+    display: grid;
+}
+main .-textholder .--text {
+    grid-column: 1;
+    max-width: 480px;
+    justify-self: center;
+}
+section .-projects {
+    width: 90%;
+    column-gap: 3.3vw;
+    grid-template-columns: 1fr 1fr 1fr;
+}

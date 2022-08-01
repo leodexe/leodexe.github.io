@@ -20,7 +20,7 @@ html {
     font-size: 62.5%;
 }
 body {
-    width: 100vw;
+    max-width: 100vw;
     min-height: 100vh;
     background: palegoldenrod;
     font-family: 'Quicksand', sans-serif;
@@ -35,23 +35,122 @@ body {
 
 main {
     background: goldenrod;
-    width: 80vw;
+    width: 90%;
     min-height: 80vh;
-    line-height: 1.5;
+    line-height: 1.25;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
 }
 
-.smash__title {
+main span {
+    box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, .33);
+}
+
+main > span, main> div, h2 ~ div span, footer ul li a {
+    font-size: 1.2rem;
+}
+
+main .smash__title {
+    font-size: 2.8rem;
     width: 100%;
     height: max-content;
 }
 
-a:hover {
+main .spanfa {
+    background: silver;
+    border-radius:10rem;
+    color: red;
+    padding: 1vh 1vw;
+}
+
+main .spanfa:hover {
+    color: blue;
+    background: pink;
+}
+
+main .spanfa a:hover {
+    background: none;
+    color: var(--black);
+}
+
+main .spanve {
+    background: turquoise;
+    border-radius: 10rem;
+    color: var(--black);
+    padding: 1vh 1vw;
+}
+
+main .spanve:hover {
+    color: var(--white);
+    background: var(--black);
+}
+
+main .spanve a:hover {
+    background: none;
+    color: yellow;
+}
+
+main div {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    justify-items: center;
+    justify-content: center;
+}
+
+h2 ~ div a {
+    background: khaki;
+    box-shadow: 0px 0px 4px 4px rgba(128, 128, 128, .5);
+    width: max-content;
+    color: black;
+    border-radius: 10rem;
+    padding: 1vh 1vw;
+    margin-right: 10%;
+}
+
+main a:hover {
+    background: darkred;
     color: #fff;
     text-decoration: underline;
+}
+
+h2 ~ div span {
+    width: max-content;
+    border-radius: 10rem;
+    padding: 1vh 1vw;
+}
+
+.ssc {
+    background: yellow;
+}
+
+.ssc:hover {
+    background: yellowgreen;
+}
+
+.scw {
+    background: tomato;
+}
+
+.scw:hover {
+    background: orange;
+}
+
+.scg, .sbit, .sgrid1 {
+    background: var(--hospital-green);
+}
+
+.scg:hover, .sbit:hover, .sgrid1:hover {
+    background: darkcyan;
+}
+
+.sgrid2 {
+    background: limegreen;
+}
+
+.sgrid2:hover {
+    background: lightgreen;
 }
 
 main > :not(img) {
@@ -60,19 +159,29 @@ main > :not(img) {
 
 .separator {
     width: 75%;
-    border-top: solid 1px black;
+    border-top: solid 1px var(--black);
 }
 
 footer {
     width: 100%;
     height: 5vh;
-    background: #000;
+    background: var(--black);
     display: flex;
     justify-content: center;
     align-items: center;
     
 }
 
+footer ul {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
 footer ul li a {
     color: peru;
+}
+
+footer ul li a:hover {
+    color: var(--white);
 }
