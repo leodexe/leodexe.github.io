@@ -4,14 +4,17 @@
     padding: 0;
     text-decoration: none;
 }
+
 html {
     font-size: 62.5%;
 }
+
 body {
-    width: 100vw;
+    max-width: 100vw;
     min-height: 100vh;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
 }
+
 main {
     width: 100vw;
     min-height: 100vh;
@@ -21,77 +24,101 @@ main {
     background: beige;
     overflow: hidden;
 }
+
 a:hover {
     color: darkblue;
 }
 
 .encabezado, .piedepagina {
     width: 100%;
-    height: 3.6vh;
+    height: 4.4vh;
     background: yellow;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 .headnav, .footnav {
     width: 100%;
     height: 100%;
     display: flex;
+    align-items: center;
     justify-content: center;
     list-style: none;
     text-align: center;
 }
-.ssb64, .melee, .pm, .ulti {
-    width: 24%;
-    background: red;
-    border: solid 1px black;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transition: background .5s;
+
+.headnav ul, .footnav ul {
+    list-style: none;
 }
 
-.ssb64:hover, .melee:hover, .pm:hover, .ulti:hover {
-    background: sandybrown;
-    transition: background .5s;
-}
-
-li > a {
-    width: max-content;
-    height: max-content;
-}
-
-.ssb64 a, .melee a, .pm a, .ulti a {
+.headnav .level1 {
     width: 100%;
-    height: max-content;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.headnav .level1 > li {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex: auto;
+    justify-content: center;
+    align-items: center;
+    border: solid 1px black;
+    background: red;
+    transition: background .5s;
+}
+
+.headnav .level1 > li:hover {
+    background: sandybrown;
+}
+
+.headnav li > ul {
+    width: 100%;
+    position: absolute;
+    top: -700%;
+    max-height: 0;
+    overflow: hidden;
+    transition: top .5s, max-height .5s;
+}
+
+.headnav li:hover > ul {
+    top: 100%;
+    max-height: 1234px;
+    overflow: visible;
+}
+
+.headnav ul li a {
+    display: block;
+    padding: 0.2rem;
     background: palegoldenrod;
     border-radius: 24rem;
-    border: solid 1px maroon;
-    position: relative;
-    top: -99rem;
-    transition: all .5s;
-}
-.ssb64:hover a, .melee:hover a, .pm:hover a, .ulti:hover a {
-    top: 0;
-    transition: all .5s;
+    border: solid 1px sandybrown;
+    transition: background .5s, border .5s, color .5s;
 }
 
-.ssb64:hover > a:hover, .melee:hover a:hover, .pm:hover a:hover, .ulti:hover a:hover {
+.headnav ul li a:hover {
     background: goldenrod;
+    border: solid 1px maroon;
     color: black;
-    transition: all .5s;
 }
+
+main {
+    width: 100%;
+}
+
 .titular {
     margin: 2.0rem;
     text-align: center;
 }
-.placements:hover {
-    background: khaki;
-    transition: background .5s;
-}
+
 .container, .container__section {
     text-align: center;
 }
+
 .container__h2, .placements {
      margin-bottom: 0.6rem;
 }
@@ -101,8 +128,16 @@ li > a {
 }
 
 .placements {
+    margin: 0 auto;
+    width: 95%;
     border: solid 1px black;
 }
+
+.placements:hover {
+    background: khaki;
+    transition: background .5s;
+}
+
 .container__1h3, .container__2h3 {
     margin: 0.6rem 0;
 }
@@ -111,9 +146,7 @@ li > a {
     width: 16px;
     height: 16px;
 }
-.lastp {
-    margin: 0;
-}
+
 .ranking2021_2022{
     display: flex;
     flex-wrap: wrap;
@@ -135,44 +168,62 @@ li > a {
 
 .piedepagina {
     margin-top: auto;
-}
- .footnav {
-    background: slateblue;
-}
- .footnav > li {
-    width: 25%;
-    background: orchid;
-    border: solid 1px blue;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column-reverse;
-    align-items: center;
-} 
-.footnav > li:hover {
-    background: cyan;
-    transition: all .5s;
-}
-.fblink a, .ytlink a, .github a  {
     width: 100%;
-    height: max-content;
-    background: lightblue;
-    border: solid 1px white;
-    border-radius: 25rem;
-    position: relative; 
-    bottom: -99rem;
-    transition: all .5s;
+    height: 4.4vh;
 }
 
-.footnav > li:hover {
+.piedepagina .footnav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background: slateblue;
+}
+
+.piedepagina .footnav > li {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    flex: auto;
+    background: orchid;
+    border: solid 1px blue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} 
+
+.piedepagina .footnav > li:hover {
+    background: violet;
+}
+
+.piedepagina ul ul  {
+    width: 100%;
+    position: absolute; 
+    bottom: -300%;
+    max-height: 0;
+    overflow: hidden;
+    transition: bottom .5s, max-height .5s;
+}
+
+.piedepagina ul li:hover > ul {
+    bottom: 100%;
+    max-height: 1234px;
     overflow: visible;
 }
 
-.fblink:hover a, .ytlink:hover a, .github:hover a {
-    bottom: 0;
-    transition: all .5s;
+.piedepagina .footnav ul li a {
+    display: block;
+    background: royalblue;
+    border: solid 1px #fff;
+    color: white;
+    padding: 0.2rem;
+    border-radius: 24rem;
+    transition: background .5s, border .5s, color .5s;
 }
 
-.fblink:hover a:hover, .ytlink:hover a:hover, .github:hover a:hover {
-    background: royalblue;
-    color: white;
+.piedepagina .footnav ul li a:hover {
+    background: skyblue;
+    border: solid 1px #000;
+    color: #000;
 }
