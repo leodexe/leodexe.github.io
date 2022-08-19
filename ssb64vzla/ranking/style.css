@@ -2,7 +2,6 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    text-decoration: none;
 }
 
 html {
@@ -25,8 +24,13 @@ main {
     overflow: hidden;
 }
 
+a {
+    text-decoration: none;
+}
+
 a:hover {
     color: darkblue;
+    text-decoration: underline;
 }
 
 .encabezado, .piedepagina {
@@ -129,6 +133,16 @@ main {
 .titular {
     margin: 2.0rem;
     text-align: center;
+}
+
+.tournament-container {
+    text-align: center;
+}
+
+.tournament-container .tournament-img {
+    margin: 2.5vh 0;
+    width: 95%;
+    max-width: 1080px;
 }
 
 .container, .container__section {
