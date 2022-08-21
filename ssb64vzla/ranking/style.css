@@ -153,12 +153,12 @@ main {
      margin-bottom: 0.6rem;
 }
 
-.box2021 > .container__1h3 + .placements ~ .eighthplace {
+[class^="box202"] > [class^="h3_202"] + .placements ~ .eighthplace {
     border-bottom: solid 1px black;
 }
 
 .placements {
-    margin: 0 auto;
+    margin: 0 auto 1.2rem;
     width: 95%;
     border: solid 1px black;
 }
