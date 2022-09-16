@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mokepon</title>
+    <style>
+        html {
+            font-size: 62.5%
+        }
+        body {
+            box-sizing: border-box;
+            font-size: 2.0rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>Mokepon!</h1>
+    <section id="mon-select">
+        <h2>Select your mon</h2>
+        <p id="mon-container">
+            <label for="fuegomon">
+                <input type="radio" name="typemon" id="fuegomon">
+                <span id="fuegomon-box">&#x1F525;Kakuchín</span>
+            </label>
+            <label for="aguamon">
+                <input type="radio" name="typemon" id="aguamon">
+                <span id="aguamon-box">&#x1F4A7;Pochoclo</span>
+            </label>
+            <label for="plantamon">
+                <input type="radio" name="typemon" id="plantamon">
+                <span id="plantamon-box">&#x1F331;Plantasaurio</span>
+            </label>
+            <button id="button-monselect">Select mon</button>
+
+        </p>
+    </section>    
+    <section class="atk-select">
+        <h2><span id="mon-name" hidden></span><span id="turncounter"></span></h2>
+        <p id="p1-info"><span id="p1-mon">Please select a mon.</span><span id="p1-life-count"></span><span id="p1-lives"></span></p>
+        <p id="p2-info"><span id="p2-mon">Waiting for player select.</span><span id="p2-life-count"></span><span id="p2-lives"></span></p>
+        <p id="atk-container">
+            <label for="tackle" id="lab-tackle" hidden>
+                <input type="radio" name="attackmon" id="tackle">
+                <span id="tackletext">Tackle</span>
+            </label>
+            <label for="growl" id="lab-growl" hidden>
+                <input type="radio" name="attackmon" id="growl">
+                <span id="growltext">Growl</span>
+            </label>
+            <br>
+            <label for="sandattack" id="lab-sandattack" hidden>
+                <input type="radio" name="attackmon" id="sandattack">
+                <span id="sandattacktext">Sand Attack</span>
+            </label>
+            <label for="stab" id="lab-stab" hidden>
+                <input type="radio" name="attackmon" id="stab">
+                <span id="stabtext">STAB</span>
+            </label>
+            <p>
+                <button id="attacknow" hidden>Attack!</button>
+            </p>
+        </p>
+    </section>
+    <section id="messages">
+        <p id="message-box-p1">Esta es la caja de mensajes del jugador.</p>
+        <p id="message-box-p2">Esta es la caja de mensajes del CPU.</p>
+    </section>
+    <section id="restart">
+        <span id="restart-box"></span>
+    </section>
+    <script defer src="mokepon.js"></script>
+</body>
+</html>

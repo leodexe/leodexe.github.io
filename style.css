@@ -153,6 +153,23 @@ h2 ~ div span {
     background: lightgreen;
 }
 
+.ajs1 {
+    background: cyan;
+}
+
+.ajs1:hover {
+    background: darkcyan;
+}
+
+.js1 {
+    background: var(--very-light-pink);
+}
+
+.js1:hover {
+    color: var(--white);
+    background: lightcoral;
+}
+
 main > :not(img) {
     margin: 1.6rem 0.4rem;
 }
