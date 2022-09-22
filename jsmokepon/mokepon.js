@@ -1,4 +1,4 @@
-let nullmon1, nullmon2, p1mon, p2mon, p1hp, p2hp, p1move, p2move;
+let nullmon1, nullmon2, p1imgsrc, p1mon, p2imgsrc, p2mon, p1hp, p1maxhp, p2hp, p2maxhp, p1move, p2move;
 nullmon1 = nullmon2 = p1mon = p2mon = "NULLMON";
 let h2monselect = document.getElementById("mon-select");
 let firemon = document.getElementById("fuegomon");
@@ -13,19 +13,20 @@ let p1minpower, p2minpower, p1accuracy, p2accuracy, p1mincuracy,  p2mincuracy, s
 stabattackp1 = stabattackp2 = "NULL STAB";
 sametypeattackbonus = 1.5;
 let spanmon = document.getElementById("mon-name");
-let pP1mon = document.getElementById("p1-mon");
-let pP1lifecount = document.getElementById("p1-life-count");
-let pP1lives = document.getElementById("p1-lives");
-let pP2mon = document.getElementById("p2-mon");
-let pP2lifecount = document.getElementById("p2-life-count");
-let pP2lives = document.getElementById("p2-lives");
-let labeltackle = document.getElementById("lab-tackle");
+let P1img = document.getElementById("p1-img");
+let spanP1mon = document.getElementById("p1-mon");
+let spanP1lifecount = document.getElementById("p1-life-count");
+let pP1HPbar = document.getElementById("p1-hpbar");
+let pP1status = document.getElementById("p1-statmodifiers");
+let P2img = document.getElementById("p2-img");
+let spanP2mon = document.getElementById("p2-mon");
+let spanP2lifecount = document.getElementById("p2-life-count");
+let pP2HPbar = document.getElementById("p2-hpbar");
+let pP2status = document.getElementById("p2-statmodifiers");
+let divatkcontainer = document.getElementById("atk-container");
 let radiotackle = document.getElementById("tackle");
-let labelgrowl = document.getElementById("lab-growl");
 let radiogrowl = document.getElementById("growl");
-let labelsandattack = document.getElementById("lab-sandattack");
 let radiosandattack = document.getElementById("sandattack");
-let labelstab = document.getElementById("lab-stab");
 let radiostab = document.getElementById("stab");
 let spanstab = document.getElementById("stabtext");
 let buttonattacknow = document.getElementById("attacknow");
@@ -39,19 +40,19 @@ function fselectedmon() {
     monselect.hidden = true;
     spanmon.innerHTML = "Select your " + p1mon + "'s attack ";
     spanmon.hidden = false;
-    labeltackle.hidden = false;
-    labelgrowl.hidden = false;
-    labelsandattack.hidden = false;
-    labelstab.hidden = false;
+    divatkcontainer.hidden = false;
     buttonattacknow.hidden = false;
-    p1hp = p2hp = 31;
+    p1hp = p2hp = p1maxhp = p2maxhp = 31;
     p1basepower = p2basepower = 100;
     p1critpower  = p2critpower = 5;
     p1minpower = p1mincuracy = p2minpower = p2mincuracy = turncounter = 0;
     p1accuracy = p2accuracy = 100;
-    pP1mon.innerHTML = "Your " + p1mon + " has ";
-    pP1lifecount.innerHTML = p1hp;
-    pP1lives.innerHTML = "HP";
+    P1img.src = p1imgsrc;
+    P1img.style.filter = "grayscale(0)";
+    spanP1mon.innerHTML = "Your<b>" + p1mon + "</b>:";
+    spanP1lifecount.innerHTML = "HP: " + p1hp + "/" + p1maxhp + " (100%)";
+    spanP1lifecount.style.color = pP1HPbar.style.background = "green";
+    pP1HPbar.style.width = "100px";
     pmessageboxp1.innerHTML = pmessageboxp2.innerHTML = "";
     spanrestartbox.innerHTML = "";
     turncounter++;
@@ -60,75 +61,80 @@ function fselectedmon() {
 }
 
 function fselectcpumon() {
-    if (nullmon1 == "Fuegomon") {
-        let notmon = 1;
-        while (notmon != 2 && notmon != 3) {
-            notmon = Math.ceil(Math.random() * 3);
-        }
-        if (notmon == 2) {
-            nullmon2 = "Aguamon";
-            p2mon = "&#x1F4A7;Pochoclo";
-        } else if (notmon == 3) {
-            nullmon2 = "Plantamon";
-            p2mon = "&#x1F331;Plantasaurio";
+    if (nullmon1 != "NULLMON") {
+        if (nullmon1 == "Fuegomon") {
+            let notmon = 1;
+            while (notmon != 2 && notmon != 3) {
+                notmon = Math.ceil(Math.random() * 3);
+            }
+            if (notmon == 2) {
+                nullmon2 = "Aguamon";
+                p2mon = "&#x1F4A7;Pochoclo";
+            } else if (notmon == 3) {
+                nullmon2 = "Plantamon";
+                p2mon = "&#x1F331;Plantasaurio";
+            } else
+                nullmon2 = "ERRORMON1";
+            
+        } else if (nullmon1 == "Aguamon") {
+            let notmon = 2;
+            while (notmon != 1 && notmon != 3) {
+                notmon = Math.ceil(Math.random() * 3);
+            }
+            if (notmon == 1) {
+                nullmon2 = "Fuegomon";
+                p2mon = "&#x1F525;Kakuchín";
+            } else if (notmon == 3) {
+                nullmon2 = "Plantamon";
+                p2mon = "&#x1F331;Plantasaurio";
+            } else
+                nullmon2 = "ERRORMON2";
+        } else if (nullmon1 == "Plantamon") {
+            let notmon = 3;
+            while (notmon != 1 && notmon != 2) {
+                notmon = Math.ceil(Math.random() * 3);
+            }
+            if (notmon == 1) {
+                nullmon2 = "Fuegomon";
+                p2mon = "&#x1F525;Kakuchín";
+            } else if (notmon == 2) {
+                nullmon2 = "Aguamon";
+                p2mon = "&#x1F4A7;Pochoclo";
+            } else
+                nullmon2 = "ERRORMON3";            
         } else
-            nullmon2 = "ERRORMON1";
-        pP2mon.innerHTML = "CPU " + p2mon + " has ";
-        pP2lifecount.innerHTML = p2hp;
-        pP2lives.innerHTML = "HP";
-        pmessageboxp1.innerHTML = "Player has selected " + p1mon + ", can begin battle!";
-        pmessageboxp2.innerHTML = "CPU has selected " + p2mon + ", waiting for player!";
-    } else if (nullmon1 == "Aguamon") {
-        let notmon = 2;
-        while (notmon != 1 && notmon != 3) {
-            notmon = Math.ceil(Math.random() * 3);
+            console.log("Player didn't choose a valid mon, so CPU won't choose either.");
+        if (nullmon2 == "Fuegomon") {
+            stabattackp2 = "Ember Shot";
+            p2imgsrc = "./mons/charizardsomething.png";
         }
-        if (notmon == 1) {
-            nullmon2 = "Fuegomon";
-            p2mon = "&#x1F525;Kakuchín";
-        } else if (notmon == 3) {
-            nullmon2 = "Plantamon";
-            p2mon = "&#x1F331;Plantasaurio";
-        } else
-            nullmon2 = "ERRORMON2";
-        pP2mon.innerHTML = "CPU " + p2mon + " has ";
-        pP2lifecount.innerHTML = p2hp;
-        pP2lives.innerHTML = "HP";
-        pmessageboxp1.innerHTML = "Player has selected " + p1mon + ", can begin battle!";
-        pmessageboxp2.innerHTML = "CPU has selected " + p2mon + ", waiting for player!";
-    } else if (nullmon1 == "Plantamon") {
-        let notmon = 3;
-        while (notmon != 1 && notmon != 2) {
-            notmon = Math.ceil(Math.random() * 3);
+        else if (nullmon2 == "Aguamon") {
+            stabattackp2 = "Water Gun";
+            p2imgsrc = "./mons/greninjasomething.png";
         }
-        if (notmon == 1) {
-            nullmon2 = "Fuegomon";
-            p2mon = "&#x1F525;Kakuchín";
-        } else if (notmon == 2) {
-            nullmon2 = "Aguamon";
-            p2mon = "&#x1F4A7;Pochoclo";
-        } else
-            nullmon2 = "ERRORMON3";
-        pP2mon.innerHTML = "CPU " + p2mon + " has ";
-        pP2lifecount.innerHTML = p2hp;
-        pP2lives.innerHTML = "HP";
-        pmessageboxp1.innerHTML = "Player has selected " + p1mon + ", can begin battle!";
-        pmessageboxp2.innerHTML = "CPU has selected " + p2mon + ", waiting for player!";
-    } else
-        console.log("Player didn't choose, so CPU won't choose.");
-    if (nullmon2 == "Fuegomon")
-        stabattackp2 = "Ember Shot";
-    else if (nullmon2 == "Aguamon")
-        stabattackp2 = "Water Gun";
-    else if (nullmon2 == "Plantamon")
-        stabattackp2 = "Vine Whip";
+        else if (nullmon2 == "Plantamon") {
+            stabattackp2 = "Vine Whip";
+            p2imgsrc = "./mons/ivysaursomething.png";
+        }
+        else
+            stabattackp2 = "NULL STRIKE";
+        P2img.src = p2imgsrc;
+        P2img.style.filter = "grayscale(0)";
+        spanP2mon.innerHTML = "CPU<b>" + p2mon + "</b>: ";
+        spanP2lifecount.innerHTML = "HP: " + p2hp + "/" + p2maxhp + " (100%)";
+        spanP2lifecount.style.color = pP2HPbar.style.background = "green";
+        pP2HPbar.style.width = "100px";
+        pmessageboxp1.innerHTML = "Player selected " + p1mon + ", can begin battle!";
+        pmessageboxp2.innerHTML = "CPU selected " + p2mon + ", waiting for player!";
+    }
     else
-        stabattackp2 = "NULL STRIKE";
+        spanP2mon.innerHTML = "Please select a non-nullmon.";
 }
 
 function fmonselect() {
     if (firemon.checked == true) {
         nullmon1 = "Fuegomon";
+        p1imgsrc = "./mons/charizardsomething.png";
         p1mon = "&#x1F525;Kakuchín";
         fselectedmon();
         fselectcpumon();
@@ -137,6 +143,7 @@ function fmonselect() {
         console.log(nullmon1 + " has been selected!");
     } else if (watermon.checked == true) {
         nullmon1 = "Aguamon";
+        p1imgsrc = "./mons/greninjasomething.png";
         p1mon = "&#x1F4A7;Pochoclo";
         fselectedmon();
         fselectcpumon();
@@ -145,6 +152,7 @@ function fmonselect() {
         console.log(nullmon1 + " has been selected!");
     } else if (grassmon.checked == true) {
         nullmon1 = "Plantamon";
+        p1imgsrc = "./mons/ivysaursomething.png";
         p1mon = "&#x1F331;Plantasaurio";
         fselectedmon();
         fselectcpumon();
@@ -152,9 +160,9 @@ function fmonselect() {
         spanstab.style.color = "green";
         console.log(nullmon1 + " has been selected!");
     } else
-        pP1mon.innerHTML = "No mon has been selected.";
+        spanP1mon.innerHTML = "No mon has been selected.";
 }
-    
+
 function lowerAtk(basepower, minpower) {
     if (minpower == 0) {
         basepower = 66;
@@ -197,64 +205,64 @@ function lowerAcc(accuracy, mincuracy) {
     } else if (mincuracy == -5) {
         accuracy = 33;
         mincuracy--;
-    } 
+    }
     return [accuracy, mincuracy];
 }
 
-function removezeros(monhp, showhp) {
-    if (parseInt(monhp) == monhp)
-        showhp.innerHTML = monhp;
-    else
-        showhp.innerHTML = monhp.toFixed(2);
+function removezerosandshowhp(monhp, showhp, showmaxhp) {
+    let percentagehp = 100 / (showmaxhp / monhp);
+    if (monhp != 0) {
+        if (parseInt(monhp) == monhp) {
+            if (parseInt(percentagehp) == percentagehp)
+                showhp.innerHTML = "HP: " + monhp + "/" + showmaxhp + " (" + percentagehp + "%)";
+            else
+                showhp.innerHTML = "HP: " + monhp + "/" + showmaxhp + " (" + percentagehp.toFixed(2) + "%)";
+        } else {
+            if (parseInt(percentagehp) == percentagehp)
+                showhp.innerHTML = "HP: " + monhp.toFixed(2) + "/" + showmaxhp + " (" + percentagehp + "%)";
+            else
+                showhp.innerHTML = "HP: " + monhp.toFixed(2) + "/" + showmaxhp + " (" + percentagehp.toFixed(2) + "%)";
+        }
+    }
 }
 
-function damagecalc(nullmon1, nullmon2, pmove, php, pbasepower, pcritpower, pfullpower, pPlifecount, pmessageboxp, p1mon, p2mon, stabattackp ) {
+function damagecalc(nullmon1, nullmon2, pmove, php, pmaxhp, pbasepower, pcritpower, pfullpower, spanPlifecount, pmessageboxp, p1mon, p2mon, stabattackp ) {
     let criticalrate = Math.ceil(Math.random() * 10);
         if (criticalrate == 10) {
             if (pmove == 1) {
                 pfullpower = pcritpower * 2;
-                php -= pfullpower;
-                removezeros(php, pPlifecount);
-                pmessageboxp.innerHTML = p1mon + "landed a Critical Hit! " + p2mon + " took " + (pfullpower) + " damage from Tackle!";
+                pmessageboxp.innerHTML = p1mon + " landed a Critical Hit! " + p2mon + " took " + (pfullpower) + " damage from Tackle!";
             } else if (pmove == 4) {
                 if(nullmon1 == "Fuegomon" && nullmon2 == "Aguamon" || nullmon1 == "Aguamon" && nullmon2 == "Plantamon" || nullmon1 == "Plantamon" && nullmon2 == "Fuegomon" || nullmon1 == nullmon2) {
                     pfullpower = pcritpower * sametypeattackbonus;
-                    php-= pfullpower;
-                    removezeros(php, pPlifecount);
                     pmessageboxp.innerHTML = p1mon + "'s " + stabattackp + " landed a critical hit" + p2mon + " for average (" + pfullpower + ") damage , but it's not very effective...";
                 } else {
                     pfullpower = p1critpower * sametypeattackbonus * 4;
-                    php-= pfullpower;
-                    removezeros(php, pPlifecount);
-                    pmessageboxp.innerHTML = p1mon + "'s " + stabattackp + "landed a <b>CRITICAL SUPER EFFECTIVE!!!</b><br>" + p2mon + " received <i>LUDICROUS</i> <b>(" + (pfullpower) + ")</b> DAMAGE!!!";
+                    pmessageboxp.innerHTML = p1mon + "'s " + stabattackp + " landed a <b>CRITICAL SUPER EFFECTIVE!!!</b><br>" + p2mon + " received <i>LUDICROUS</i> <b>(" + (pfullpower) + ")</b> DAMAGE!!!";
                 }
             }
         } else {
             if (pmove == 1) {
                 pfullpower = pcritpower * pbasepower / 100;
-                php -= pfullpower;
-                removezeros(php, pPlifecount);
                 if (parseInt(pfullpower) != pfullpower)
                     pfullpower = pfullpower.toFixed(2)
                 pmessageboxp.innerHTML = p1mon + " used Tackle!" + p2mon + " received "+ pfullpower + " damage";
             } else if (pmove == 4) {
                 if (nullmon1 == "Fuegomon" && nullmon2 == "Aguamon" || nullmon1 == "Aguamon" && nullmon2 == "Plantamon" || nullmon1 == "Plantamon" && nullmon2 == "Fuegomon" || nullmon1 == nullmon2) {
                     pfullpower = (pcritpower * pbasepower * sametypeattackbonus / 100) / 2;
-                    php-= pfullpower;
-                    removezeros(php, pPlifecount);
                     if (parseInt(pfullpower) != pfullpower)
                         pfullpower = pfullpower.toFixed(2)
                     pmessageboxp.innerHTML = p1mon + "'s " + stabattackp + " hit " + p2mon + " for " + pfullpower + " damage, but it's not very effective...";
             } else {
                 pfullpower = (pcritpower * pbasepower * sametypeattackbonus / 100) * 2;
-                php-= pfullpower;
-                removezeros(php, pPlifecount);
                 if (parseInt(pfullpower) != pfullpower)
                     pfullpower = pfullpower.toFixed(2)
                 pmessageboxp.innerHTML = p1mon + "'s " + stabattackp + " hit " + p2mon + " for " + pfullpower + " damage, and it's <b>SUPER</b> effective...";
             }
         }
     }
+    php-= pfullpower;
+    removezerosandshowhp(php, spanPlifecount, pmaxhp);
     return php;
 }
 
@@ -264,26 +272,25 @@ function checkp2hp() {
     else
         pmessageboxp2.innerHTML = "";
 }
- 
+
 function resetUI() {
+    radiotackle.checked = false;
+    radiogrowl.checked = false;
+    radiosandattack.checked = false;
+    radiostab.checked = false;
     h2monselect.hidden = false;
     monselect.hidden = false;
     spanmon.hidden = true;
-    labeltackle.hidden = true;
-    labelgrowl.hidden = true;
-    labelsandattack.hidden = true;
-    labelstab.hidden = true;
 }
 
 function p2selectattack() {
-    //setTimeout(() => {spanmessagebox.innerHTML = "Waiting for CPU Player...";}, 2000);
     p2move = Math.ceil(Math.random() * 4);
     console.log("p2move: " + p2move);
     if (p2move == 1) {
         let missrate = Math.ceil(Math.random() * 100);
         if (missrate <= p2accuracy * 95 / 100) {
-            p1hp = damagecalc(nullmon2, nullmon1, p2move, p1hp, p2basepower, p2critpower, p2fullpower, pP1lifecount, pmessageboxp2, p2mon, p1mon, stabattackp2);
-        } else 
+            p1hp = damagecalc(nullmon2, nullmon1, p2move, p1hp, p1maxhp, p2basepower, p2critpower, p2fullpower, spanP1lifecount, pmessageboxp2, p2mon, p1mon, stabattackp2);
+        } else
             pmessageboxp2.innerHTML = p2mon + "'s Tackle Missed!";
     } else if (p2move == 2) {
         let missrate = Math.ceil(Math.random() * 100);
@@ -294,10 +301,10 @@ function p2selectattack() {
                 p1minpower = p1lowerAtk[1];
                 pmessageboxp2.innerHTML = p2mon + " used Growl! Your " + p1mon + "'s <b>Attack</b> fell! x" + (p1minpower * -1);
                 if (p1mincuracy == 0)
-                    pP1lives.innerHTML = "HP | <b>" + p1minpower + "</b> <i>ATK</i>";
+                    pP1status.innerHTML = " | <b>" + p1minpower + "</b> <i>ATK</i>";
                 else
-                    pP1lives.innerHTML = "HP | <b>" + p1minpower + "</b> <i>ATK</i> | <b>" + p1mincuracy + "</b> <i>ACC</i>";
-            } else 
+                    pP1status.innerHTML = " | <b>" + p1minpower + "</b> <i>ATK</i> | <b>" + p1mincuracy + "</b> <i>ACC</i>";
+            } else
                 pmessageboxp2.innerHTML = p2mon + "'s Growl Missed!";
         } else
             p2selectattack();
@@ -310,9 +317,9 @@ function p2selectattack() {
                 p1mincuracy = p1lowerAcc[1];
                 pmessageboxp2.innerHTML = p2mon + " used Sand Attack! Your " + p1mon + "'s <b>Accuracy</b> fell! x" + (p1mincuracy * -1);
                 if (p1minpower == 0)
-                    pP1lives.innerHTML = "HP | <b>" + p1mincuracy + "</b> <i>ACC</i>";
+                    pP1status.innerHTML = " | <b>" + p1mincuracy + "</b> <i>ACC</i>";
                 else
-                    pP1lives.innerHTML = "HP | <b>" + p1minpower + "</b> <i>ATK</i> | <b>" + p1mincuracy + "</b> <i>ACC</i>";
+                    pP1status.innerHTML = " | <b>" + p1minpower + "</b> <i>ATK</i> | <b>" + p1mincuracy + "</b> <i>ACC</i>";
             } else
                 pmessageboxp2.innerHTML = p2mon + "'s Sand Attack Missed!";
         } else
@@ -320,13 +327,45 @@ function p2selectattack() {
     } else if (p2move == 4) {
         let missrate = Math.ceil(Math.random() * 100);
         if (missrate <= p2accuracy) {
-            p1hp = damagecalc(nullmon2, nullmon1, p2move, p1hp, p2basepower, p2critpower, p2fullpower, pP1lifecount, pmessageboxp2, p2mon, p1mon, stabattackp2);
+            p1hp = damagecalc(nullmon2, nullmon1, p2move, p1hp, p1maxhp, p2basepower, p2critpower, p2fullpower, spanP1lifecount, pmessageboxp2, p2mon, p1mon, stabattackp2);
         } else
             pmessageboxp2.innerHTML = p2mon + "'s " + stabattackp2 + " Missed!";
     } else
         pmessageboxp2.innerHTML = p2mon + " need to choose a move to begin battle...";
 }
 
+function colorHPbar(playerhp, playermaxhp, playerhpbar, playerlifecount, playerimg) {
+    let playerhpcolor;
+    if (playerhp > 0)
+        playerhpcolor = 100 / (playermaxhp / playerhp);
+    else {
+        playerhpcolor = playerhp = 0;
+        playerlifecount.innerHTML = "HP: " + playerhp + "/" + playermaxhp + " (0%)";
+        setTimeout(() => {
+            playerimg.style.filter = "grayscale(1)";
+            playerimg.style.transition = "filter 1s";
+            spanrestartbox.innerHTML = "Presiona el botón de seleccionar mon para iniciar una nueva batalla.";
+        }, 2000);
+    }
+    // playerhpbar.style.transform = "scaleX(" + (playerhpcolor / 100) + ") translateX(" + (-100 + playerhpcolor) + "px)";
+    playerhpbar.style.width = playerhpcolor + "px";
+    if (playerhpcolor <= 100 && playerhpcolor > 50) {
+        playerhpcolor = "green";
+    }
+    else if (playerhpcolor <= 50 && playerhpcolor > 20) {
+        playerhpcolor = "orange";
+        playerhpbar.style.background = playerhpcolor;
+    }
+    else if (playerhpcolor <= 20 && playerhpcolor > 0) {
+        playerhpcolor = "red";
+        playerhpbar.style.background = playerhpcolor;
+    }
+    else {
+        playerhpcolor = "black";
+        playerhpbar.style.background = playerhpcolor;
+    }
+    return [playerhpcolor, playerhp];
+}
 
 function beginBattle() {
     if (nullmon1 != "NULLMON" && nullmon2 != "NULLMON") {
@@ -335,7 +374,7 @@ function beginBattle() {
                 p1move = 1;
                 let missrate = Math.ceil(Math.random() * 100)
                 if (missrate <= p1accuracy * 95 / 100) {
-                    p2hp = damagecalc(nullmon1, nullmon2, p1move, p2hp, p1basepower, p1critpower, p1fullpower, pP2lifecount, pmessageboxp1, p1mon, p2mon, stabattackp1);
+                    p2hp = damagecalc(nullmon1, nullmon2, p1move, p2hp, p2maxhp, p1basepower, p1critpower, p1fullpower, spanP2lifecount, pmessageboxp1, p1mon, p2mon, stabattackp1);
                 } else
                     pmessageboxp1.innerHTML = p1mon + "'s Tackle Missed!";
                 checkp2hp();
@@ -349,9 +388,9 @@ function beginBattle() {
                         p2minpower = p2lowerAtk[1];
                         pmessageboxp1.innerHTML = p1mon + " used Growl! " + p2mon + "'s <b>Attack</b> fell! x" + (p2minpower * -1);
                         if (p2mincuracy == 0)
-                            pP2lives.innerHTML = "HP | <b>" + p2minpower + "</b> <i>ATK</i>";
+                            pP2status.innerHTML = " | <b>" + p2minpower + "</b> <i>ATK</i>";
                         else
-                            pP2lives.innerHTML = "HP | <b>" + p2minpower + "</b> <i>ATK</i> | <b>" + p2mincuracy + "</b> <i>ACC</i>";
+                            pP2status.innerHTML = " | <b>" + p2minpower + "</b> <i>ATK</i> | <b>" + p2mincuracy + "</b> <i>ACC</i>";
                     } else
                         pmessageboxp1.innerHTML = p1mon + "'s Growl Missed!";
                 } else
@@ -367,9 +406,9 @@ function beginBattle() {
                         p2mincuracy = p2lowerAcc[1];
                         pmessageboxp1.innerHTML = p1mon + " used Sand Attack!" + p2mon + "'s <b>Accuracy</b> fell! x" + (p2mincuracy * -1);
                         if (p2minpower == 0)
-                            pP2lives.innerHTML = "HP | <b>" + p2mincuracy + "</b> <i>ACC</i>";
+                            pP2status.innerHTML = " | <b>" + p2mincuracy + "</b> <i>ACC</i>";
                         else
-                            pP2lives.innerHTML = "HP | <b>" + p2minpower + "</b> <i>ATK</i> | <b>" + p2mincuracy + "</b> <i>ACC</i>";
+                            pP2status.innerHTML = " | <b>" + p2minpower + "</b> <i>ATK</i> | <b>" + p2mincuracy + "</b> <i>ACC</i>";
                     } else
                         pmessageboxp1.innerHTML = p1mon + "'s Sand Attack Missed!";
                 } else
@@ -379,40 +418,44 @@ function beginBattle() {
                 p1move = 4;
                 let missrate = Math.ceil(Math.random() * 100);
                 if (missrate <= p1accuracy) {
-                    p2hp = damagecalc(nullmon1, nullmon2, p1move, p2hp, p1basepower, p1critpower, p1fullpower, pP2lifecount, pmessageboxp1, p1mon, p2mon, stabattackp1);
+                    p2hp = damagecalc(nullmon1, nullmon2, p1move, p2hp, p2maxhp, p1basepower, p1critpower, p1fullpower, spanP2lifecount, pmessageboxp1, p1mon, p2mon, stabattackp1);
                 }
                 else
                     pmessageboxp1.innerHTML = p1mon + "'s " + stabattackp1 + " Missed!";
                 checkp2hp();
             } else
                 pmessageboxp1.innerHTML = "You need to choose a move to begin battle...";
-        } if (p1hp <= 0) {
-            p1hp = 0;
-            pP1lifecount.innerHTML = p1hp;
-            buttonattacknow.hidden = true;
+        }
+        let P1data = colorHPbar(p1hp, p1maxhp, pP1HPbar, spanP1lifecount, P1img); 
+        spanP1lifecount.style.color = P1data[0];
+        p1hp = P1data[1];
+        let P2data = colorHPbar(p2hp, p2maxhp, pP2HPbar, spanP2lifecount, P2img); 
+        spanP2lifecount.style.color = P2data[0];
+        p2hp = P2data[1];
+        spanP2lifecount.style.color = colorHPbar(p2hp, p2maxhp, pP2HPbar, spanP2lifecount, P2img);
+        if (p1hp <= 0 && p2hp > 0) {
             setTimeout(() => {
                 p1loss++;
-                pmessageboxp2.innerHTML = "Your " + p1mon + " fainted, <b>you lose</b> :(" + " | Your wins: " + p1win + " | Your losses: " + p1loss;
                 pmessageboxp1.innerHTML = "";
-                spanrestartbox.innerHTML = "Presiona el botón de seleccionar mon para iniciar una nueva batalla.";
-                resetUI();
+                spanP1mon.innerHTML = "Your<b>" + p1mon + "</b>&#x1FAA6;";
+                spanP2mon.innerHTML = "CPU<b>" + p2mon + "</b>&#x1F451;";
+                pmessageboxp2.innerHTML = "Your<b>" + p1mon + "</b> fainted, <i><u>you lose...</u></i> :(" + " | Your wins: " + p1win + " | Your losses: " + p1loss;
             }, 2000);
-        } if (p2hp <= 0) {
-            p2hp = 0;
-            pP2lifecount.innerHTML = p2hp;
-            buttonattacknow.hidden = true;
+        } else if (p2hp <= 0 && p1hp > 0) {
             setTimeout(() => {
                 p1win++;
                 pmessageboxp2.innerHTML = "";
-                pmessageboxp1.innerHTML = "CPU " + p2mon + " fainted, <b>you win</b> :)" + " | Your wins: " + p1win + " | Your losses: " + p1loss;
-                spanrestartbox.innerHTML = "Presiona el botón de seleccionar mon para iniciar una nueva batalla.";
-                resetUI();
+                spanP1mon.innerHTML = "Your<b>" + p1mon + "</b>&#x1F451;";
+                spanP2mon.innerHTML = "CPU<b>" + p2mon + "</b>&#x1FAA6;";
+                pmessageboxp1.innerHTML = "CPU<b>" + p2mon + "</b> fainted, <i><u>you win!!!</u></i> :)" + " | Your wins: " + p1win + " | Your losses: " + p1loss;
             }, 2000);
         } if (p1hp > 0 && p2hp > 0) {
             turncounter++;
             spanturncounter.innerHTML = "(Turn " + turncounter + ")" + " [Round " + roundcounter + "]";
-        } else
-            buttonattacknow.hidden = true;
+        } else {
+            divatkcontainer.hidden = true;
+            setTimeout((resetUI), 2000);
+        }
     } else
         pmessageboxp1.innerHTML = "No has seleccionado un mon, no puedes atacar.";
 }

@@ -3,64 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mokepon</title>
-    <style>
-        html {
-            font-size: 62.5%
-        }
-        body {
-            box-sizing: border-box;
-            font-size: 2.0rem;
-        }
-    </style>
+    <title>Mokepon?</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1>Mokepon!</h1>
     <section id="mon-select">
-        <h2>Select your mon</h2>
-        <p id="mon-container">
-            <label for="fuegomon">
-                <input type="radio" name="typemon" id="fuegomon">
-                <span id="fuegomon-box">&#x1F525;Kakuchín</span>
-            </label>
-            <label for="aguamon">
-                <input type="radio" name="typemon" id="aguamon">
-                <span id="aguamon-box">&#x1F4A7;Pochoclo</span>
-            </label>
-            <label for="plantamon">
-                <input type="radio" name="typemon" id="plantamon">
-                <span id="plantamon-box">&#x1F331;Plantasaurio</span>
-            </label>
-            <button id="button-monselect">Select mon</button>
-
-        </p>
-    </section>    
+        <h2 class="h2-monselect">Select your mon</h2>
+        <div id="mon-container">
+            <div class="fuegomon-inputholder">
+                <input type="radio" name="typemon" id="fuegomon" hidden>
+                <label for="fuegomon" class="label-fuegomon">
+                    <figure class="mon-img">
+                        <img src="./mons/charizardsomething.png" alt="" class="fuegomon-img">
+                    </figure>
+                    <span id="fuegomon-box">&#x1F525;Kakuchín</span>
+                </label>
+            </div>
+            <div class="aguamon-inputholder">
+                <input type="radio" name="typemon" id="aguamon" hidden>
+                <label for="aguamon" class="label-aguamon">
+                    <figure class="mon-img">
+                        <img src="./mons/greninjasomething.png" alt="" class="aguamon-img">
+                    </figure>
+                    <span id="aguamon-box">&#x1F4A7;Pochoclo</span>
+                </label>
+            </div>
+            <div class="plantamon-inputholder">
+                <input type="radio" name="typemon" id="plantamon" hidden>
+                <label for="plantamon" class="label-plantamon">
+                    <figure class="mon-img">
+                        <img src="./mons/ivysaursomething.png" alt="" class="plantamon-img">
+                    </figure>
+                    <span id="plantamon-box">&#x1F331;Plantasaurio</span>
+                </label>
+            </div>
+        </div>
+        <button id="button-monselect">Select mon</button>
+    </section>
     <section class="atk-select">
-        <h2><span id="mon-name" hidden></span><span id="turncounter"></span></h2>
-        <p id="p1-info"><span id="p1-mon">Please select a mon.</span><span id="p1-life-count"></span><span id="p1-lives"></span></p>
-        <p id="p2-info"><span id="p2-mon">Waiting for player select.</span><span id="p2-life-count"></span><span id="p2-lives"></span></p>
-        <p id="atk-container">
-            <label for="tackle" id="lab-tackle" hidden>
-                <input type="radio" name="attackmon" id="tackle">
-                <span id="tackletext">Tackle</span>
-            </label>
-            <label for="growl" id="lab-growl" hidden>
-                <input type="radio" name="attackmon" id="growl">
-                <span id="growltext">Growl</span>
-            </label>
+        <div class="players-info">
+            <h2><span id="mon-name" hidden></span><span id="turncounter"></span></h2>
+            <div id="p1-info">
+                <img src="./mons/mewtwosomething.png" alt="" id="p1-img">
+                <div class="p1-mon-status">
+                    <p id="p1-mon">Please select a mokepon.</p>
+                    <p id="p1-statmodifiers"></p>
+                    <p id="p1-life-count">
+                        <p id="p1-hpbar"></p>
+                    </p>
+                </div>
+            </div>
+            <div id="p2-info">
+                <img src="./mons/lucariosomething.png" alt="" id="p2-img">
+                <div class="p2-mon-status">
+                    <p id="p2-mon">Waiting for player select.</p>
+                    <p id="p2-statmodifiers"></p>
+                    <p id="p2-life-count">
+                        <p id="p2-hpbar"></p>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div id="atk-container" hidden>
+            <div class="sideattack" id="upper-area">
+                <div class="attack-inputholder tackle-inputholder">
+                    <input type="radio" name="attackmon" class="attack-input" id="tackle" hidden>
+                    <label for="tackle" class="attack-label" id="lab-tackle" hidden>
+                        <span id="tackletext">Tackle</span>
+                    </label>
+                </div>
+                <div class="attack-inputholder growl-inputholder">
+                    <input type="radio" name="attackmon" class="attack-input" id="growl" hidden>
+                    <label for="growl" class="attack-label" id="lab-growl" hidden>
+                        <span id="growltext">Growl</span>
+                    </label>
+                </div>
+            </div>
+            <div class="sideattack" id="lower-area">
+                <div class="attack-inputholder sandattack-inputholder">
+                    <input type="radio" name="attackmon" class="attack-input" id="sandattack" hidden>
+                    <label for="sandattack" class="attack-label" id="lab-sandattack" hidden>
+                        <span id="sandattacktext">Sand Attack</span>
+                    </label>
+                </div>
+                <div class="attack-inputholder stab-inputholder">
+                    <input type="radio" name="attackmon" class="attack-input" id="stab" hidden>
+                    <label for="stab" class="attack-label" id="lab-stab" hidden>
+                        <span id="stabtext">STAB</span>
+                    </label>
+                </div>
+            </div>
             <br>
-            <label for="sandattack" id="lab-sandattack" hidden>
-                <input type="radio" name="attackmon" id="sandattack">
-                <span id="sandattacktext">Sand Attack</span>
-            </label>
-            <label for="stab" id="lab-stab" hidden>
-                <input type="radio" name="attackmon" id="stab">
-                <span id="stabtext">STAB</span>
-            </label>
-            <p>
+            <div>
                 <button id="attacknow" hidden>Attack!</button>
-            </p>
-        </p>
+            </div>
+        </div>
     </section>
     <section id="messages">
         <p id="message-box-p1">Esta es la caja de mensajes del jugador.</p>
