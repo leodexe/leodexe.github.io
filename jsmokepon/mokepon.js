@@ -1,41 +1,43 @@
+const h1maintitle = document.getElementById("main-title");
+const h2monselect = document.getElementById("mon-select");
+const firemon = document.getElementById("fuegomon");
+const watermon = document.getElementById("aguamon");
+const grassmon = document.getElementById("plantamon");
+const monselect = document.getElementById("button-monselect");
+monselect.addEventListener("click", fmonselect);
+const spanturncounter = document.getElementById("turncounter");
+const spanmon = document.getElementById("mon-name");
+const P1img = document.getElementById("p1-img");
+const spanP1mon = document.getElementById("p1-mon");
+const spanP1lifecount = document.getElementById("p1-life-count");
+const pP1HPbar = document.getElementById("p1-hpbar");
+const pP1status = document.getElementById("p1-statmodifiers");
+const P2img = document.getElementById("p2-img");
+const spanP2mon = document.getElementById("p2-mon");
+const spanP2lifecount = document.getElementById("p2-life-count");
+const pP2HPbar = document.getElementById("p2-hpbar");
+const pP2status = document.getElementById("p2-statmodifiers");
+const divatkcontainer = document.getElementById("atk-container");
+const radiotackle = document.getElementById("tackle");
+const radiogrowl = document.getElementById("growl");
+const radiosandattack = document.getElementById("sandattack");
+const radiostab = document.getElementById("stab");
+const spanstab = document.getElementById("stabtext");
+const buttonattacknow = document.getElementById("attacknow");
+buttonattacknow.addEventListener("click", beginBattle);
+const pmessageboxp1 = document.getElementById("message-box-p1");
+const pmessageboxp2 = document.getElementById("message-box-p2");
+const spanrestartbox = document.getElementById("restart-box");
 let nullmon1, nullmon2, p1imgsrc, p1mon, p2imgsrc, p2mon, p1hp, p1maxhp, p2hp, p2maxhp, p1move, p2move;
 nullmon1 = nullmon2 = p1mon = p2mon = "NULLMON";
-let h2monselect = document.getElementById("mon-select");
-let firemon = document.getElementById("fuegomon");
-let watermon = document.getElementById("aguamon");
-let grassmon = document.getElementById("plantamon");
-let monselect = document.getElementById("button-monselect");
-monselect.addEventListener("click", fmonselect);
-let spanturncounter = document.getElementById("turncounter");
 let p1basepower, p1critpower, p2basepower, p2critpower, p1fullpower, p2fullpower, turncounter, p1win, p1loss, roundcounter;
 p1win = p1loss = roundcounter = 0;
 let p1minpower, p2minpower, p1accuracy, p2accuracy, p1mincuracy,  p2mincuracy, stabattackp1, stabattackp2, sametypeattackbonus;
 stabattackp1 = stabattackp2 = "NULL STAB";
 sametypeattackbonus = 1.5;
-let spanmon = document.getElementById("mon-name");
-let P1img = document.getElementById("p1-img");
-let spanP1mon = document.getElementById("p1-mon");
-let spanP1lifecount = document.getElementById("p1-life-count");
-let pP1HPbar = document.getElementById("p1-hpbar");
-let pP1status = document.getElementById("p1-statmodifiers");
-let P2img = document.getElementById("p2-img");
-let spanP2mon = document.getElementById("p2-mon");
-let spanP2lifecount = document.getElementById("p2-life-count");
-let pP2HPbar = document.getElementById("p2-hpbar");
-let pP2status = document.getElementById("p2-statmodifiers");
-let divatkcontainer = document.getElementById("atk-container");
-let radiotackle = document.getElementById("tackle");
-let radiogrowl = document.getElementById("growl");
-let radiosandattack = document.getElementById("sandattack");
-let radiostab = document.getElementById("stab");
-let spanstab = document.getElementById("stabtext");
-let buttonattacknow = document.getElementById("attacknow");
-buttonattacknow.addEventListener("click", beginBattle);
-let pmessageboxp1 = document.getElementById("message-box-p1");
-let pmessageboxp2 = document.getElementById("message-box-p2");
-let spanrestartbox = document.getElementById("restart-box");
 
 function fselectedmon() {
+    h1maintitle.hidden = true;
     h2monselect.hidden = true;
     monselect.hidden = true;
     spanmon.innerHTML = "Select your " + p1mon + "'s attack ";
@@ -43,6 +45,7 @@ function fselectedmon() {
     divatkcontainer.hidden = false;
     buttonattacknow.hidden = false;
     p1hp = p2hp = p1maxhp = p2maxhp = 31;
+    pP1status.innerHTML = pP2status.innerHTML = "";
     p1basepower = p2basepower = 100;
     p1critpower  = p2critpower = 5;
     p1minpower = p1mincuracy = p2minpower = p2mincuracy = turncounter = 0;
@@ -231,14 +234,14 @@ function damagecalc(nullmon1, nullmon2, pmove, php, pmaxhp, pbasepower, pcritpow
         if (criticalrate == 10) {
             if (pmove == 1) {
                 pfullpower = pcritpower * 2;
-                pmessageboxp.innerHTML = p1mon + " landed a Critical Hit! " + p2mon + " took " + (pfullpower) + " damage from Tackle!";
+                pmessageboxp.innerHTML = "<b>" + p1mon + "</b> landed a <i><u>Critical Hit!</u><i> " + p2mon + " took " + (pfullpower) + " damage from Tackle!";
             } else if (pmove == 4) {
                 if(nullmon1 == "Fuegomon" && nullmon2 == "Aguamon" || nullmon1 == "Aguamon" && nullmon2 == "Plantamon" || nullmon1 == "Plantamon" && nullmon2 == "Fuegomon" || nullmon1 == nullmon2) {
                     pfullpower = pcritpower * sametypeattackbonus;
-                    pmessageboxp.innerHTML = p1mon + "'s " + stabattackp + " landed a critical hit" + p2mon + " for average (" + pfullpower + ") damage , but it's not very effective...";
+                    pmessageboxp.innerHTML = "<b>" + p1mon + "</b>'s " + stabattackp + " landed a <i><u>critical hit</u></i>" + p2mon + " for average (" + pfullpower + ") damage , but it's not very effective...";
                 } else {
                     pfullpower = p1critpower * sametypeattackbonus * 4;
-                    pmessageboxp.innerHTML = p1mon + "'s " + stabattackp + " landed a <b>CRITICAL SUPER EFFECTIVE!!!</b><br>" + p2mon + " received <i>LUDICROUS</i> <b>(" + (pfullpower) + ")</b> DAMAGE!!!";
+                    pmessageboxp.innerHTML = "<b>" + p1mon + "</b>'s " + stabattackp + " landed a <i><u>CRITICAL SUPER EFFECTIVE!!!</u></i><br>" + p2mon + " received <i>LUDICROUS</i> <b>(" + (pfullpower) + ")</b> DAMAGE!!!";
                 }
             }
         } else {
@@ -246,18 +249,18 @@ function damagecalc(nullmon1, nullmon2, pmove, php, pmaxhp, pbasepower, pcritpow
                 pfullpower = pcritpower * pbasepower / 100;
                 if (parseInt(pfullpower) != pfullpower)
                     pfullpower = pfullpower.toFixed(2)
-                pmessageboxp.innerHTML = p1mon + " used Tackle!" + p2mon + " received "+ pfullpower + " damage";
+                pmessageboxp.innerHTML = "<b>" + p1mon + "</b> used Tackle!<b>" + p2mon + "</b> received "+ pfullpower + " damage";
             } else if (pmove == 4) {
                 if (nullmon1 == "Fuegomon" && nullmon2 == "Aguamon" || nullmon1 == "Aguamon" && nullmon2 == "Plantamon" || nullmon1 == "Plantamon" && nullmon2 == "Fuegomon" || nullmon1 == nullmon2) {
                     pfullpower = (pcritpower * pbasepower * sametypeattackbonus / 100) / 2;
                     if (parseInt(pfullpower) != pfullpower)
                         pfullpower = pfullpower.toFixed(2)
-                    pmessageboxp.innerHTML = p1mon + "'s " + stabattackp + " hit " + p2mon + " for " + pfullpower + " damage, but it's not very effective...";
+                    pmessageboxp.innerHTML = "<b>" + p1mon + "</b>'s " + stabattackp + " hit <b>" + p2mon + "</b> for " + pfullpower + " damage, but it's <i>not</i> very effective...";
             } else {
                 pfullpower = (pcritpower * pbasepower * sametypeattackbonus / 100) * 2;
                 if (parseInt(pfullpower) != pfullpower)
                     pfullpower = pfullpower.toFixed(2)
-                pmessageboxp.innerHTML = p1mon + "'s " + stabattackp + " hit " + p2mon + " for " + pfullpower + " damage, and it's <b>SUPER</b> effective...";
+                pmessageboxp.innerHTML = "<b>" + p1mon + "</b>'s " + stabattackp + " hit <b>" + p2mon + "</b> for " + pfullpower + " damage, and it's <b>SUPER</b> effective...";
             }
         }
     }
@@ -274,13 +277,14 @@ function checkp2hp() {
 }
 
 function resetUI() {
+    h1maintitle.hidden = false;
+    h2monselect.hidden = false;
+    monselect.hidden = false;
+    spanmon.hidden = true;
     radiotackle.checked = false;
     radiogrowl.checked = false;
     radiosandattack.checked = false;
     radiostab.checked = false;
-    h2monselect.hidden = false;
-    monselect.hidden = false;
-    spanmon.hidden = true;
 }
 
 function p2selectattack() {
@@ -299,13 +303,13 @@ function p2selectattack() {
                 let p1lowerAtk = lowerAtk(p1basepower, p1minpower);
                 p1basepower = p1lowerAtk[0];
                 p1minpower = p1lowerAtk[1];
-                pmessageboxp2.innerHTML = p2mon + " used Growl! Your " + p1mon + "'s <b>Attack</b> fell! x" + (p1minpower * -1);
+                pmessageboxp2.innerHTML = "<b>" + p2mon + "</b> used Growl! Your <b>" + p1mon + "</b>'s <b>Attack</b> fell! x" + (p1minpower * -1);
                 if (p1mincuracy == 0)
                     pP1status.innerHTML = " | <b>" + p1minpower + "</b> <i>ATK</i>";
                 else
                     pP1status.innerHTML = " | <b>" + p1minpower + "</b> <i>ATK</i> | <b>" + p1mincuracy + "</b> <i>ACC</i>";
             } else
-                pmessageboxp2.innerHTML = p2mon + "'s Growl Missed!";
+                pmessageboxp2.innerHTML = "<b>" + p2mon + "</b>'s Growl Missed!";
         } else
             p2selectattack();
     } else if (p2move == 3) {
@@ -315,13 +319,13 @@ function p2selectattack() {
                 let p1lowerAcc = lowerAcc(p1accuracy, p1mincuracy);
                 p1accuracy = p1lowerAcc[0];
                 p1mincuracy = p1lowerAcc[1];
-                pmessageboxp2.innerHTML = p2mon + " used Sand Attack! Your " + p1mon + "'s <b>Accuracy</b> fell! x" + (p1mincuracy * -1);
+                pmessageboxp2.innerHTML = "<b>" + p2mon + "</b> used Sand Attack! Your <b>" + p1mon + "</b>'s <b>Accuracy</b> fell! x" + (p1mincuracy * -1);
                 if (p1minpower == 0)
                     pP1status.innerHTML = " | <b>" + p1mincuracy + "</b> <i>ACC</i>";
                 else
                     pP1status.innerHTML = " | <b>" + p1minpower + "</b> <i>ATK</i> | <b>" + p1mincuracy + "</b> <i>ACC</i>";
             } else
-                pmessageboxp2.innerHTML = p2mon + "'s Sand Attack Missed!";
+                pmessageboxp2.innerHTML = "<b>" + p2mon + "</b>'s Sand Attack Missed!";
         } else
             p2selectattack();
     } else if (p2move == 4) {
@@ -386,15 +390,15 @@ function beginBattle() {
                         let p2lowerAtk = lowerAtk(p2basepower, p2minpower);
                         p2basepower = p2lowerAtk[0];
                         p2minpower = p2lowerAtk[1];
-                        pmessageboxp1.innerHTML = p1mon + " used Growl! " + p2mon + "'s <b>Attack</b> fell! x" + (p2minpower * -1);
+                        pmessageboxp1.innerHTML = "<b>" + p1mon + "</b> used Growl! <b>" + p2mon + "</b>'s <b>Attack</b> fell! x" + (p2minpower * -1);
                         if (p2mincuracy == 0)
                             pP2status.innerHTML = " | <b>" + p2minpower + "</b> <i>ATK</i>";
                         else
                             pP2status.innerHTML = " | <b>" + p2minpower + "</b> <i>ATK</i> | <b>" + p2mincuracy + "</b> <i>ACC</i>";
                     } else
-                        pmessageboxp1.innerHTML = p1mon + "'s Growl Missed!";
+                        pmessageboxp1.innerHTML = "<b>" + p1mon + "</b>'s Growl Missed!";
                 } else
-                    pmessageboxp1.innerHTML = p1mon + "'s Growl <b>won't work</b> <i>anymore!!</i>";
+                    pmessageboxp1.innerHTML = "<b>" + p1mon + "</b>'s Growl <b>won't work</b> <i>anymore!!</i>";
                 checkp2hp();
             } else if (radiosandattack.checked == true) {
                 p1move = 3;
@@ -404,15 +408,15 @@ function beginBattle() {
                         let p2lowerAcc = lowerAcc(p2accuracy, p2mincuracy);
                         p2accuracy = p2lowerAcc[0];
                         p2mincuracy = p2lowerAcc[1];
-                        pmessageboxp1.innerHTML = p1mon + " used Sand Attack!" + p2mon + "'s <b>Accuracy</b> fell! x" + (p2mincuracy * -1);
+                        pmessageboxp1.innerHTML = "<b>" + p1mon + "</b> used Sand Attack!<b>" + p2mon + "</b>'s <b>Accuracy</b> fell! x" + (p2mincuracy * -1);
                         if (p2minpower == 0)
                             pP2status.innerHTML = " | <b>" + p2mincuracy + "</b> <i>ACC</i>";
                         else
                             pP2status.innerHTML = " | <b>" + p2minpower + "</b> <i>ATK</i> | <b>" + p2mincuracy + "</b> <i>ACC</i>";
                     } else
-                        pmessageboxp1.innerHTML = p1mon + "'s Sand Attack Missed!";
+                        pmessageboxp1.innerHTML = "<b>" + p1mon + "</b>'s Sand Attack Missed!";
                 } else
-                    pmessageboxp1.innerHTML = p1mon + "'s Sand Attack <b>won't work</b> <i>anymore!!</i>";
+                    pmessageboxp1.innerHTML = "<b>" + p1mon + "</b>'s Sand Attack <b>won't work</b> <i>anymore!!</i>";
                 checkp2hp();
             } else if (radiostab.checked == true) {
                 p1move = 4;
@@ -459,6 +463,3 @@ function beginBattle() {
     } else
         pmessageboxp1.innerHTML = "No has seleccionado un mon, no puedes atacar.";
 }
-
-
-

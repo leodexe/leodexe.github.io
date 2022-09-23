@@ -18,14 +18,18 @@ body {
     align-items: center;
     background-image: url("./eevolutions.webp");
     background-position: top;
-    background-size: contain;
-    background-repeat: no-repeat;
+    background-repeat: repeat-x;
+}
+
+h1, .h2-monselect {
+    background: rgba(255,255,255,0.66);
+    border-radius: 1rem;
 }
 
 .h2-monselect {
-    width: 100%;
+    display: inline-block;
     margin: 1rem 0;
-    opacity: 75%;
+    padding: 0.5rem;
 }
 
 #mon-container {
@@ -83,19 +87,14 @@ body {
     background: orange;
     border-radius: 5rem;
     color: #000;
-    font-size: 2rem;
-    font-weight: bold;
-    padding: 2rem;
+    padding: 1rem 2rem;
     margin: 1rem 0;
 }
 
 #button-monselect:hover, #attacknow:hover {
     background: #000;
     color: orange;
-    font-size: 2rem;
     font-weight: bold;
-    padding: 2rem;
-    margin: 1rem 0;
 }
 
 #p1-info, #p2-info {
@@ -156,14 +155,14 @@ body {
         font-size: 1.6rem;
     }
     .fuegomon-img, .aguamon-img, .plantamon-img, #p1-img, #p2-img {
-        max-width: 12rem;
-        max-height: 12rem;
+        max-width: 16rem;
+        max-height: 16rem;
     }
 }
 
 @media (min-width: 400px) {
     body, #p1-info, #p2-info, #stabtext {
-        font-size: 2rem;
+        font-size: 1.8rem;
     }
     .fuegomon-img, .aguamon-img, .plantamon-img, #p1-img, #p2-img {
         max-width: 18rem;
@@ -173,7 +172,7 @@ body {
 
 @media (min-width: 600px) {
     .fuegomon-img, .aguamon-img, .plantamon-img, #p1-img, #p2-img {
-        max-width: 32rem;
-        max-height: 32rem;
+        max-width: 24rem;
+        max-height: 24rem;
     }
 }
