@@ -7,45 +7,24 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1 id="main-title">Mokepon!</h1>
+    <h1 id="main-title">Plagiomon! vamos a plagiarlos</h1>
     <section id="mon-select">
-        <h2 class="h2-monselect">Select your mon</h2>
         <div id="mon-container">
-            <div class="fuegomon-inputholder">
-                <input type="radio" name="typemon" id="fuegomon" hidden>
-                <label for="fuegomon" class="label-fuegomon">
-                    <figure class="mon-img">
-                        <img src="./mons/charizardsomething.png" alt="" class="fuegomon-img">
-                    </figure>
-                    <span id="fuegomon-box">&#x1F525;Kakuchín</span>
-                </label>
-            </div>
-            <div class="aguamon-inputholder">
-                <input type="radio" name="typemon" id="aguamon" hidden>
-                <label for="aguamon" class="label-aguamon">
-                    <figure class="mon-img">
-                        <img src="./mons/greninjasomething.png" alt="" class="aguamon-img">
-                    </figure>
-                    <span id="aguamon-box">&#x1F4A7;Pochoclo</span>
-                </label>
-            </div>
-            <div class="plantamon-inputholder">
-                <input type="radio" name="typemon" id="plantamon" hidden>
-                <label for="plantamon" class="label-plantamon">
-                    <figure class="mon-img">
-                        <img src="./mons/ivysaursomething.png" alt="" class="plantamon-img">
-                    </figure>
-                    <span id="plantamon-box">&#x1F331;Plantasaurio</span>
-                </label>
-            </div>
+            <!--here goes mon cards-->
         </div>
-        <button id="button-monselect">Select mon</button>
+        <h2 class="h2-monselect" id="h2-monselect">Pick a mon and click the orange button!</h2>
+        <button class="button-select" id="button-monselect">Select your mon</button>
+        <button class="button-select" id="button-rngselect">Random mon</button>
+        <button class="button-select" id="button-cpuselect">Select CPU mon</button>
     </section>
+    <button class="button-select" id="rematchnow" hidden>Rematch!</button>
     <section class="atk-select">
         <div class="players-info">
             <h2><span id="mon-name" hidden></span><span id="turncounter"></span></h2>
             <div id="p1-info">
-                <img src="./mons/mewtwosomething.png" alt="" id="p1-img">
+                <figure class="mon-imgcontainer">
+                    <img src="./mons/mewtwosomething.png" alt="" id="p1-img">
+                </figure>
                 <div class="p1-mon-status">
                     <p id="p1-mon">Please select a mokepon.</p>
                     <p id="p1-statmodifiers"></p>
@@ -55,7 +34,9 @@
                 </div>
             </div>
             <div id="p2-info">
-                <img src="./mons/lucariosomething.png" alt="" id="p2-img">
+                <figure class="mon-imgcontainer">
+                    <img src="./mons/lucariosomething.png" alt="" id="p2-img">
+                </figure>
                 <div class="p2-mon-status">
                     <p id="p2-mon">Waiting for player select.</p>
                     <p id="p2-statmodifiers"></p>
@@ -65,48 +46,28 @@
                 </div>
             </div>
         </div>
-        <div id="atk-container" hidden>
-            <div class="sideattack" id="upper-area">
-                <div class="attack-inputholder tackle-inputholder">
-                    <input type="radio" name="attackmon" class="attack-input" id="tackle" hidden>
-                    <label for="tackle" class="attack-label" id="lab-tackle" hidden>
-                        <span id="tackletext">Tackle</span>
-                    </label>
-                </div>
-                <div class="attack-inputholder growl-inputholder">
-                    <input type="radio" name="attackmon" class="attack-input" id="growl" hidden>
-                    <label for="growl" class="attack-label" id="lab-growl" hidden>
-                        <span id="growltext">Growl</span>
-                    </label>
-                </div>
+    </section>
+    <section id="moves-section-hider" hidden>
+        <div class="moves-section" id="moves-section">
+            <input type="radio" name="movepool" id="move0" hidden>
+            <div id="move-container">
+                <!--here goes injected moveset-->
             </div>
-            <div class="sideattack" id="lower-area">
-                <div class="attack-inputholder sandattack-inputholder">
-                    <input type="radio" name="attackmon" class="attack-input" id="sandattack" hidden>
-                    <label for="sandattack" class="attack-label" id="lab-sandattack" hidden>
-                        <span id="sandattacktext">Sand Attack</span>
-                    </label>
-                </div>
-                <div class="attack-inputholder stab-inputholder">
-                    <input type="radio" name="attackmon" class="attack-input" id="stab" hidden>
-                    <label for="stab" class="attack-label" id="lab-stab" hidden>
-                        <span id="stabtext">STAB</span>
-                    </label>
-                </div>
+            <div id="attackbox">
+                <button class="button-select" id="attacknow">Attack!</button>
             </div>
-            <br>
-            <div>
-                <button id="attacknow" hidden>Attack!</button>
-            </div>
+
         </div>
     </section>
     <section id="messages">
-        <p id="message-box-p1">Esta es la caja de mensajes del jugador.</p>
-        <p id="message-box-p2">Esta es la caja de mensajes del CPU.</p>
+        <p id="upper-message-box">Nintendo no me demandes por favor :c</p>
+        <p id="lower-message-box">Las imágenes pertenecen a TerminalMontage, checa sus videos.</p>
     </section>
     <section id="restart">
-        <span id="restart-box"></span>
+        <span id="restart-text"></span>
     </section>
-    <script defer src="mokepon.js"></script>
+    <script defer src="./1-classmon.js"></script>
+    <script defer src="./2-showmon.js"></script>
+    <script defer src="./3-plagiomon.js"></script>
 </body>
 </html>
