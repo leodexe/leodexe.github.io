@@ -10,6 +10,7 @@ cpuselect.addEventListener("click", fcpuselect);
 
 const spanturncounter = document.getElementById("turncounter");
 const spanmon = document.getElementById("mon-name");
+const weathertext = document.getElementById("weather-info");
 const P1img = document.getElementById("p1-img");
 const spanP1mon = document.getElementById("p1-mon");
 const spanP1HPcount = document.getElementById("p1-life-count");
@@ -26,32 +27,25 @@ const divmovecontainer = document.getElementById("move-container");
 const buttonrematchnow = document.getElementById("rematchnow");
 buttonrematchnow.addEventListener("click", frematchnow);
 
-let radiomove0;
-let radiomove1;
-let spanmove1;
-let radiomove2;
-let spanmove2;
-let radiomove3;
-let spanmove3;
-let radiomove4;
-let spanmove4;
+let moveStruggle;
 let radiomoves;
-let labelmoves;
 let spanmoves;
+let labelmoves;
 
 const buttonattacknow = document.getElementById("attacknow");
 buttonattacknow.addEventListener("click", selectp1Move);
-let messagebox;
+const buttonattackinfo = document.getElementById("attackinfo");
+buttonattackinfo.addEventListener("click", fgetAttackInfo);
+let messagebox, savebox1, savebox2;
 const messagebox1 = document.getElementById("upper-message-box");
 const messagebox2 = document.getElementById("lower-message-box");
 const spanrestartbox = document.getElementById("restart-text");
 
-let plagiomon1, lastmon1, p1mon, p1monid, p1hp, p1maxhp, p1pyatk, p1pydef, p1spatk, p1spdef, p1speed, p1BasePyAtk, p1BasePyDef, p1BaseSpAtk, p1BaseSpDef, p1BaseSpeed, p1PyAtkLevel, p1PyDefLevel, p1SpAtkLevel, p1SpDefLevel, p1SpeedLevel, p1Accuracy, p1AccuracyLevel, p1Evasion, p1EvasionLevel, p1Reflect, p1LightScreen, p1Power, p1moveset, p1move, p1moveid, p1flinched, p1confusedLevel, p1badstatus, p1burned, p1paralyzed, p1fullyparalyzed, p1frozen, p1badpoisoned, p1badpoisonLevel, p1poisoned, p1Seeded, p1recurrentDamage, p1ProtectRate, p1ProtectLevel,  p1ProtectMessage, p1ProtectReset, p1move1ZeroPP, p1move2ZeroPP, p1move3ZeroPP, p1move4ZeroPP;
-let plagiomon2, lastmon2, p2mon, p2monid, p2hp, p2maxhp, p2pyatk, p2pydef, p2spatk, p2spdef, p2speed, p2BasePower, p2BasePyAtk, p2BasePyDef, p2BaseSpAtk, p2BaseSpDef, p2BaseSpeed, p2PyAtkLevel, p2PyDefLevel, p2SpAtkLevel, p2SpDefLevel, p2SpeedLevel, p2Accuracy, p2AccuracyLevel, p2Evasion, p2EvasionLevel, p2Reflect, p2LightScreen, p2Power, p2moveset, p2move, p2moveid, p2flinched, p2confusedLevel, p2badstatus, p2burned, p2paralyzed, p2fullyparalyzed, p2frozen, p2badpoisoned, p2badpoisonLevel, p2poisoned, p2Seeded, p2recurrentDamage, p2ProtectRate, p2ProtectLevel, p2ProtectMessage, p2ProtectReset, p2move1ZeroPP, p2move2ZeroPP, p2move3ZeroPP, p2move4ZeroPP;
-
+let plagiomon1, lastmon1, p1mon, p1monid, p1hp, p1maxhp, p1pyatk, p1pydef, p1spatk, p1spdef, p1speed, p1BasePyAtk, p1BasePyDef, p1BaseSpAtk, p1BaseSpDef, p1BaseSpeed, p1PyAtkLevel, p1PyDefLevel, p1SpAtkLevel, p1SpDefLevel, p1SpeedLevel, p1Accuracy, p1AccuracyLevel, p1Evasion, p1EvasionLevel, p1Reflect, p1LightScreen, p1Power, p1moveset, p1PPs, p1move, p1moveid, p1flinched, p1confusedLevel, p1badstatus, p1burned, p1paralyzed, p1fullyparalyzed, p1frozen, p1badpoisoned, p1badpoisonLevel, p1poisoned, p1Seeded, p1recurrentDamage, p1ProtectRate, p1ProtectLevel,  p1ProtectMessage, p1ProtectReset, p1move1ZeroPP, p1move2ZeroPP, p1move3ZeroPP, p1move4ZeroPP;
+let plagiomon2, lastmon2, p2mon, p2monid, p2hp, p2maxhp, p2pyatk, p2pydef, p2spatk, p2spdef, p2speed, p2BasePyAtk, p2BasePyDef, p2BaseSpAtk, p2BaseSpDef, p2BaseSpeed, p2PyAtkLevel, p2PyDefLevel, p2SpAtkLevel, p2SpDefLevel, p2SpeedLevel, p2Accuracy, p2AccuracyLevel, p2Evasion, p2EvasionLevel, p2Reflect, p2LightScreen, p2Power, p2moveset, p2PPs, p2move, p2moveid, p2flinched, p2confusedLevel, p2badstatus, p2burned, p2paralyzed, p2fullyparalyzed, p2frozen, p2badpoisoned, p2badpoisonLevel, p2poisoned, p2Seeded, p2recurrentDamage, p2ProtectRate, p2ProtectLevel, p2ProtectMessage, p2ProtectReset, p2move1ZeroPP, p2move2ZeroPP, p2move3ZeroPP, p2move4ZeroPP;
 let selection = 1;
 plagiomon1 = p1mon = p1monid = plagiomon2 = p2mon = p2monid = "NULLMON";
-let p1weather, p2weather; //not needed for now
+let PPindex, p1weather, p2weather; //not needed for now
 let attackmiss, gamedata1, gamedata2, hpleech, leechMessage, weather, weatherLevel, lastMoveCategory, lastDamageDealt, sametypeattackbonus, turncounter, p1win, p1loss, p1tie, roundcounter;
 p1win = p1loss = p1tie = roundcounter = 0;
 sametypeattackbonus = 1.5;
@@ -67,6 +61,23 @@ function frematchnow() {
         p2monid = plagiomon2.id;
     }
     fselectedmon();
+}
+
+function fgetAttackInfo() {
+    let infodex = 0;
+    let noradio = false;
+    for (radio of radiomoves) {
+        if (radio.checked == true) {
+            messagebox1.innerHTML = "Category: " + p1moveset[infodex].category + " | Power: " + p1moveset[infodex].power + " | Accuracy: " + p1moveset[infodex].accuracy + "%";
+            messagebox2.innerHTML = p1moveset[infodex].description;
+            noradio = true;
+        }
+        infodex++;
+    }
+    if (noradio == false) {
+        messagebox1.innerHTML = "Click on a move, then click this button again to get some information about that move.";
+        messagebox2.innerHTML = "If you don't know how to play, get information about moves first before using them."
+    }
 }
 
 function fmonselect() {
@@ -173,6 +184,103 @@ function fmonrandom() {
     }
 }
 
+function checkInitialWeather(mon) {
+    if (turncounter == 0) {
+        if (mon.ability == "Sand Stream" || mon.ability == "Drizzle" || mon.ability == "Drought" || mon.ability == "Snow Warning") {
+            if (mon.ability == "Sand Stream") {
+                weather = "Sandstorm";
+            } else if (mon.ability == "Drizzle") {
+                weather = "Rain";
+            } else if (mon.ability == "Drought") {
+                weather = "Harsh Sunlight";
+            } else if (mon.ability == "Snow Warning") {
+                weather = "Hail";
+            }
+            if (weather != "Clear") {
+                weathertext.innerHTML = mon.name + "'s " + mon.ability + " summoned a " + weather + "!";
+                if (weatherLevel == -1) {
+                    weatherLevel++;
+                }
+            }
+        } else {
+            weathertext.innerHTML = "Weather: " + weather;
+        }
+    }
+    return weather;
+}
+
+function checkWeather() {
+    if (weather != "Clear") {
+        if (weatherLevel < 5) {
+            weatherLevel++;
+            weathertext.innerHTML = "Weather: " + weather + " (Turn " + weatherLevel + ")";
+        } else {
+            weather = "Clear";
+            //should add p1abilityweatherEnd later
+        }
+        if (weatherLevel == 5) {
+            weathertext.innerHTML = "The " + weather + " has subsided.";
+            weatherLevel = -1;
+        }
+    } else {
+        weathertext.innerHTML = "Weather: " + weather;
+    }
+    return [weather, weatherLevel];
+}
+
+function colorMove() {
+    let i = 0;
+    for (label of labelmoves) {
+        if (p1moveset[i].type == "Normal") {
+            label.style.background = "#ddcccc";
+        }
+        else if (p1moveset[i].type == "Fighting") {
+            label.style.background = "#dd8888";
+        }
+        else if (p1moveset[i].type == "Flying") {
+            label.style.background = "#6699ff";
+        }
+        else if (p1moveset[i].type == "Poison") {
+            label.style.background = "#cc88bb";
+        }
+        else if (p1moveset[i].type == "Ground") {
+            label.style.background = "#ddbb55";
+        }
+        else if (p1moveset[i].type == "Rock") {
+            label.style.background = "#bbaa66";
+        }
+        else if (p1moveset[i].type == "Ghost") {
+            label.style.background = "#7777bb";
+        }
+        else if (p1moveset[i].type == "Fire") {
+            label.style.background = "#f08030";
+        }
+        else if (p1moveset[i].type == "Water") {
+            label.style.background = "#44aaff";
+        }
+        else if (p1moveset[i].type == "Grass") {
+            label.style.background = "#77cc55";
+        }
+        else if (p1moveset[i].type == "Electric") {
+            label.style.background = "#fff000";
+        }
+        else if (p1moveset[i].type == "Psychic") {
+            label.style.background = "#ff99bb";
+        }
+        else if (p1moveset[i].type == "Ice") {
+            label.style.background = "#77ddff";
+        }
+        else if (p1moveset[i].type == "Dragon") {
+            label.style.background = "#bbaaff";
+        }
+        else if (p1moveset[i].type == "Dark") {
+            label.style.background = "#998877";
+            // label.style.color = "white";
+        }
+        i++;
+    }
+        
+}
 
 function fselectedmon() {
     lastmon1 = plagiomon1;
@@ -191,35 +299,40 @@ function fselectedmon() {
     buttonrematchnow.hidden = true;
     let sampletext = "";
     p1moveset = plagiomon1.moveset;
+    p1PPs = [];
+    PPindex = -1;
     p1moveset.forEach((move) => {
+        PPindex++;
+        p1PPs[PPindex] = move.setpp;
         sampletext += `
-        <div class="move-inputholder ${move.moveid}-inputholder">
-            <input type="radio" name="movepool" class="move-input" id="${move.moveid}" hidden>
-            <label for="${move.moveid}" class="move-label" id="${move.moveid}-label">
-                <span class="move-text" id="${move.moveid}-text">${move.name}</span>
+        <div class='move-inputholder ${move.moveid}-inputholder'>
+            <input type='radio' name='movepool' class='move-input' id='${move.moveid}-radio' hidden>
+            <label for='${move.moveid}-radio' class='move-label' id='${move.moveid}-label'>
+                <span class='move-text' id='${move.moveid}-text'>${move.name}</span>
+                <p class='move-subtext'>${move.type}</p>
             </label>
         </div>`
-        divmovecontainer.innerHTML = sampletext;
+        divmovecontainer.innerHTML = sampletext;        
     });
-    radiomove0 = document.getElementById("move0");
-    radiomove1 = document.getElementById("move1");
-    spanmove1 = document.getElementById("move1-text");
-    radiomove2 = document.getElementById("move2");
-    spanmove2 = document.getElementById("move2-text");
-    radiomove3 = document.getElementById("move3");
-    spanmove3 = document.getElementById("move3-text");
-    radiomove4 = document.getElementById("move4");
-    spanmove4 = document.getElementById("move4-text");
-    radiomoves = document.getElementsByName("movepool");
-    labelmoves = document.getElementsByClassName("move-label");
-    spanmoves = document.getElementsByClassName("move-text");
+    moveStruggle = false;
+    radiomoves = document.getElementsByName('movepool');
+    labelmoves = document.getElementsByClassName('move-label');
+    spanmoves = document.getElementsByClassName('move-text');
+    colorMove();
+    updatePP();
+    for (radio of radiomoves) {
+        radio.checked = false;
+        radio.disabled = false;
+    }
+    for (label of labelmoves) {
+        label.style.filter = "invert(0)";
+    }
     p1hp = p1maxhp = plagiomon1.maxhp;
     p1pyatk = plagiomon1.maxpyatk;
     p1pydef = plagiomon1.maxpydef;
     p1spatk = plagiomon1.maxspatk;
     p1spdef = plagiomon1.maxspdef;
     p1speed = plagiomon1.maxspeed;
-    updatePP();
     P1img.style.filter = "grayscale(0)";
     spanP1mon.innerHTML = "Your <b>" + p1mon + "</b>:";
     spanP1HPcount.style.color = pP1HPbar.style.background = "green";
@@ -232,6 +345,12 @@ function fselectedmon() {
     p2spdef = plagiomon2.maxspdef;
     p2speed = plagiomon2.maxspeed;
     p2moveset = plagiomon2.moveset;
+    p2PPs = [];
+    PPindex = -1;
+    p2moveset.forEach((move) => {
+        PPindex++;
+        p2PPs[PPindex] = move.setpp;
+    });
     P2img.style.filter = "grayscale(0)";
     spanP2mon.innerHTML = "CPU <b>" + p2mon + "</b>: ";
     spanP2HPcount.style.color = pP2HPbar.style.background = "green";
@@ -243,7 +362,9 @@ function fselectedmon() {
     p1PyAtkLevel = p1PyDefLevel = p1SpAtkLevel = p1SpDefLevel = p1SpeedLevel = p1badpoisonLevel = p1AccuracyLevel = p1EvasionLevel = p1ProtectLevel = p2PyAtkLevel = p2PyDefLevel = p2SpAtkLevel = p2SpDefLevel = p2SpeedLevel = p2badpoisonLevel = p2AccuracyLevel = p2EvasionLevel = p2ProtectLevel = p2ProtectLevel = turncounter = p1Reflect = p1LightScreen = p2Reflect = p2LightScreen = 0;
 
     lastDamageDealt = p1confusedLevel = p2confusedLevel = weatherLevel = -1;
-    weather = "clear";
+    weather = "Clear";
+    checkInitialWeather(plagiomon1);
+    checkInitialWeather(plagiomon2);
     // messagebox1.innerHTML = messagebox2.innerHTML = "";
     messagebox1.innerHTML = "Player selected " + p1mon + ", can begin battle!";
     messagebox2.innerHTML = "CPU selected " + p2mon + ", waiting for player!";
@@ -254,10 +375,17 @@ function fselectedmon() {
 }
 
 function updatePP() {
-    spanmove1.innerHTML = p1moveset[0].name + " " + p1moveset[0].setpp + "/" + p1moveset[0].maxpp;
-    spanmove2.innerHTML = p1moveset[1].name + " " + p1moveset[1].setpp + "/" + p1moveset[1].maxpp;
-    spanmove3.innerHTML = p1moveset[2].name + " " + p1moveset[2].setpp + "/" + p1moveset[2].maxpp;
-    spanmove4.innerHTML = p1moveset[3].name + " " + p1moveset[3].setpp + "/" + p1moveset[3].maxpp;
+    if (moveStruggle == false) {
+        spanmoves[0].innerHTML = p1moveset[0].name + " " + p1PPs[0] + "/" + p1moveset[0].maxpp;
+        spanmoves[1].innerHTML = p1moveset[1].name + " " + p1PPs[1] + "/" + p1moveset[1].maxpp;
+        spanmoves[2].innerHTML = p1moveset[2].name + " " + p1PPs[2] + "/" + p1moveset[2].maxpp;
+        spanmoves[3].innerHTML = p1moveset[3].name + " " + p1PPs[3] + "/" + p1moveset[3].maxpp;
+    } else {
+        spanmoves[0].innerHTML = plagiomon1.struggle.name;
+        spanmoves[1].innerHTML = plagiomon1.struggle.name;
+        spanmoves[2].innerHTML = plagiomon1.struggle.name;
+        spanmoves[3].innerHTML = plagiomon1.struggle.name;
+    }
 }
 
 function changeStats1(stat, level, sign, factor) {
@@ -393,103 +521,12 @@ function resetUI() {
         spanP2mon.style.color = "";
     if (messagebox2.style.color != "")
         messagebox2.style.color = "";
-    for (id in plagiodex) {
-        plagiodex[id].moveset[0].setpp = plagiodex[id].moveset[0].minpp;
-        plagiodex[id].moveset[1].setpp = plagiodex[id].moveset[1].minpp;
-        plagiodex[id].moveset[2].setpp = plagiodex[id].moveset[2].minpp;
-        plagiodex[id].moveset[3].setpp = plagiodex[id].moveset[3].minpp;
-    }
     for (radio of radiomoves) {
         radio.checked = false;
         radio.disabled = false;
     }
     for (label of labelmoves)
         label.style.filter = "invert(0)";
-}
-
-function p2selectattack() {
-    p2move = Math.ceil(Math.random() * 4);
-    if (p2flinched == true) {
-        messagebox2.innerHTML = p2mon + " flinched!";
-        p2flinched = false;
-        return;
-    }
-    if (p2paralyzed == true) {
-        p2speed = plagiomon2.maxspeed/2;
-        let fullparalysis = Math.round(Math.random() * 100)
-        if (fullparalysis > 90 ) {
-            setTimeout(() => {
-                messagebox2.innerHTML = p2mon + " is fully paralyzed!<br>It can't move!";
-            }, 2000);
-            return;
-        }
-    }
-    if (p2frozen == true) {
-        setTimeout(() => {
-            messagebox2.innerHTML = p2mon + " is frozen rock solid!";
-        }, 2000);
-        return;
-    }
-    else {
-        console.log("p2move: " + p2move);
-        if (p1ProtectLevel == 0) {
-            if (p2move == 1) {
-                let missrate = Math.round(Math.random() * p1Evasion);
-                if (missrate <= p2Accuracy * 95 / 100) {
-                    p1hp = damagecalc(plagiomon2, plagiomon1, p2move, p1hp, p1maxhp, p2BasePower, p2CritPower, p2Power, spanP1HPcount, messagebox2, p2mon, p1mon, stabattackp2);
-                } else
-                    messagebox2.innerHTML = p2mon + "'s Tackle Missed!";
-            } else if (p2move == 2) {
-                let missrate = Math.round(Math.random() * p1Evasion);
-                if (p1PowerLevel > -6) {
-                    if (missrate <= p2Accuracy) {
-                        let p1lowerAtk = lowerAtk(p1BasePower, p1PowerLevel);
-                        p1BasePower = p1lowerAtk[0];
-                        p1PowerLevel = p1lowerAtk[1];
-                        messagebox2.innerHTML = "<b>" + p2mon + "</b> used Growl! Your <b>" + p1mon + "</b>'s <b>Attack</b> fell! x" + (p1PowerLevel * -1);
-                        if (p1AccuracyLevel == 0)
-                            pP1status.innerHTML = " | <b>" + p1PowerLevel + "</b> <i>ATK</i>";
-                        else
-                            pP1status.innerHTML = " | <b>" + p1PowerLevel + "</b> <i>ATK</i> | <b>" + p1AccuracyLevel + "</b> <i>ACC</i>";
-                    } else
-                        messagebox2.innerHTML = "<b>" + p2mon + "</b>'s Growl Missed!";
-                } else
-                    p2selectattack();
-            } else if (p2move == 3) {
-                let missrate = Math.round(Math.random() * p1Evasion);
-                if (p1AccuracyLevel > -6) {
-                    if (missrate <= p2Accuracy) {
-                        let p1lowerAcc = lowerAcc(p1Accuracy, p1AccuracyLevel);
-                        p1Accuracy = p1lowerAcc[0];
-                        p1AccuracyLevel = p1lowerAcc[1];
-                        messagebox2.innerHTML = "<b>" + p2mon + "</b> used Sand Attack! Your <b>" + p1mon + "</b>'s <b>Accuracy</b> fell! x" + (p1AccuracyLevel * -1);
-                        if (p1PowerLevel == 0)
-                            pP1status.innerHTML = " | <b>" + p1AccuracyLevel + "</b> <i>ACC</i>";
-                        else
-                            pP1status.innerHTML = " | <b>" + p1PowerLevel + "</b> <i>ATK</i> | <b>" + p1AccuracyLevel + "</b> <i>ACC</i>";
-                    } else
-                        messagebox2.innerHTML = "<b>" + p2mon + "</b>'s Sand Attack Missed!";
-                } else
-                    p2selectattack();
-            } else if (p2move == 4) {
-                let missrate = Math.round(Math.random() * p1Evasion);
-                if (missrate <= p2Accuracy) {
-                    p1hp = damagecalc(plagiomon2, plagiomon1, p2move, p1hp, p1maxhp, p2BasePower, p2CritPower, p2Power, spanP1HPcount, messagebox2, p2mon, p1mon, stabattackp2);
-                } else
-                    messagebox2.innerHTML = p2mon + "'s " + stabattackp2 + " Missed!";
-            } else
-                messagebox2.innerHTML = p2mon + " need to choose a move to begin battle...";
-        } else {
-            if (p2move == 1)
-                messagebox2.innerHTML = p1mon + " protected itself from " + p2mon + "'s Tackle!";
-            else if (p2move == 2)
-                messagebox2.innerHTML = p1mon + " protected itself from " + p2mon + "'s Growl!!";
-            else if (p2move == 3)
-                messagebox2.innerHTML = p1mon + " protected itself from " + p2mon + "'s Sand Attack!!!";
-            else if (p2move == 4)
-            messagebox2.innerHTML = p1mon + " protected itself from " + p2mon + "'s " + stabattackp2 + "!!!!";
-        }
-    }
 }
 
 function colorHPbar(playerhp, playermaxhp, playerHPbar, playerHPcount, playerimg) {
@@ -921,13 +958,13 @@ function NormalizeSetDamage(damageMultiplier, pmove) {
     return damageMultiplier;
 }
 
-function checkMove(checkOrder, pmove, amon, apyatk, apydef, aspatk, aspdef, aspeed, aBasePyAtk, aBasePyDef, aBaseSpAtk, aBaseSpDef, aBaseSpeed, aPyAtkLevel, aPyDefLevel, aSpAtkLevel, aSpDefLevel, aSpeedLevel, abadstatus, aburned, afrozen, aparalyzed, afullyparalyzed, apoisoned, aflinched, aconfusedLevel, attacker, attackertext, attackerboxp, attackerimg, attackerHP, attackerHPbar, attackerHPcount, attackerMaxHP, attackerPower, aEvasion, aEvasionLevel, aProtectLevel, aProtectMessage, aProtectRate, aReflect, aLightScreen, dMove, dmon, dpyatk, dpydef, dspatk, dspdef, dspeed, dBasePyAtk, dBasePyDef, dBaseSpAtk, dBaseSpDef, dBaseSpeed, dPyAtkLevel, dPyDefLevel, dSpAtkLevel, dSpDefLevel, dSpeedLevel, dProtectLevel, dProtectRate, dReflect, dLightScreen, dmontext, defender, defenderboxp, defenderimg, defenderHP, defenderHPbar, defenderHPcount, defenderMaxHP, dbadstatus, dpoisoned, dfrozen, dburned, dparalyzed, dflinched, dconfusedLevel, dSeeded, checkMoveCategory, checkDamageDealt) {
-    //alert("pmove: " + pmove.name);
+function checkMove(checkOrder, aMove, aPP, amon, apyatk, apydef, aspatk, aspdef, aspeed, aBasePyAtk, aBasePyDef, aBaseSpAtk, aBaseSpDef, aBaseSpeed, aPyAtkLevel, aPyDefLevel, aSpAtkLevel, aSpDefLevel, aSpeedLevel, abadstatus, aburned, afrozen, aparalyzed, afullyparalyzed, apoisoned, aflinched, aconfusedLevel, attacker, attackertext, attackerboxp, attackerimg, attackerHP, attackerHPbar, attackerHPcount, attackerMaxHP, attackerPower, aEvasion, aEvasionLevel, aProtectLevel, aProtectMessage, aProtectRate, aReflect, aLightScreen, dMove, dPP, dmon, dpyatk, dpydef, dspatk, dspdef, dspeed, dBasePyAtk, dBasePyDef, dBaseSpAtk, dBaseSpDef, dBaseSpeed, dPyAtkLevel, dPyDefLevel, dSpAtkLevel, dSpDefLevel, dSpeedLevel, dProtectLevel, dProtectRate, dReflect, dLightScreen, dmontext, defender, defenderboxp, defenderimg, defenderHP, defenderHPbar, defenderHPcount, defenderMaxHP, dbadstatus, dpoisoned, dfrozen, dburned, dparalyzed, dflinched, dconfusedLevel, dSeeded, checkMoveCategory, checkDamageDealt) {
+    //alert("aMove: " + aMove.name);
     //alert("defenderMaxHP: " + defenderMaxHP);
     // alert("Player: " + amon + " | Last Damage Dealt at start of CheckMove: " + checkDamageDealt);
     if (defenderHP <= 0) {
         messagebox.innerHTML = dmon + " fainted!";
-        return [attackerHP, attackerMaxHP, apyatk, apydef, aspatk, aspdef, aspeed, aBasePyAtk, aBasePyDef, aBaseSpAtk, aBaseSpDef, aBaseSpeed, aPyAtkLevel, aPyDefLevel, aSpAtkLevel, aSpDefLevel, aSpeedLevel, attackerPower, abadstatus, apoisoned, aburned, aparalyzed, aflinched, aconfusedLevel, afullyparalyzed, afrozen, aEvasion, aEvasionLevel, aProtectLevel, aProtectMessage, aProtectRate, aReflect, aLightScreen, defenderHP, defenderMaxHP, dpyatk, dpydef, dspatk, dspdef, dspeed, dBasePyAtk, dBasePyDef, dBaseSpAtk, dBaseSpDef, dBaseSpeed, dPyAtkLevel, dPyDefLevel, dSpAtkLevel, dSpDefLevel, dSpeedLevel, dProtectLevel, dProtectRate, dReflect, dLightScreen, dbadstatus, dpoisoned, dfrozen, dburned, dparalyzed, dflinched, dconfusedLevel, dSeeded]
+        return [aPP, attackerHP, attackerMaxHP, apyatk, apydef, aspatk, aspdef, aspeed, aBasePyAtk, aBasePyDef, aBaseSpAtk, aBaseSpDef, aBaseSpeed, aPyAtkLevel, aPyDefLevel, aSpAtkLevel, aSpDefLevel, aSpeedLevel, attackerPower, abadstatus, apoisoned, aburned, aparalyzed, aflinched, aconfusedLevel, afullyparalyzed, afrozen, aEvasion, aEvasionLevel, aProtectLevel, aProtectMessage, aProtectRate, aReflect, aLightScreen, dPP, defenderHP, defenderMaxHP, dpyatk, dpydef, dspatk, dspdef, dspeed, dBasePyAtk, dBasePyDef, dBaseSpAtk, dBaseSpDef, dBaseSpeed, dPyAtkLevel, dPyDefLevel, dSpAtkLevel, dSpDefLevel, dSpeedLevel, dProtectLevel, dProtectRate, dReflect, dLightScreen, dbadstatus, dpoisoned, dfrozen, dburned, dparalyzed, dflinched, dconfusedLevel, dSeeded]
     }
     let attackerMessage = "";
     let aconfused = false;
@@ -943,7 +980,7 @@ function checkMove(checkOrder, pmove, amon, apyatk, apydef, aspatk, aspdef, aspe
         }
     }
     
-    if (pmove.setpp > 0) {
+    if (aPP[aMove.moveid] > 0) {
         if (aconfusedLevel >= 0) {
             aconfusedLevel++;
             let confuserate = Math.random() * 100;
@@ -958,8 +995,7 @@ function checkMove(checkOrder, pmove, amon, apyatk, apydef, aspatk, aspdef, aspe
                 if (confuserate > 50) {
                     aconfused = true;
                     attackerHP -= confusionDamage;
-                    attackerMessage = amon + " hurt itself in it's confusion! (-" + confusionDamage + "HP)";
-                    alert(attackerMessage + " x" + aconfusedLevel);
+                    attackerMessage+= amon + " hurt itself in it's confusion! (-" + confusionDamage + "HP)";
                 }
             } else if (aconfusedLevel < 5) {
                 let snapConfusion = Math.random() * 100;
@@ -967,33 +1003,35 @@ function checkMove(checkOrder, pmove, amon, apyatk, apydef, aspatk, aspdef, aspe
                     if (confuserate > 50) {
                         aconfused = true;
                         attackerHP -= confusionDamage;
-                        attackerMessage = amon + " hurt itself in it's confusion! (-" + confusionDamage + "HP)";
-                        alert(attackerMessage + " x" + aconfusedLevel);
+                        attackerMessage+= amon + " hurt itself in it's confusion! (-" + confusionDamage + "HP)";
                     }
                 } else {
                     aconfusedLevel = -1;
-                    attackerMessage = amon + " snapped out of it's confusion!";
-                    alert(attackerMessage + " early");
+                    attackerMessage += amon + " snapped out of it's confusion!";
                 }
             } else {
                 aconfusedLevel = -1;
-                attackerMessage = amon + " snapped out of it's confusion!";
-                alert(attackerMessage + " late");
+                attackerMessage += amon + " snapped out of it's confusion!";
+            }
+        }
+        if (aMove.name == "Fake Out") {
+            if (turncounter != 1) {
+                attackmiss = true;
             }
         }
         if (attackmiss == false && aflinched == false && aconfused == false && afrozen == false && afullyparalyzed == false) {
-            if (pmove.target != "self") {
+            if (aMove.target != "self") {
                 if (dProtectLevel == 0) {
-                    if (pmove.category != "status" ) {
+                    if (aMove.category != "Status") {
                         console.log("not a status move");
                         let damageMultiplier = 1;
                         let lowHPboost = false;
                         attackerPower = -1;
                         let roundedPower;
-                        if (pmove.power != "-") {
+                        if (aMove.power != "-") {
                             console.log("standard damage calc") 
-                            if (pmove.category == "physical") {
-                                if (pmove.name == "Struggle") {
+                            if (aMove.category == "Physical") {
+                                if (aMove.name == "Struggle") {
                                     attackerHP -= Math.round(attacker.maxhp * 25 / 100);
                                 }
                                 console.log("physical move");
@@ -1001,9 +1039,9 @@ function checkMove(checkOrder, pmove, amon, apyatk, apydef, aspatk, aspdef, aspe
                                 console.log("defender maxpydef: " + defender.maxpydef);
                                 if (attacker.ability == "Overgrow" || attacker.ability == "Blaze" || attacker.ability == "Torrent") {
                                     if (attackerHP < attackerMaxHP/3) {
-                                        if (pmove.type == attacker.type1) {
-                                            if (pmove.stab == true) {
-                                                attackerPower = ((((((2*attacker.level)/5)+2)*pmove.power*(apyatk*1.5))/dpydef)/50) + 2;
+                                        if (aMove.type == attacker.type1) {
+                                            if (aMove.stab == true) {
+                                                attackerPower = ((((((2*attacker.level)/5)+2)*aMove.power*(apyatk*1.5))/dpydef)/50) + 2;
                                                 lowHPboost = true;
                                                 console.log("Low HP Boost!");
                                             } 
@@ -1011,7 +1049,7 @@ function checkMove(checkOrder, pmove, amon, apyatk, apydef, aspatk, aspdef, aspe
                                     } 
                                 }
                                 if (lowHPboost == false) {
-                                    attackerPower = ((((((2*attacker.level)/5)+2)*pmove.power*apyatk)/dpydef)/50) + 2;
+                                    attackerPower = ((((((2*attacker.level)/5)+2)*aMove.power*apyatk)/dpydef)/50) + 2;
                                 }
                                 attackerPower *= aBasePyAtk / 100;
                                 if (dReflect > 0) {
@@ -1019,17 +1057,17 @@ function checkMove(checkOrder, pmove, amon, apyatk, apydef, aspatk, aspdef, aspe
                                 }
                                 if (aburned == true)
                                     attackerPower/= 2;
-                            } else if (pmove.category == "special") {
-                                if (pmove.name != "Mirror Coat") {
+                            } else if (aMove.category == "Special") {
+                                if (aMove.name != "Mirror Coat") {
                                     console.log("special move");
                                     console.log("defender: " + defender.name);
                                     console.log("defender maxspdef: " + defender.maxspdef);
-                                    attackerPower = ((((((2*attacker.level)/5)+2)*pmove.power*aspatk)/dspdef)/50) + 2;
+                                    attackerPower = ((((((2*attacker.level)/5)+2)*aMove.power*aspatk)/dspdef)/50) + 2;
                                     if (attacker.ability == "Overgrow" || attacker.ability == "Blaze" || attacker.ability == "Torrent") {
                                         if (attackerHP < attackerMaxHP/3) {
-                                            if (pmove.type == attacker.type1) {
-                                                if (pmove.stab == true) {
-                                                    attackerPower = ((((((2*attacker.level)/5)+2)*pmove.power*(aspatk*1.5))/dspdef)/50) + 2;
+                                            if (aMove.type == attacker.type1) {
+                                                if (aMove.stab == true) {
+                                                    attackerPower = ((((((2*attacker.level)/5)+2)*aMove.power*(aspatk*1.5))/dspdef)/50) + 2;
                                                     lowHPboost = true;
                                                     console.log("Low HP Boost!");
                                                 } 
@@ -1037,7 +1075,7 @@ function checkMove(checkOrder, pmove, amon, apyatk, apydef, aspatk, aspdef, aspe
                                         } 
                                     }
                                     if (lowHPboost == false) {
-                                        attackerPower = ((((((2*attacker.level)/5)+2)*pmove.power*aspatk)/dspdef)/50) + 2;
+                                        attackerPower = ((((((2*attacker.level)/5)+2)*aMove.power*aspatk)/dspdef)/50) + 2;
                                     }
                                     attackerPower *= aBaseSpAtk / 100;
                                     if (dLightScreen > 0) {
@@ -1048,41 +1086,40 @@ function checkMove(checkOrder, pmove, amon, apyatk, apydef, aspatk, aspdef, aspe
                         }
                         //Begin other damage formula like Reversal and Mirror Coat 
                         else { 
-                            if (pmove.effect = "returnDamage2x") {
-                                if (pmove.name == "Mirror Coat") {
+                            if (aMove.effect = "returnDamage2x") {
+                                if (aMove.name == "Mirror Coat") {
                                     console.log("Mirror Coat");
-                                    if (checkMoveCategory == "special") {
+                                    if (checkMoveCategory == "Special") {
                                         if (checkDamageDealt >= 0) {
                                             attackerPower = checkDamageDealt*2;
                                             console.log("Mirror Coat *2");
                                         } else {
-                                            attackerMessage = "<b>" + amon + "'s</b> used " + pmove.name + " failed due to no damage dealt!";
-                                            console.log("<b>" + amon + "'s</b> used " + pmove.name + " failed due to no damage dealt!");    
+                                            attackerMessage = "<b>" + amon + "'s</b> used " + aMove.name + " failed due to no damage dealt!";
+                                            console.log("<b>" + amon + "'s</b> used " + aMove.name + " failed due to no damage dealt!");    
                                         }
                                     } else {
-                                        attackerMessage = "<b>" + amon + "'s</b> used " + pmove.name + " failed due to non-special move! (" + checkMoveCategory + ")";
-                                        console.log("<b>" + amon + "'s</b> used " + pmove.name + " failed due to non-special move! (" + checkMoveCategory + ")");
+                                        attackerMessage = "<b>" + amon + "'s</b> used " + aMove.name + " failed due to non-special move! (" + checkMoveCategory + ")";
+                                        console.log("<b>" + amon + "'s</b> used " + aMove.name + " failed due to non-special move! (" + checkMoveCategory + ")");
                                     }
-                                } else if (pmove.name == "Counter") {
+                                } else if (aMove.name == "Counter") {
                                     console.log("Mirror Coat");
-                                    if (checkMoveCategory == "physical") {
+                                    if (checkMoveCategory == "Physical") {
                                         if (checkDamageDealt >= 0) {
                                             attackerPower = checkDamageDealt*2;
                                             console.log("Mirror Coat *2");
                                         } else {
-                                            attackerMessage = "<b>" + amon + "'s</b> used " + pmove.name + " failed due to no damage dealt!";
-                                            console.log("<b>" + amon + "'s</b> used " + pmove.name + " failed due to no damage dealt!");    
+                                            attackerMessage = "<b>" + amon + "'s</b> used " + aMove.name + " failed due to no damage dealt!";
+                                            console.log("<b>" + amon + "'s</b> used " + aMove.name + " failed due to no damage dealt!");    
                                         }
                                     } else {
-                                        attackerMessage = "<b>" + amon + "'s</b> used " + pmove.name + " failed due to non-physical move! (" + checkMoveCategory + ")";
-                                        console.log("<b>" + amon + "'s</b> used " + pmove.name + " failed due to non-special move! (" + checkMoveCategory + ")");
+                                        attackerMessage = "<b>" + amon + "'s</b> used " + aMove.name + " failed due to non-physical move! (" + checkMoveCategory + ")";
+                                        console.log("<b>" + amon + "'s</b> used " + aMove.name + " failed due to non-special move! (" + checkMoveCategory + ")");
                                     }
                                 } else {
                                     alert("Not Counter nor Mirror Coat");
                                 }
                             }
-                            if (pmove.effect == "flailReversal") {
-                                alert("Shikapu's HP: " + attackerPercentHP);
+                            if (aMove.effect == "flailReversal") {
                                 if (attackerPercentHP >= 68.75) {
                                     attackerPower = ((((((2*attacker.level)/5)+2)*20*apyatk)/dpydef)/50) + 2;
                                 } else if (attackerPercentHP < 68.75 && attackerPercentHP >= 35.42) {
@@ -1100,32 +1137,33 @@ function checkMove(checkOrder, pmove, amon, apyatk, apydef, aspatk, aspdef, aspe
                                 }
                             }
                         }
-                        if (pmove.type == attacker.type1 || pmove.type == attacker.type2) {
-                            if (pmove.stab == true) {
+                        if (aMove.type == attacker.type1 || aMove.type == attacker.type2) {
+                            if (aMove.stab == true) {
                                 attackerPower *= sametypeattackbonus;
                                 console.log("STAB OK");
                             }
                         } else {
                             console.log("NO STAB");
                         } 
-                        if (pmove.name != "Struggle") {
-                            damageMultiplier = NormalMultiplier(damageMultiplier, pmove, defender);
-                            damageMultiplier = FightingMultiplier(damageMultiplier, pmove, defender);
-                            damageMultiplier = FlyingMultiplier(damageMultiplier, pmove, defender);
-                            damageMultiplier = PoisonMultiplier(damageMultiplier, pmove, defender);
-                            damageMultiplier = GroundMultiplier(damageMultiplier, pmove, defender)
-                            damageMultiplier = RockMultiplier(damageMultiplier, pmove, defender)
+                        if (aMove.name != "Struggle") {
+                            damageMultiplier = NormalMultiplier(damageMultiplier, aMove, defender);
+                            damageMultiplier = FightingMultiplier(damageMultiplier, aMove, defender);
+                            damageMultiplier = FlyingMultiplier(damageMultiplier, aMove, defender);
+                            damageMultiplier = PoisonMultiplier(damageMultiplier, aMove, defender);
+                            damageMultiplier = GroundMultiplier(damageMultiplier, aMove, defender)
+                            damageMultiplier = RockMultiplier(damageMultiplier, aMove, defender)
+                            damageMultiplier = GhostMultiplier(damageMultiplier, aMove, defender)
                             // Physical / Special Split as per Generations I-III
-                            damageMultiplier = FireMultiplier(damageMultiplier, pmove, defender);
-                            damageMultiplier = WaterMultiplier(damageMultiplier, pmove, defender);
-                            damageMultiplier = GrassMultiplier(damageMultiplier, pmove, defender);
-                            damageMultiplier = ElectricMultiplier(damageMultiplier, pmove, defender)
-                            damageMultiplier = PsychicMultiplier(damageMultiplier, pmove, defender);
-                            damageMultiplier = IceMultiplier(damageMultiplier, pmove, defender)
-                            damageMultiplier = DarkMultiplier(damageMultiplier, pmove, defender);
-                            damageMultiplier = NormalizeSetDamage(damageMultiplier, pmove);
+                            damageMultiplier = FireMultiplier(damageMultiplier, aMove, defender);
+                            damageMultiplier = WaterMultiplier(damageMultiplier, aMove, defender);
+                            damageMultiplier = GrassMultiplier(damageMultiplier, aMove, defender);
+                            damageMultiplier = ElectricMultiplier(damageMultiplier, aMove, defender)
+                            damageMultiplier = PsychicMultiplier(damageMultiplier, aMove, defender);
+                            damageMultiplier = IceMultiplier(damageMultiplier, aMove, defender)
+                            damageMultiplier = DarkMultiplier(damageMultiplier, aMove, defender);
+                            damageMultiplier = NormalizeSetDamage(damageMultiplier, aMove);
                         }
-                        if (pmove.effect == "revengeTurn") {
+                        if (aMove.effect == "revengeTurn") {
                             if (checkOrder == "second") {
                                 attackerPower*= 2;
                                 console.log("REVENGE DAMAGE BOOST!");
@@ -1148,19 +1186,19 @@ function checkMove(checkOrder, pmove, amon, apyatk, apydef, aspatk, aspdef, aspe
                         } else {
                             effectiveMessage = " UNKNOWN EFFECTIVENESS ";
                         }
-                        console.log("Move: " + pmove.name + " | Power: " + attackerPower + " * " + damageMultiplier);
+                        console.log("Move: " + aMove.name + " | Power: " + attackerPower + " * " + damageMultiplier);
                         attackerPower*= damageMultiplier;
                         console.log("Full Power: " + attackerPower);
                         if (damageMultiplier == 0) {
-                            attackerMessage = "<b>" + amon + "</b> used " + pmove.name + "! " + effectiveMessage + "<b>" + dmon + "</b>.";
+                            attackerMessage = "<b>" + amon + "</b> used " + aMove.name + "! " + effectiveMessage + "<b>" + dmon + "</b>.";
                             messagebox.innerHTML = attackerMessage;
                             // alert(attackerMessage);
                         } else {
                             let criticalrate = 0;
-                            if (pmove.critrate != "none") {
-                                if (pmove.critrate == "increased") {
+                            if (aMove.critrate != "none") {
+                                if (aMove.critrate == "increased") {
                                     criticalrate = Math.ceil((Math.random() * 117.283950617) / 100);
-                                } else if (pmove.critrate == "standard") {
+                                } else if (aMove.critrate == "standard") {
                                     criticalrate = Math.round(Math.random() * 100);
                                 } else {
                                     criticalrate = "Critrate exception";
@@ -1182,67 +1220,63 @@ function checkMove(checkOrder, pmove, amon, apyatk, apydef, aspatk, aspdef, aspe
                             attackerPower = bumpZeroDamage(attackerPower);
                             roundedPower = roundDecimals(attackerPower, 2);
                             if (criticalrate > 95 ) {
-                                    if (pmove.name == "Struggle") {
-                                        attackerMessage = "<b>CRITICAL HIT!!</b><br>" + amon + " has no moves left!<br>" + amon + " used <i><u>" + pmove.name + "</u></i>!!!<br>" + dmon + " took " + roundedPower + " major damage!";    
+                                    if (aMove.name == "Struggle") {
+                                        attackerMessage = "<b>CRITICAL HIT!!</b><br>" + amon + " has no moves left!<br>" + amon + " used <i><u>" + aMove.name + "</u></i>!!!<br>" + dmon + " took " + roundedPower + " major damage!";    
                                     } else {
-                                        attackerMessage = "<b>CRITICAL HIT!!</b><br>" + dmon + " took " + roundedPower + " major damage from " + amon + "'s " + pmove.name + "!!!" + effectiveMessage;
+                                        attackerMessage = "<b>CRITICAL HIT!!</b><br>" + dmon + " took " + roundedPower + " major damage from " + amon + "'s " + aMove.name + "!!!" + effectiveMessage;
                                     }
                                 
                             } else {
-                                if (pmove.name == "Struggle") {
-                                    attackerMessage = "<b>" + amon + "</b> has no moves left!<br><b>" + amon + "</b> used <i><u>" + pmove.name + "</u></i>!!<br>" + dmon + " took " + roundedPower + " damage!!!";
+                                if (aMove.name == "Struggle") {
+                                    attackerMessage = "<b>" + amon + "</b> has no moves left!<br><b>" + amon + "</b> used <i><u>" + aMove.name + "</u></i>!!<br>" + dmon + " took " + roundedPower + " damage!!!";
                                 } else {
-                                    attackerMessage = "<b>" + amon + "</b> used " + pmove.name + "!<br>" + dmon + " took " + roundedPower + " damage!!" + effectiveMessage;
+                                    attackerMessage = "<b>" + amon + "</b> used " + aMove.name + "!<br>" + dmon + " took " + roundedPower + " damage!!" + effectiveMessage;
                                 }
                             }
-                            alert("Full Power: " + roundedPower);
+                            // alert("Full Power: " + roundedPower);
                             if (attackerPower < 0) {
-                                attackerMessage = "<b>" + amon + "</b> used " + pmove.name + "!<br>But it failed!";
+                                attackerMessage = "<b>" + amon + "</b> used " + aMove.name + "!<br>But it failed!";
                                 messagebox.innerHTML = attackerMessage;
                             }
                             if (attackerPower > 0) { //calc drain and recoil
                                 let recoilDamage; 
                                     if (attackerPower > defenderHP) {
-                                        recoilDamage = defenderHP*pmove.recoil;
+                                        recoilDamage = defenderHP*aMove.recoil;
                                     } else {
-                                        recoilDamage = attackerPower*pmove.recoil;
+                                        recoilDamage = attackerPower*aMove.recoil;
                                     }
                                 defenderHP -= attackerPower;
-                                console.log("Full Power after RNG: " + attackerPower);
-                                if (pmove.name == "Absorb" || pmove.name == "Mega Drain" || pmove.name == "Leech Life" || pmove.name == "Giga Drain" || pmove.name == "Drain Punch" || pmove.name == "Horn Leech") {
+                                if (aMove.name == "Absorb" || aMove.name == "Mega Drain" || aMove.name == "Leech Life" || aMove.name == "Giga Drain" || aMove.name == "Drain Punch" || aMove.name == "Horn Leech") {
                                     if (attackerHP < attackerMaxHP) {
-                                        console.log("Attacker HP less than MAXHP before " + pmove.name + ": <" + attackerHP);
+                                        console.log("Attacker HP less than MAXHP before " + aMove.name + ": <" + attackerHP);
                                         attackerHP += attackerPower/2;
-                                        console.log("Attacker HP less than MAXHP after " + pmove.name + ": <" + attackerHP);
-                                        setTimeout(() => {
-                                            messagebox.innerHTML = "<b>" + amon + " used " + pmove.name + "!<br>" + dmon + " took " + roundedPower + " damage!!<br>" + amon + " restored " + roundedPower/2 + "HP" ;
-                                        }, 1000);
+                                        console.log("Attacker HP less than MAXHP after " + aMove.name + ": <" + attackerHP);
                                     } 
                                     if (attackerHP > attackerMaxHP) {
-                                        console.log("Attacker HP more than MAXHP before " + pmove.name + ": >" + attackerHP);
+                                        console.log("Attacker HP more than MAXHP before " + aMove.name + ": >" + attackerHP);
                                         attackerHP = attackerMaxHP;
-                                        console.log("Attacker HP equal MAXHP after " + pmove.name + ": >" + attackerHP);
+                                        console.log("Attacker HP equal MAXHP after " + aMove.name + ": >" + attackerHP);
                                     }
+                                    attackerMessage += " | <b>" + amon + " restored " + roundedPower/2 + "HP" ;
                                 }
-                                if (pmove.recoil > 0) {
+                                if (aMove.recoil > 0) {
                                     attackerHP-= recoilDamage;
                                     recoilDamage = roundDecimals(recoilDamage, 2);
                                     attackerMessage+= "<br>" + amon + " is hurt by the recoil damage! (-" + recoilDamage + "HP)";
                                     console.log(attackerMessage);
-                                    alert(attackerMessage);
                                 } else {
                                 }
                             }
                             messagebox.innerHTML = attackerMessage;
                             if (defenderHP > 0) {
                                 if (dbadstatus == false) {
-                                    if (pmove.effect == "burn" || pmove.effect == "triattack") {
+                                    if (aMove.effect == "burn" || aMove.effect == "triattack") {
                                         if (defender.type1 != "Fire" && defender.type2 != "Fire") {
                                             let burnlimit;
                                             let burnrate = Math.random() * 100;
-                                            if (pmove.name == "Ember" || pmove.name == "Fire Punch" || pmove.name == "Flamethrower" || pmove.name == "Fire Blast" || pmove.name == "Flame Wheel" || pmove.name == "Blaze Kick" || pmove.name == "Heat Wave" || pmove.name == "Fire Fang" || pmove.name == "Flare Blitz" || pmove.name == "Pyro Ball" || pmove.name == "Shadow Fire") {
+                                            if (aMove.name == "Ember" || aMove.name == "Fire Punch" || aMove.name == "Flamethrower" || aMove.name == "Fire Blast" || aMove.name == "Flame Wheel" || aMove.name == "Blaze Kick" || aMove.name == "Heat Wave" || aMove.name == "Fire Fang" || aMove.name == "Flare Blitz" || aMove.name == "Pyro Ball" || aMove.name == "Shadow Fire") {
                                                 burnlimit = 90;
-                                            } else if (pmove.name == "Tri Attack") {
+                                            } else if (aMove.name == "Tri Attack") {
                                                 if (dbadstatus == false) {
                                                     burnlimit = 93.3333333333;
                                                     burnrate = Math.random() * 100;
@@ -1254,9 +1288,7 @@ function checkMove(checkOrder, pmove, amon, apyatk, apydef, aspatk, aspdef, aspe
                                                 dpyatk = defender.maxpyatk/2;
                                                 dmontext.innerHTML += "| BRN";
                                                 dmontext.style.color = "red";
-                                                setTimeout(() => {
-                                                    messagebox.innerHTML = "<b>" + dmon + "</b> was <i>burned!!!</i>";
-                                                }, 2000);
+                                                attackerMessage += "<br><b>" + dmon + "</b> was <i>burned!!!</i>";
                                                 if (defender.ability == "Synchronize") {
                                                     if (attacker.type1 != "Fire" && attacker.type2 != "Fire") {
                                                         aburned = true;
@@ -1264,20 +1296,18 @@ function checkMove(checkOrder, pmove, amon, apyatk, apydef, aspatk, aspdef, aspe
                                                         apyatk = attacker.maxpyatk/2;
                                                         attackertext.innerHTML += "| BRN";
                                                         attackertext.style.color = "red";
-                                                        setTimeout(() => {
-                                                            messagebox.innerHTML = dmon + "'s <b>" + defender.ability + "</b> burned " + amon + "!!!";
-                                                        }, 2000);
+                                                        attackerMessage += "<br>" + dmon + "'s <b>" + defender.ability + "</b> burned " + amon + "!!!";
                                                     }
                                                 }
                                             }
                                         }
-                                    } if (pmove.effect == "freeze" || pmove.effect == "triattack") {
+                                    } if (aMove.effect == "freeze" || aMove.effect == "triattack") {
                                         if (defender.type1 != "Ice" && defender.type2 != "Ice") {
                                             let freezelimit;
                                             let freezerate = Math.random() * 100;
-                                            if (pmove.name == "Ice Punch" || pmove.name == "Ice Beam" || pmove.name == "Blizzard" || pmove.name == "Powder Snow" || pmove.name == "Ice Fang" || pmove.name == "Ice Fang" || pmove.name == "Freeze-Dry" || pmove.name == "Freezing Glare" || pmove.name == "Shadow Chill") {
+                                            if (aMove.name == "Ice Punch" || aMove.name == "Ice Beam" || aMove.name == "Blizzard" || aMove.name == "Powder Snow" || aMove.name == "Ice Fang" || aMove.name == "Ice Fang" || aMove.name == "Freeze-Dry" || aMove.name == "Freezing Glare" || aMove.name == "Shadow Chill") {
                                                 freezelimit = 90;
-                                            } else if (pmove.name == "Tri Attack") {
+                                            } else if (aMove.name == "Tri Attack") {
                                                 if (dbadstatus == false) {
                                                     freezelimit = 93.3333333333;
                                                     freezerate = Math.random() * 100;
@@ -1288,23 +1318,21 @@ function checkMove(checkOrder, pmove, amon, apyatk, apydef, aspatk, aspdef, aspe
                                                 dbadstatus = true;
                                                 dmontext.innerHTML += "| FRZ";
                                                 dmontext.style.color = "deepskyblue";
-                                                setTimeout(() => {
-                                                    messagebox.innerHTML = "<b>" + dmon + "</b> was <i>frozen solid!!!</i>";
-                                                }, 2000);
+                                                attackerMessage += "<br><b>" + dmon + "</b> was <i>frozen solid!!!</i>";
                                             }
                                         }
-                                    } if (pmove.effect == "paralyze" || pmove.effect == "triattack") {
+                                    } if (aMove.effect == "paralyze" || aMove.effect == "triattack") {
                                         if (defender.type1 != "Electric" && defender.type2 != "Electric") {
                                             let paralimit;
                                             let pararate = Math.random() * 100;
-                                            if (pmove.name == "Thunder Shock" || pmove.name == "Thunder Punch" || pmove.name == "Thunderbolt" || pmove.name == "Volt Tackle" || pmove.name == "Thunder Fang" || pmove.name == "Shadow Bolt") {
+                                            if (aMove.name == "Thunder Shock" || aMove.name == "Thunder Punch" || aMove.name == "Thunderbolt" || aMove.name == "Volt Tackle" || aMove.name == "Thunder Fang" || aMove.name == "Shadow Bolt") {
                                                 paralimit = 90;
-                                            } else if (pmove.name == "Body Slam" || pmove.name == "Bounce" || pmove.name == "Discharge" || pmove.name == "Dragon Breath" || pmove.name == "Force Palm" || pmove.name == "Freeze Shock" || pmove.name == "Lick" || pmove.name == "Secret Power Electric" || pmove.name == "Spark" || pmove.name == "Splishy Splash" || pmove.name == "Thunder") {
+                                            } else if (aMove.name == "Body Slam" || aMove.name == "Bounce" || aMove.name == "Discharge" || aMove.name == "Dragon Breath" || aMove.name == "Force Palm" || aMove.name == "Freeze Shock" || aMove.name == "Lick" || aMove.name == "Secret Power Electric" || aMove.name == "Spark" || aMove.name == "Splishy Splash" || aMove.name == "Thunder") {
                                                 paralimit = 70;
 
                                             }
 
-                                                else if (pmove.name == "Tri Attack") {
+                                                else if (aMove.name == "Tri Attack") {
                                                 if (dbadstatus == false) {
                                                     paralimit = 93.3333333333;
                                                     pararate = Math.random() * 100;
@@ -1316,9 +1344,7 @@ function checkMove(checkOrder, pmove, amon, apyatk, apydef, aspatk, aspdef, aspe
                                                 dspeed = defender.maxspeed/2;
                                                 dmontext.innerHTML += "| PAR";
                                                 dmontext.style.color = "gold";
-                                                setTimeout(() => {
-                                                    messagebox.innerHTML = "<b>" + dmon + "</b> was <i>paralyzed! it may be unable to move!!</i>";
-                                                }, 2000);
+                                                attackerMessage+= "<br><b>" + dmon + "</b> was <i>paralyzed! it may be unable to move!!</i>";
                                                 if (defender.ability == "Synchronize") {
                                                     if (attacker.type1 != "Electric" && attacker.type2 != "Electric") {
                                                         aparalyzed = true;
@@ -1326,55 +1352,55 @@ function checkMove(checkOrder, pmove, amon, apyatk, apydef, aspatk, aspdef, aspe
                                                         aspeed = attacker.maxspeed/2;
                                                         attackertext.innerHTML += "| PAR";
                                                         attackertext.style.color = "gold";
-                                                        setTimeout(() => {
-                                                            messagebox.innerHTML += "<br>" + dmon + "'s <b>" + defender.ability + "</b> paralyzed " + amon + "!!!";
-                                                        }, 2000);
+                                                        attackerMessage+= "<br>" + dmon + "'s <b>" + defender.ability + "</b> paralyzed " + amon + "!!!";
                                                     }
                                                 }
                                             }
                                         }
-                                    } else if (pmove.effect == "poison") {
+                                    } else if (aMove.effect == "poison") {
                                         if (defender.type1 != "Steel" && defender.type2 != "Steel" && defender.type1 != "Poison" && defender.type2 != "Poison") {
                                             let poisonlimit;
                                             let poisonrate = Math.random() * 100;
-                                            if (pmove.name == "Poison Sting" || pmove.name == "Sludge" || pmove.name == "Sludge Bomb" || pmove.name == "Poison Jab" || pmove.name == "Gunk Shot") {
+                                            if (aMove.name == "Poison Sting" || aMove.name == "Sludge" || aMove.name == "Sludge Bomb" || aMove.name == "Poison Jab" || aMove.name == "Gunk Shot") {
                                                 poisonlimit = 70;
                                             }
                                             if (poisonrate > poisonlimit) {
                                                 dpoisoned = true;
                                                 dbadstatus = true;
-                                                dmontext.innerHTML += "| PSN";
+                                                dmontext.innerHTML+= "| PSN";
                                                 dmontext.style.color = "purple";
                                                 messagebox.style.color = "purple";
-                                                setTimeout(() => {
-                                                    messagebox.innerHTML = "<b>" + dmon + "</b> has been <i>poisoned!!!</i>";
-                                                }, 2000);
+                                                attackerMessage+= "<br><b>" + dmon + "</b> has been <i>poisoned!!!</i>";
                                                 if (defender.ability == "Synchronize") {
                                                     if (attacker.type1 != "Steel" && attacker.type2 != "Steel" && attacker.type1 != "Poison" && attacker.type2 != "Poison") {
                                                         apoisoned = true;
                                                         abadstatus = true;
-                                                        attackertext.innerHTML += "| PSN";
+                                                        attackertext.innerHTML+= "| PSN";
                                                         attackertext.style.color = "purple";
-                                                        setTimeout(() => {
-                                                            messagebox.innerHTML = dmon + "'s <b>" + defender.ability + "</b> poisoned " + amon + "!!!";
-                                                        }, 2000);
+                                                        attackerMessage+= dmon + "'s <b>" + defender.ability + "</b> poisoned " + amon + "!!!";
                                                     }
                                                 }
                                             }
                                         }
                                     }
                                 }
-                                if (pmove.effect == "confuse100%") {
+                                if (aMove.effect == "flinch100%") {
+                                    dflinched = true;
+                                }
+                                if (aMove.effect == "confuse100%") {
                                     if (dconfusedLevel == -1) {
                                         dconfusedLevel++;
-                                        messagebox.innerHTML = dmon + " became confused!";
+                                        attackerMessage+= "<br" + dmon + " became confused!";
                                     }
                                 }
-                                if (pmove.effect == "flinch") {
+                                if (aMove.effect == "flinch") {
                                     let flinchlimit;
                                     let flinchrate = Math.round(Math.random() * 100);
-                                    if (pmove.name == "Air Slash" || pmove.name == "Astonish" || pmove.name == "Bite" || pmove.name == "Double Iron Bash" || pmove.name == "Floaty Fall" || pmove.name == "Headbutt" || pmove.name == "Heart Stamp" || pmove.name == "Icicle Crash" || pmove.name == "Iron Head" || pmove.name == "Needle Arm" || pmove.name == "Rock Slide" || pmove.name == "Rolling Kick" || pmove.name == "Sky Attack" || pmove.name == "Snore" || pmove.name == "Steamroller" || pmove.name == "Stomp" || pmove.name == "Zing Zap" || pmove.name == "Fake Out") {
+                                    if (aMove.name == "Air Slash" || aMove.name == "Astonish" || aMove.name == "Bite" || aMove.name == "Double Iron Bash" || aMove.name == "Floaty Fall" || aMove.name == "Headbutt" || aMove.name == "Heart Stamp" || aMove.name == "Icicle Crash" || aMove.name == "Iron Head" || aMove.name == "Needle Arm" || aMove.name == "Rock Slide" || aMove.name == "Rolling Kick" || aMove.name == "Sky Attack" || aMove.name == "Snore" || aMove.name == "Steamroller" || aMove.name == "Stomp" || aMove.name == "Zing Zap") {
                                         flinchlimit = 70;
+                                    }
+                                    else if (aMove.name == "Fake Out") {
+                                        dflinched = true;
                                     }
                                     if (flinchrate > flinchlimit) {
                                     dflinched = true;
@@ -1386,20 +1412,20 @@ function checkMove(checkOrder, pmove, amon, apyatk, apydef, aspatk, aspdef, aspe
                     }
                     //Begin status moves 
                     else {
-                        if (pmove.name == "Leech Seed") {
+                        if (aMove.name == "Leech Seed") {
                             if (defender.type1 != "Grass" && defender.type2 != "Grass") {
                                 if (dSeeded == false) {
-                                    messagebox.innerHTML = "<b>" + amon + " used " + pmove.name + "!<br>" + dmon + " was seeded!";
+                                    attackerMessage+= "<b>" + amon + " used " + aMove.name + "!<br>" + dmon + " was seeded!";
                                     dSeeded = true;
                                     console.log("player2 was seeded");
                                 } else
-                                    messagebox.innerHTML = "<b>" + amon + " used " + pmove.name + "!<br>But " + dmon + " is already seeded!";
+                                    attackerMessage+= "<b>" + amon + " used " + aMove.name + "!<br>But " + dmon + " is already seeded!";
                             } else {
-                                messagebox.innerHTML = "<b>" + amon + " used " + pmove.name + "! <b>It doesn't affect</b> " + dmon + ".";
+                                attackerMessage+= "<b>" + amon + " used " + aMove.name + "! <b>It doesn't affect</b> " + dmon + ".";
                             }
                         }
-                        if (pmove.name == "Swagger") {
-                            attackerMessage = "<b>" + amon + "</b> used " + pmove.name + "! "
+                        if (aMove.name == "Swagger") {
+                            attackerMessage = "<b>" + amon + "</b> used " + aMove.name + "! "
                             if (dPyAtkLevel < 6) {
                                 let attackChange = changeStats2(dBasePyAtk, dPyAtkLevel, "+", 2);
                                 dBasePyAtk = attackChange[0];
@@ -1414,39 +1440,47 @@ function checkMove(checkOrder, pmove, amon, apyatk, apydef, aspatk, aspdef, aspe
                             } else {
                                 attackerMessage+= dmon + " is already confused!";
                             }
-                            alert(attackerMessage);
                         }
                     }
                     //Check stat changes if defender is alive
                     if (defenderHP > 0) {
-                        if (pmove.effect == "lowerPyDef1x10%") {
-                            let lowerlimit = Math.round(Math.random() * 100);
-                            if (lowerlimit > 90) {
-                                let statChange = changeStats1(dBasePyDef, dPyDefLevel, "-", 2);
-                                dBasePyDef = statChange[0];
-                                dPyDefLevel = statChange[1];
-                                console.log("LOWERED BASE SPDEF: " + dBasePyDef + " | Speed Level: " + dPyDefLevel);
+                        if (aMove.effect == "lowerPyDef1x20%") {
+                            if (dPyDefLevel > -6) {
+                                let lowerlimit = Math.round(Math.random() * 100);
+                                if (lowerlimit > 80) {
+                                    let statChange = changeStats1(dBasePyDef, dPyDefLevel, "-", 2);
+                                    dBasePyDef = statChange[0];
+                                    dPyDefLevel = statChange[1];
+                                }
+                            } else {
+                                messagebox += "<br>" + dmon + "'s PyDef won't drop anymore!";
                             }
                         }
-                        if (pmove.effect == "lowerSpDef1x10%") {
-                            let lowerlimit = Math.round(Math.random() * 100);
-                            if (lowerlimit > 90) {
-                                let statChange = changeStats1(dBaseSpDef, dSpDefLevel, "-", 2);
-                                dBaseSpDef = statChange[0];
-                                dSpDefLevel = statChange[1];
-                                console.log("LOWERED BASE SPDEF: " + dBaseSpDef + " | Speed Level: " + dSpDefLevel);
+                        if (aMove.effect == "lowerSpDef1x10%") {
+                            if (dSpDefLevel > -6) {
+                                let lowerlimit = Math.round(Math.random() * 100);
+                                if (lowerlimit > 90) {
+                                    let statChange = changeStats1(dBaseSpDef, dSpDefLevel, "-", 2);
+                                    dBaseSpDef = statChange[0];
+                                    dSpDefLevel = statChange[1];
+                                } 
+                            } else {  
+                                messagebox += "<br>" + dmon + "'s SpDef won't drop anymore!";
                             }
                         }
-                        if (pmove.effect == "lowerSpeed1x100%") {
-                            let statChange = changeStats1(dBaseSpeed, dSpeedLevel, "-", 2);
-                            dBaseSpeed = statChange[0];
-                            dSpeedLevel = statChange[1];
-                            console.log("LOWERED BASE SPEED: " + dBaseSpeed + " | Speed Level: " + dSpeedLevel);
+                        if (aMove.effect == "lowerSpeed1x100%") {
+                            if (dSpeedLevel > -6) {
+                                let statChange = changeStats1(dBaseSpeed, dSpeedLevel, "-", 2);
+                                dBaseSpeed = statChange[0];
+                                dSpeedLevel = statChange[1];
+                            } else {
+                                messagebox += "<br>" + dmon + "'s Speed won't drop anymore!";
+                            }
                         }
                     }
                     if (abadstatus == false) {
                         if (defender.ability == "Static") {
-                            if (pmove.contact == true) {
+                            if (aMove.contact == true) {
                                 if (attacker.type1 != "Electric" && attacker.type2 != "Electric") {   //TODO: DRY
                                     let paralimit = 70;
                                     let pararate = Math.random() * 100; 
@@ -1456,7 +1490,7 @@ function checkMove(checkOrder, pmove, amon, apyatk, apydef, aspatk, aspdef, aspe
                                         aspeed = attacker.maxspeed/2;
                                         attackertext.innerHTML += "| PAR";
                                         attackertext.style.color = "gold";
-                                        messagebox.innerHTML = "<br>" + dmon + "'s <b>" + defender.ability + "</b> paralyzed " + amon + "!!!";
+                                        attackerMessage+= "<br>" + dmon + "'s <b>" + defender.ability + "</b> paralyzed " + amon + "!!!";
                                     }
                                 }
                             }
@@ -1465,71 +1499,68 @@ function checkMove(checkOrder, pmove, amon, apyatk, apydef, aspatk, aspdef, aspe
                 }
 
                 else { //defender is protected
-                    attackerMessage = defender.name + " protected itself from " + attacker.name + "'s " + pmove.name + "!";
-                    // attackerboxp.innerHTML = "<b>" + attacker.name + "</b> used " + pmove.name + "!";
+                    attackerMessage = defender.name + " protected itself from " + attacker.name + "'s " + aMove.name + "!";
+                    // attackerboxp.innerHTML = "<b>" + attacker.name + "</b> used " + aMove.name + "!";
                 }
             } 
             else {
                 //self-targeted moves
                 attackerPower = 0;
-                if (pmove.name == "Double Team") {
+                if (aMove.name == "Double Team") {
                     if (aEvasionLevel < 6) {
                         let changeEvasion = changeStats1(aEvasion, aEvasionLevel, "+", 3);
                         aEvasion = changeEvasion[0];
                         aEvasionLevel = changeEvasion[1];
-                        messagebox.innerHTML = "<b>" + amon + " used " + pmove.name + "!<br>" + amon + " evasiveness rose!";
+                        attackerMessage+= "<b>" + amon + " used " + aMove.name + "!<br>" + amon + " evasiveness rose!";
                     } else {
-                        messagebox.innerHTML = "<b>" + amon + " used " + pmove.name + "!<br>" + amon + " already has MAX evasiveness!";
+                        attackerMessage+= "<b>" + amon + " used " + aMove.name + "!<br>" + amon + " already has MAX evasiveness!";
                     }
-                } else if (pmove.name == "Protect" || pmove.name == "Detect" || pmove.name == "Endure") {
+                } else if (aMove.name == "Protect" || aMove.name == "Detect" || aMove.name == "Endure") {
                     if (dMove.target != "self") {
                         if (aProtectLevel == 0) {
                             aProtectLevel++;
                             aProtectRate/= 3;
-                            aProtectMessage = amon + " protected itself! x" + aProtectLevel + " | Next rate: " + aProtectRate;
-                            messagebox.innerHTML = aProtectMessage;
+                            aProtectMessage = amon + " protected itself! x" + aProtectLevel
+                            attackerMessage+= aProtectMessage;
                         } else {
-                            let protectrate = Math.round(Math.random() * 100);
+                            let protectrate = Math.random() * 100;
                             if (protectrate <= aProtectRate) {
                                 aProtectLevel++;
                                 aProtectRate/= 3;
-                                alert("Protect spam suceeded!");
-                                aProtectMessage = amon + " protected itself! x" + aProtectLevel + " | Next rate: " + aProtectRate;
-                                messagebox.innerHTML = aProtectMessage;
+                                aProtectMessage = amon + " protected itself! x" + aProtectLevel
+                                attackerMessage+= aProtectMessage;
                             } else {
                                 aProtectLevel = 0;
                                 aProtectRate = 100;
-                                alert("Protect spam failed!!");
-                                aProtectMessage = amon + "'s " + pmove.name + " failed! PL: " + aProtectLevel + " | PR: " + aProtectRate;
-                                messagebox.innerHTML = aProtectMessage;
+                                aProtectMessage = amon + "'s " + aMove.name + " failed!"
+                                attackerMessage+= aProtectMessage;
                             }
                         }
                     } else {
                         aProtectLevel = 0;
                         aProtectRate = 100;
-                        alert("Protect failed due to the attacker not attacking...");
-                        aProtectMessage = amon + " used " + pmove.name + ", but it failed!"
-                        messagebox.innerHTML = aProtectMessage;
+                        aProtectMessage = amon + " used " + aMove.name + ", but it failed!"
+                        attackerMessage+= aProtectMessage;
                     }
-                } else if (pmove.name == "Reflect" || pmove.name == "Light Screen" || pmove.name == "Aurora Veil") {
-                    if (pmove.name == "Reflect") {
+                } else if (aMove.name == "Reflect" || aMove.name == "Light Screen" || aMove.name == "Aurora Veil") {
+                    if (aMove.name == "Reflect") {
                         if (aReflect == 0) {
                             aReflect++;
-                            attackerMessage = amon + " used " + pmove.name + "! it gained resistance from physical attacks!";
+                            attackerMessage = amon + " used " + aMove.name + "! it gained resistance from physical attacks!";
                         } else {
-                            attackerMessage = amon + " used " + pmove.name + "! But it failed!";
+                            attackerMessage = amon + " used " + aMove.name + "! But it failed!";
                         }
-                    } else if (pmove.name == "Light Screen") {
+                    } else if (aMove.name == "Light Screen") {
                         if (aLightScreen == 0) {
                             aLightScreen++;
-                            attackerMessage = amon + " used " + pmove.name + "! it gained resistance from special attacks!";
+                            attackerMessage = amon + " used " + aMove.name + "! it gained resistance from special attacks!";
                         } else {
-                            attackerMessage = amon + " used " + pmove.name + "! But it failed!";
+                            attackerMessage = amon + " used " + aMove.name + "! But it failed!";
                         }
-                    } else if (pmove.name == "Aurora Veil") {
+                    } else if (aMove.name == "Aurora Veil") {
                         alert("MOVE NOT IMPLEMENTED");
                     }
-                } else if (pmove.name == "Recover" || pmove.name == "Soft-Boiled" || pmove.name == "Milk Drink" || pmove.name == "Slack Off" || pmove.name == "Heal Order" || pmove.name == "Roost") {
+                } else if (aMove.name == "Recover" || aMove.name == "Soft-Boiled" || aMove.name == "Milk Drink" || aMove.name == "Slack Off" || aMove.name == "Heal Order" || aMove.name == "Roost") {
                     if (attackerHP < attackerMaxHP) {
                         if (attackerMaxHP/2 < 1) {
                             attackerHP++; //Shedinja will never regain HP
@@ -1540,8 +1571,8 @@ function checkMove(checkOrder, pmove, amon, apyatk, apydef, aspatk, aspdef, aspe
                                 attackerHP = attackerMaxHP;
                             }
                         }
-                        messagebox.innerHTML = amon + " used " + pmove.name + "!<br>" + amon + " roosted and restored HP!";
-                        if (pmove.name == "Roost") {
+                        attackerMessage+= amon + " used " + aMove.name + "!<br>" + amon + " roosted and restored HP!";
+                        if (aMove.name == "Roost") {
                             if (attacker.type1 == "Flying") {
                                 attacker.type1 = "Roosting";
                             }
@@ -1550,11 +1581,11 @@ function checkMove(checkOrder, pmove, amon, apyatk, apydef, aspatk, aspdef, aspe
                             }
                         }
                     } else {
-                        messagebox.innerHTML = amon + " used " + pmove.name + "!<br>But HP is already full!";
+                        attackerMessage+= amon + " used " + aMove.name + "!<br>But HP is already full!";
                     }
                 }
-                else if (pmove.name == "Dragon Dance") {
-                    attackerMessage = amon + " used " + pmove.name + "!<br>"
+                else if (aMove.name == "Dragon Dance") {
+                    attackerMessage = amon + " used " + aMove.name + "!<br>"
                     if (aPyAtkLevel < 6) {
                         let attackChange = changeStats1(aBasePyAtk, aPyAtkLevel, "+", 2);
                         aBasePyAtk = attackChange[0];
@@ -1574,10 +1605,10 @@ function checkMove(checkOrder, pmove, amon, apyatk, apydef, aspatk, aspdef, aspe
                 }
             }
             messagebox.innerHTML = attackerMessage;
-            if (pmove.name != "Struggle") {
-                pmove.setpp--;
+            if (aMove.name != "Struggle") {
+                aPP[aMove.moveid]--;
                 if (defender.ability == "Pressure") {
-                    pmove.setpp--;
+                    aPP[aMove.moveid]--;
                 }
             }
             updatePP();
@@ -1592,7 +1623,7 @@ function checkMove(checkOrder, pmove, amon, apyatk, apydef, aspatk, aspdef, aspe
             } else if (aconfused == true) {
                 //put something here
             } else if (attackmiss == true) {
-                attackerMessage = amon + " used " + pmove.name + "! But it's attack missed!";
+                attackerMessage = amon + " used " + aMove.name + "! But it's attack missed!";
             } else {
                 attackerMessage = amon + "Lost turn for unknown reasons!";
             }
@@ -1605,20 +1636,20 @@ function checkMove(checkOrder, pmove, amon, apyatk, apydef, aspatk, aspdef, aspe
             messagebox.innerHTML = attackerMessage;
         }
     } else {
-        alert("ZERO PP should not be here!");
+        alert("ERROR: ZERO PP should not be here!");
     }
-    if (pmove.effect != "protect" && aProtectLevel != 0) {
+    if (aMove.effect != "protect" && aProtectLevel != 0) {
         aProtectLevel = 0;
         aProtectRate = 100;
     }
-    if (pmove.category == "physical") {
-        checkMoveCategory = "physical"
+    if (aMove.category == "Physical") {
+        checkMoveCategory = "Physical"
         //alert("PyA: " + checkMoveCategory);
-    } else if (pmove.category == "special") {
-        checkMoveCategory = "special"
+    } else if (aMove.category == "Special") {
+        checkMoveCategory = "Special"
         //alert("SpA: " + checkMoveCategory);
     } else {
-        checkMoveCategory = pmove.category;
+        checkMoveCategory = aMove.category;
         //alert("Other category: " + checkMoveCategory);
     }
     attackerHP = colorHPbar(attackerHP, attackerMaxHP, attackerHPbar, attackerHPcount, attackerimg);
@@ -1628,38 +1659,33 @@ function checkMove(checkOrder, pmove, amon, apyatk, apydef, aspatk, aspdef, aspe
     lastDamageDealt = checkDamageDealt;
     lastMoveCategory = checkMoveCategory;
 
-    return [attackerHP, attackerMaxHP, apyatk, apydef, aspatk, aspdef, aspeed, aBasePyAtk, aBasePyDef, aBaseSpAtk, aBaseSpDef, aBaseSpeed, aPyAtkLevel, aPyDefLevel, aSpAtkLevel, aSpDefLevel, aSpeedLevel, attackerPower, abadstatus, apoisoned, aburned, aparalyzed, aflinched, aconfusedLevel, afullyparalyzed, afrozen, aEvasion, aEvasionLevel, aProtectLevel, aProtectMessage, aProtectRate, aReflect, aLightScreen, defenderHP, defenderMaxHP, dpyatk, dpydef, dspatk, dspdef, dspeed, dBasePyAtk, dBasePyDef, dBaseSpAtk, dBaseSpDef, dBaseSpeed, dPyAtkLevel, dPyDefLevel, dSpAtkLevel, dSpDefLevel, dSpeedLevel, dProtectLevel, dProtectRate, dReflect, dLightScreen, dbadstatus, dpoisoned, dfrozen, dburned, dparalyzed, dflinched, dconfusedLevel, dSeeded]
+    return [aPP, attackerHP, attackerMaxHP, apyatk, apydef, aspatk, aspdef, aspeed, aBasePyAtk, aBasePyDef, aBaseSpAtk, aBaseSpDef, aBaseSpeed, aPyAtkLevel, aPyDefLevel, aSpAtkLevel, aSpDefLevel, aSpeedLevel, attackerPower, abadstatus, apoisoned, aburned, aparalyzed, aflinched, aconfusedLevel, afullyparalyzed, afrozen, aEvasion, aEvasionLevel, aProtectLevel, aProtectMessage, aProtectRate, aReflect, aLightScreen, dPP, defenderHP, defenderMaxHP, dpyatk, dpydef, dspatk, dspdef, dspeed, dBasePyAtk, dBasePyDef, dBaseSpAtk, dBaseSpDef, dBaseSpeed, dPyAtkLevel, dPyDefLevel, dSpAtkLevel, dSpDefLevel, dSpeedLevel, dProtectLevel, dProtectRate, dReflect, dLightScreen, dbadstatus, dpoisoned, dfrozen, dburned, dparalyzed, dflinched, dconfusedLevel, dSeeded]
 }
 
-function leechSeedandPoison(dphp, aphp, pmessageboxp, plagiomon, seeded, burned, badpoisoned, poisonLevel, poisoned) {
+function leechSeedandPoison(player, dphp, aphp, pmessageboxp, plagiomon, seeded, burned, badpoisoned, poisonLevel, poisoned) {
     hpleech = 0;
+    let badpoisonDamage = 0;
     if (dphp > 0 && aphp > 0) {
         if (burned == true) {
             let burnDamage = plagiomon.maxhp * 6.25 / 100;
             burnDamage = bumpZeroDamage(burnDamage);
             dphp -= burnDamage;
-            setTimeout(() => {
-                pmessageboxp.innerHTML = plagiomon.name + " lost " + burnDamage + "HP due to burn!";
-            }, 2000);
+            pmessageboxp.innerHTML+= "<br>" + plagiomon.name + " lost " + burnDamage + "HP due to burn!";
         } else if (poisoned == true) {
             let poisonDamage = plagiomon.maxhp * 12.5 / 100;
             poisonDamage = bumpZeroDamage(poisonDamage);
             dphp -= poisonDamage;
-            setTimeout(() => {
-                pmessageboxp.innerHTML = plagiomon.name + " lost " + poisonDamage + "HP due to poisoning!!";
-            }, 2000);
+            pmessageboxp.innerHTML+= "<br>" + plagiomon.name + " lost " + poisonDamage + "HP due to poisoning!!";
         } else if (badpoisoned == true) {
             if (poisonLevel == 0) {
                 poisonLevel = 1;
             } else {
                 poisonLevel*= 2;
             } 
-            let badpoisonDamage = (plagiomon.maxhp * ((poisonLevel/16) * 100)) / 100;
+            badpoisonDamage = (plagiomon.maxhp * ((poisonLevel/16) * 100)) / 100;
             badpoisonDamage = bumpZeroDamage(badpoisonDamage);
             dphp -= badpoisonDamage;
-            setTimeout(() => {
-                pmessageboxp.innerHTML = plagiomon.name + " lost " + badpoisonDamage + "HP due to bad poisoning!!!";
-            }, 2000);
+            pmessageboxp.innerHTML+= "<br>" + plagiomon.name + " lost " + badpoisonDamage + "HP due to bad poisoning!!!";
         }
         if (seeded == true) {
             if (aphp > 0) {
@@ -1676,17 +1702,34 @@ function leechSeedandPoison(dphp, aphp, pmessageboxp, plagiomon, seeded, burned,
                 console.log("INSIDE hpleech value: " + hpleech);
                 if (burned == true || poisoned == true || badpoisoned == true) {
                     leechMessage = "<br>" + plagiomon.name + " also lost " + hpleech + "HP due to leech seed!";
-                    setTimeout(() => {
-                        pmessageboxp.innerHTML = leechMessage;
-                    }, 3000);
+                    pmessageboxp.innerHTML+= leechMessage;
                 } else {
-                    pmessageboxp.innerHTML = plagiomon.name + " lost " + hpleech + "HP due to leech seed!";
-                    setTimeout(() => {
-                        pmessageboxp.innerHTML = leechMessage;
-                    }, 2000);
+                    leechMessage = "<br>" + plagiomon.name + " lost " + hpleech + "HP due to leech seed!";
+                    pmessageboxp.innerHTML+= leechMessage;
                 }
             }
-        } 
+        }
+        if (player == 1) {
+            p1badpoisonLevel = badpoisonDamage;
+            p1hp = dphp;
+            p1Seeded = seeded
+            if (p2hp > 0) {
+                p2hp+= hpleech;
+            } 
+            if (p2hp > p2maxhp) {
+                p2hp = p2maxhp;
+            }
+        } else if (player == 2) {
+            p2badpoisonLevel = badpoisonDamage;
+            p2hp = dphp;
+            p2Seeded = seeded
+            if (p1hp > 0) {
+                p1hp+= hpleech;
+            } 
+            if (p1hp > p1maxhp) {
+                p1hp = p1maxhp;
+            }
+        }
     } else {
         seeded = false;
         // leechMessage = "<br>" + plagiomon.name + " freed from leech seed!";
@@ -1700,31 +1743,35 @@ function leechSeedandPoison(dphp, aphp, pmessageboxp, plagiomon, seeded, burned,
 function playerAttack(player) {
     if (player == 1) {
         console.log("Start P1 turn");
-        attackTurn("first", 1, plagiomon1, messagebox1, spanP1mon, P1img, p1hp, p1maxhp, pP1HPbar, spanP1HPcount, p1move, p1moveid, p1Power, p1Evasion, p1EvasionLevel, p1ProtectLevel, p1ProtectMessage, p1ProtectRate, p1Reflect, p1LightScreen, p1badstatus, p1burned, p1poisoned, p1flinched, p1confusedLevel, p1paralyzed, p1fullyparalyzed, p1frozen, p1pyatk, p1pydef, p1spatk, p1spdef, p1speed, p1BasePyAtk, p1BasePyDef, p1BaseSpAtk, p1BaseSpDef, p1BaseSpeed, p1PyAtkLevel, p1PyDefLevel, p1SpAtkLevel, p1SpDefLevel, p1SpeedLevel, p1Accuracy, p2Evasion, p1mon, p1move1ZeroPP, p1move2ZeroPP, p1move3ZeroPP, p1move4ZeroPP, p2move, p2mon, p2pyatk, p2pydef, p2spatk, p2spdef,  p2speed, p2BasePyAtk, p2BasePyDef, p2BaseSpAtk, p2BaseSpDef, p2BaseSpeed, p2PyAtkLevel, p2PyDefLevel, p2SpAtkLevel, p2SpDefLevel, p2SpeedLevel, p2ProtectLevel, p2ProtectRate, p2Reflect, p2LightScreen, spanP2mon, plagiomon2, messagebox2, P2img, p2hp, p2maxhp, pP2HPbar, spanP2HPcount, p2badstatus, p2badpoisoned, p2badpoisonLevel, p2poisoned, p2frozen, p2burned, p2paralyzed, p2flinched, p2confusedLevel, p2Seeded);
+        attackTurn("first", 1, plagiomon1, messagebox1, spanP1mon, P1img, p1hp, p1maxhp, pP1HPbar, spanP1HPcount, p1move, p1moveid, p1PPs, p1Power, p1Evasion, p1EvasionLevel, p1ProtectLevel, p1ProtectMessage, p1ProtectRate, p1Reflect, p1LightScreen, p1badstatus, p1burned, p1poisoned, p1flinched, p1confusedLevel, p1paralyzed, p1fullyparalyzed, p1frozen, p1pyatk, p1pydef, p1spatk, p1spdef, p1speed, p1BasePyAtk, p1BasePyDef, p1BaseSpAtk, p1BaseSpDef, p1BaseSpeed, p1PyAtkLevel, p1PyDefLevel, p1SpAtkLevel, p1SpDefLevel, p1SpeedLevel, p1Accuracy, p2Evasion, p1mon, p1move1ZeroPP, p1move2ZeroPP, p1move3ZeroPP, p1move4ZeroPP, p2move, p2PPs, p2mon, p2pyatk, p2pydef, p2spatk, p2spdef,  p2speed, p2BasePyAtk, p2BasePyDef, p2BaseSpAtk, p2BaseSpDef, p2BaseSpeed, p2PyAtkLevel, p2PyDefLevel, p2SpAtkLevel, p2SpDefLevel, p2SpeedLevel, p2ProtectLevel, p2ProtectRate, p2Reflect, p2LightScreen, spanP2mon, plagiomon2, messagebox2, P2img, p2hp, p2maxhp, pP2HPbar, spanP2HPcount, p2badstatus, p2badpoisoned, p2badpoisonLevel, p2poisoned, p2frozen, p2burned, p2paralyzed, p2flinched, p2confusedLevel, p2Seeded);
         console.log("End P1 turn");
 
         console.log("Start P2 turn");
-        attackTurn("second", 2, plagiomon2, messagebox2, spanP2mon, P2img, p2hp, p2maxhp, pP2HPbar, spanP2HPcount, p2move, p2moveid, p2Power, p2Evasion, p2EvasionLevel, p2ProtectLevel, p2ProtectMessage, p2ProtectRate, p2Reflect, p2LightScreen, p2badstatus, p2burned, p2poisoned, p2flinched, p2confusedLevel, p2paralyzed, p2fullyparalyzed, p2frozen, p2pyatk, p2pydef, p2spatk, p2spdef, p2speed, p2BasePyAtk, p2BasePyDef, p2BaseSpAtk, p2BaseSpDef, p2BaseSpeed, p2PyAtkLevel, p2PyDefLevel, p2SpAtkLevel, p2SpDefLevel, p2SpeedLevel, p2Accuracy, p1Evasion, p2mon, p2move1ZeroPP, p2move2ZeroPP, p2move3ZeroPP, p2move4ZeroPP, p1move, p1mon, p1pyatk, p1pydef, p1spatk, p1spdef, p1speed, p1BasePyAtk, p1BasePyDef, p1BaseSpAtk, p1BaseSpDef, p1BaseSpeed, p1PyAtkLevel, p1PyDefLevel, p1SpAtkLevel, p1SpDefLevel, p1SpeedLevel, p1ProtectLevel, p1ProtectRate, p1Reflect, p1LightScreen, spanP1mon, plagiomon1, messagebox1, P1img, p1hp, p1maxhp, pP1HPbar, spanP1HPcount, p1badstatus, p1badpoisoned, p1badpoisonLevel, p1poisoned, p1frozen, p1burned, p1paralyzed, p1flinched, p1confusedLevel, p1Seeded);
+        attackTurn("second", 2, plagiomon2, messagebox2, spanP2mon, P2img, p2hp, p2maxhp, pP2HPbar, spanP2HPcount, p2move, p2moveid, p2PPs, p2Power, p2Evasion, p2EvasionLevel, p2ProtectLevel, p2ProtectMessage, p2ProtectRate, p2Reflect, p2LightScreen, p2badstatus, p2burned, p2poisoned, p2flinched, p2confusedLevel, p2paralyzed, p2fullyparalyzed, p2frozen, p2pyatk, p2pydef, p2spatk, p2spdef, p2speed, p2BasePyAtk, p2BasePyDef, p2BaseSpAtk, p2BaseSpDef, p2BaseSpeed, p2PyAtkLevel, p2PyDefLevel, p2SpAtkLevel, p2SpDefLevel, p2SpeedLevel, p2Accuracy, p1Evasion, p2mon, p2move1ZeroPP, p2move2ZeroPP, p2move3ZeroPP, p2move4ZeroPP, p1move, p1PPs, p1mon, p1pyatk, p1pydef, p1spatk, p1spdef, p1speed, p1BasePyAtk, p1BasePyDef, p1BaseSpAtk, p1BaseSpDef, p1BaseSpeed, p1PyAtkLevel, p1PyDefLevel, p1SpAtkLevel, p1SpDefLevel, p1SpeedLevel, p1ProtectLevel, p1ProtectRate, p1Reflect, p1LightScreen, spanP1mon, plagiomon1, messagebox1, P1img, p1hp, p1maxhp, pP1HPbar, spanP1HPcount, p1badstatus, p1badpoisoned, p1badpoisonLevel, p1poisoned, p1frozen, p1burned, p1paralyzed, p1flinched, p1confusedLevel, p1Seeded);
             
         console.log("End P2 turn");
     } else if (player == 2) {
         console.log("Start P2 turn");
-        attackTurn("first", 2, plagiomon2, messagebox2, spanP2mon, P2img, p2hp, p2maxhp, pP2HPbar, spanP2HPcount, p2move, p2moveid, p2Power, p2Evasion, p2EvasionLevel, p2ProtectLevel, p2ProtectMessage, p2ProtectRate, p2Reflect, p2LightScreen, p2badstatus, p2burned, p2poisoned, p2flinched, p2confusedLevel, p2paralyzed, p2fullyparalyzed, p2frozen, p2pyatk, p2pydef, p2spatk, p2spdef, p2speed, p2BasePyAtk, p2BasePyDef, p2BaseSpAtk, p2BaseSpDef, p2BaseSpeed, p2PyAtkLevel, p2PyDefLevel, p2SpAtkLevel, p2SpDefLevel, p2SpeedLevel, p2Accuracy, p1Evasion, p2mon, p2move1ZeroPP, p2move2ZeroPP, p2move3ZeroPP, p2move4ZeroPP, p1move, p1mon, p1pyatk, p1pydef, p1spatk, p1spdef, p1speed, p1BasePyAtk, p1BasePyDef, p1BaseSpAtk, p1BaseSpDef, p1BaseSpeed, p1PyAtkLevel, p1PyDefLevel, p1SpAtkLevel, p1SpDefLevel, p1SpeedLevel, p1ProtectLevel, p1ProtectRate, p1Reflect, p1LightScreen, spanP1mon, plagiomon1, messagebox1, P1img, p1hp, p1maxhp, pP1HPbar, spanP1HPcount, p1badstatus, p1badpoisoned, p1badpoisonLevel, p1poisoned, p1frozen, p1burned, p1paralyzed, p1flinched, p1confusedLevel, p1Seeded);
+        attackTurn("first", 2, plagiomon2, messagebox2, spanP2mon, P2img, p2hp, p2maxhp, pP2HPbar, spanP2HPcount, p2move, p2moveid, p2PPs, p2Power, p2Evasion, p2EvasionLevel, p2ProtectLevel, p2ProtectMessage, p2ProtectRate, p2Reflect, p2LightScreen, p2badstatus, p2burned, p2poisoned, p2flinched, p2confusedLevel, p2paralyzed, p2fullyparalyzed, p2frozen, p2pyatk, p2pydef, p2spatk, p2spdef, p2speed, p2BasePyAtk, p2BasePyDef, p2BaseSpAtk, p2BaseSpDef, p2BaseSpeed, p2PyAtkLevel, p2PyDefLevel, p2SpAtkLevel, p2SpDefLevel, p2SpeedLevel, p2Accuracy, p1Evasion, p2mon, p2move1ZeroPP, p2move2ZeroPP, p2move3ZeroPP, p2move4ZeroPP, p1move, p1PPs, p1mon, p1pyatk, p1pydef, p1spatk, p1spdef, p1speed, p1BasePyAtk, p1BasePyDef, p1BaseSpAtk, p1BaseSpDef, p1BaseSpeed, p1PyAtkLevel, p1PyDefLevel, p1SpAtkLevel, p1SpDefLevel, p1SpeedLevel, p1ProtectLevel, p1ProtectRate, p1Reflect, p1LightScreen, spanP1mon, plagiomon1, messagebox1, P1img, p1hp, p1maxhp, pP1HPbar, spanP1HPcount, p1badstatus, p1badpoisoned, p1badpoisonLevel, p1poisoned, p1frozen, p1burned, p1paralyzed, p1flinched, p1confusedLevel, p1Seeded);
         console.log("End P2 turn");
 
         console.log("Start P1 turn");
-        attackTurn("second", 1, plagiomon1, messagebox1, spanP1mon, P1img, p1hp, p1maxhp, pP1HPbar, spanP1HPcount, p1move, p1moveid, p1Power, p1Evasion, p1EvasionLevel, p1ProtectLevel, p1ProtectMessage, p1ProtectRate, p1Reflect, p1LightScreen, p1badstatus, p1burned, p1poisoned, p1flinched, p1confusedLevel, p1paralyzed, p1fullyparalyzed, p1frozen, p1pyatk, p1pydef, p1spatk, p1spdef, p1speed, p1BasePyAtk, p1BasePyDef, p1BaseSpAtk, p1BaseSpDef, p1BaseSpeed, p1PyAtkLevel, p1PyDefLevel, p1SpAtkLevel, p1SpDefLevel, p1SpeedLevel, p1Accuracy, p2Evasion, p1mon, p1move1ZeroPP, p1move2ZeroPP, p1move3ZeroPP, p1move4ZeroPP, p2move, p2mon, p2pyatk, p2pydef, p2spatk, p2spdef, p2speed, p2BasePyAtk, p2BasePyDef, p2BaseSpAtk, p2BaseSpDef, p2BaseSpeed, p2PyAtkLevel, p2PyDefLevel, p2SpAtkLevel, p2SpDefLevel, p2SpeedLevel, p2ProtectLevel, p2ProtectRate, p2Reflect, p2LightScreen, spanP2mon, plagiomon2, messagebox2, P2img, p2hp, p2maxhp, pP2HPbar, spanP2HPcount, p2badstatus, p2badpoisoned, p2badpoisonLevel, p2poisoned, p2frozen, p2burned, p2paralyzed, p2flinched, p2confusedLevel, p2Seeded);
+        attackTurn("second", 1, plagiomon1, messagebox1, spanP1mon, P1img, p1hp, p1maxhp, pP1HPbar, spanP1HPcount, p1move, p1moveid, p1PPs, p1Power, p1Evasion, p1EvasionLevel, p1ProtectLevel, p1ProtectMessage, p1ProtectRate, p1Reflect, p1LightScreen, p1badstatus, p1burned, p1poisoned, p1flinched, p1confusedLevel, p1paralyzed, p1fullyparalyzed, p1frozen, p1pyatk, p1pydef, p1spatk, p1spdef, p1speed, p1BasePyAtk, p1BasePyDef, p1BaseSpAtk, p1BaseSpDef, p1BaseSpeed, p1PyAtkLevel, p1PyDefLevel, p1SpAtkLevel, p1SpDefLevel, p1SpeedLevel, p1Accuracy, p2Evasion, p1mon, p1move1ZeroPP, p1move2ZeroPP, p1move3ZeroPP, p1move4ZeroPP, p2move, p2PPs, p2mon, p2pyatk, p2pydef, p2spatk, p2spdef, p2speed, p2BasePyAtk, p2BasePyDef, p2BaseSpAtk, p2BaseSpDef, p2BaseSpeed, p2PyAtkLevel, p2PyDefLevel, p2SpAtkLevel, p2SpDefLevel, p2SpeedLevel, p2ProtectLevel, p2ProtectRate, p2Reflect, p2LightScreen, spanP2mon, plagiomon2, messagebox2, P2img, p2hp, p2maxhp, pP2HPbar, spanP2HPcount, p2badstatus, p2badpoisoned, p2badpoisonLevel, p2poisoned, p2frozen, p2burned, p2paralyzed, p2flinched, p2confusedLevel, p2Seeded);
         console.log("End P1 turn");
     }
 }
 
-function weatherDamage(weather, mon, hp, maxhp) {
+function weatherDamage(weather, mon, hp, maxhp, player) {
     if (hp > 0) {
         if (weather == "Sandstorm") {
             if (mon.type1 != "Rock" && mon.type2 != "Rock" && mon.type1 != "Ground" && mon.type2 != "Ground" && mon.type1 != "Steel" && mon.type2 != "Steel") {
                 let weatherDamage = maxhp*6.25/100;
                 hp-= weatherDamage;
-                alert (mon.name + " is buffeted by the sandstorm! (-" + weatherDamage + "HP)");
+                if (player == 1) {
+                    messagebox1.innerHTML += "<br>" + mon.name + " is buffeted by the sandstorm! (-" + weatherDamage + "HP)";
+                } else if (player == 2) {
+                    messagebox2.innerHTML += "<br>" + mon.name + " is buffeted by the sandstorm! (-" + weatherDamage + "HP)";
+                }
             }
         }
     } else {
@@ -1789,38 +1836,29 @@ function checkFirstStrike(p1move, p2move) {
     p2fullyparalyzed = false;
     lastDamageDealt = -1;
     lastMoveCategory = undefined;
-    if (weather != "clear") {
-        if (weatherLevel < 5) {
-            weatherLevel++;
-        } else {
-            weather = "clear";
-            //should add p1abilityweatherEnd later
-        }
-    }
-    if (p1hp > 0 && p2hp > 0) {
-        p1hp = weatherDamage(weather, plagiomon1, p1hp, p1maxhp);
-        p2hp = weatherDamage(weather, plagiomon2, p2hp, p2maxhp);
-    }
-    p1recurrentDamage = leechSeedandPoison(p1hp, p2hp, messagebox1, plagiomon1, p1Seeded, p1burned, p1badpoisoned, p1badpoisonLevel, p1poisoned);
-    p1badpoisonLevel = p1recurrentDamage[0];
-    p1hp = p1recurrentDamage[2];
-    p1Seeded = p1recurrentDamage[3];
-    if (p2hp > 0) {
-        p2hp+= p1recurrentDamage[1];
-    } 
-    if (p2hp > p2maxhp) {
-        p2hp = p2maxhp;
-    }
-    p2recurrentDamage = leechSeedandPoison(p2hp, p1hp, messagebox2, plagiomon2, p2Seeded, p2burned, p2badpoisoned, p2badpoisonLevel, p2poisoned);
-    p2badpoisonLevel = p2recurrentDamage[0];
-    p2hp = p2recurrentDamage[2];
-    p2Seeded = p2recurrentDamage[3];
-    if (p1hp > 0) {
-        p1hp+= p2recurrentDamage[1];
-    } 
-    if (p1hp > p1maxhp) {
-        p1hp = p1maxhp;
-    }
+    checkWeather();
+    p1recurrentDamage = leechSeedandPoison(1, p1hp, p2hp, messagebox1, plagiomon1, p1Seeded, p1burned, p1badpoisoned, p1badpoisonLevel, p1poisoned);
+    p2recurrentDamage = leechSeedandPoison(2, p2hp, p1hp, messagebox2, plagiomon2, p2Seeded, p2burned, p2badpoisoned, p2badpoisonLevel, p2poisoned);
+    p1hp = weatherDamage(weather, plagiomon1, p1hp, p1maxhp, 1);
+    p2hp = weatherDamage(weather, plagiomon2, p2hp, p2maxhp, 2);
+    // p1badpoisonLevel = p1recurrentDamage[0];
+    // p1hp = p1recurrentDamage[2];
+    // p1Seeded = p1recurrentDamage[3];
+    // if (p2hp > 0) {
+    //     p2hp+= p1recurrentDamage[1];
+    // } 
+    // if (p2hp > p2maxhp) {
+    //     p2hp = p2maxhp;
+    // }
+    // p2badpoisonLevel = p2recurrentDamage[0];
+    // p2hp = p2recurrentDamage[2];
+    // p2Seeded = p2recurrentDamage[3];
+    // if (p1hp > 0) {
+    //     p1hp+= p2recurrentDamage[1];
+    // } 
+    // if (p1hp > p1maxhp) {
+    //     p1hp = p1maxhp;
+    // }
     p1hp = colorHPbar(p1hp, p1maxhp, pP1HPbar, spanP1HPcount, P1img);
     p2hp = colorHPbar(p2hp, p2maxhp, pP2HPbar, spanP2HPcount, P2img);
     if (p1hp <= 0 && p2hp > 0) {
@@ -1858,50 +1896,42 @@ function checkFirstStrike(p1move, p2move) {
 }
 
 function selectp2Move() {
-    if (p2moveid == 0) { //Struggle
+    if (p2moveid == "struggle") { //Struggle
         p2move = plagiomon2.struggle;
         checkFirstStrike(p1move, p2move);
     } else {
-        p2moveid = Math.ceil(Math.random() * 4);
+        p2moveid = Math.floor(Math.random() * 4);
         console.log("p2moveid: " + p2moveid + " (out)");
-        if (p2moveid == 1) {
+        if (p2moveid == 0) {
             p2move = p2moveset[0];
-            console.log("p2moveid: " + p2moveid + " (1in)");
-            console.log("(1) p2movesetPP: " + p2move.setpp);
-            if (p2move.setpp > 0) {
+            if (p2PPs[0] > 0) {
                 console.log("1pp check ok");
                 checkFirstStrike(p1move, p2move);
             } else {
                 console.log("1pp check zero");
                 selectp2Move();
             }
-        } else if (p2moveid == 2) {
+        } else if (p2moveid == 1) {
             p2move = p2moveset[1];
-            console.log("p2moveid: " + p2moveid + " (2in)")
-            console.log("(2) p2movesetPP: " + p2move.setpp);
-            if (p2move.setpp > 0) {
+            if (p2PPs[1] > 0) {
                 console.log("2pp check ok");
                 checkFirstStrike(p1move, p2move);
             } else {
                 console.log("2pp check zero");
                 selectp2Move();
             }
-        } else if (p2moveid == 3) {
+        } else if (p2moveid == 2) {
             p2move = p2moveset[2];
-            console.log("p2moveid: " + p2moveid + " (3in)")
-            console.log("(3) p2movesetPP: " + p2move.setpp);
-            if (p2move.setpp > 0) {
+            if (p2PPs[2] > 0) {
                 console.log("3pp check ok");
                 checkFirstStrike(p1move, p2move);
             } else {
                 console.log("3pp check zero");
                 selectp2Move();
             }
-        } else if (p2moveid == 4) {
+        } else if (p2moveid == 3) {
             p2move = p2moveset[3];
-            console.log("p2moveid: " + p2moveid + " (4in)")
-            console.log("(4) p2movesetPP: " + p2move.setpp);
-            if (p2move.setpp > 0) {
+            if (p2PPs[3] > 0) {
                 console.log("4pp check ok");
                 checkFirstStrike(p1move, p2move);
             } else {
@@ -1911,67 +1941,67 @@ function selectp2Move() {
         } else {
             console.log("Illegal moveid: " + p2moveid);
         }
+        console.log("p2moveid: " + p2moveid + " in")
+        console.log("p2movesetPP: " + p2PPs[p2moveid]);
     }
 }
 
 function selectp1Move() {
-    if (p1hp > 0 && p2hp > 0) {
-        console.log("selectp1move-");
-        if (radiomove0.checked == true) {
-            p1move = plagiomon1.struggle;
-            p1moveid = 0; //Struggle
-            console.log("selectp1move0");
+    console.log("selectp1move-");
+    if (moveStruggle == true) {
+        p1move = plagiomon1.struggle;
+        p1moveid = "struggle"; //Struggle
+        console.log("selected p1 move: " + p1moveid);
+        selectp2Move();
+    } else if (radiomoves[0].checked == true) {
+        p1move = p1moveset[0];
+        if (p1PPs[0] > 0) {
+            p1moveid = 0;
+            console.log("selectp1move1");
             selectp2Move();
-        } else if (radiomove1.checked == true) {
-            p1move = p1moveset[0];
-            if (p1move.setpp > 0) {
-                p1moveid = 1;
-                console.log("selectp1move1");
-                selectp2Move();
-            } else {
-                messagebox1.innerHTML = "No PP left for " + p1move.name + "!";
-                p1move = undefined;
-                return;
-            }
-        } else if (radiomove2.checked == true) {
-            p1move = p1moveset[1];
-            if (p1move.setpp > 0) {
-                p1moveid = 2;
-                selectp2Move();
-            } else {
-                messagebox1.innerHTML = "No PP left for " + p1move.name + "!";
-                p1move = undefined;
-                return;
-            }
-        } else if (radiomove3.checked == true) {
-            p1move = p1moveset[2];
-            if (p1move.setpp > 0) {
-                p1moveid = 3;
-                selectp2Move();
-            } else {
-                messagebox1.innerHTML = "No PP left for " + p1move.name + "!";
-                p1move = undefined;
-                return;
-            }
-        } else if (radiomove4.checked == true) {
-            p1move = p1moveset[3];
-            if (p1move.setpp > 0) {
-                p1moveid = 4;
-                selectp2Move();
-            } else {
-                messagebox1.innerHTML = "No PP left for " + p1move.name + "!";
-                p1move = undefined;
-                return;
-            }
         } else {
-            messagebox1.innerHTML = "You need to choose a move to begin battle...";
+            messagebox1.innerHTML = "No PP left for " + p1move.name + "!";
+            p1move = undefined;
+            return;
         }
+    } else if (radiomoves[1].checked == true) {
+        p1move = p1moveset[1];
+        if (p1PPs[1] > 0) {
+            p1moveid = 1;
+            selectp2Move();
+        } else {
+            messagebox1.innerHTML = "No PP left for " + p1move.name + "!";
+            p1move = undefined;
+            return;
+        }
+    } else if (radiomoves[2].checked == true) {
+        p1move = p1moveset[2];
+        if (p1PPs[2] > 0) {
+            p1moveid = 2;
+            selectp2Move();
+        } else {
+            messagebox1.innerHTML = "No PP left for " + p1move.name + "!";
+            p1move = undefined;
+            return;
+        }
+    } else if (radiomoves[3].checked == true) {
+        p1move = p1moveset[3];
+        if (p1PPs[3] > 0) {
+            p1moveid = 3;
+            selectp2Move();
+        } else {
+            messagebox1.innerHTML = "No PP left for " + p1move.name + "!";
+            p1move = undefined;
+            return;
+        }
+    } else {
+        messagebox1.innerHTML = "You need to choose a move to begin battle...";
     }
 }
 
 //TODO: #0f4 reemplazar instancias de amon y dmon con atacker.name y defender.name, respeectivamente
-function accuracyCheck(accOrder, pmove, paccuracy, pevasion, attackertext, attackerboxp, amon, player, attacker, attackerimg, attackerHP, attackerHPbar, attackerHPcount, attackerMaxHP, attackerPower, aEvasion, aEvasionLevel, aProtectLevel, aProtectMessage, aProtectRate, aReflect, aLightScreen, abadstatus, aburned, afrozen, aparalyzed, afullyparalyzed, apoisoned, aflinched, aconfusedLevel, apyatk, apydef, aspatk, aspdef, aspeed, aBasePyAtk, aBasePyDef, aBaseSpAtk, aBaseSpDef, aBaseSpeed, aPyAtkLevel, aPyDefLevel, aSpAtkLevel, aSpDefLevel, aSpeedLevel, dMove, dmon, dpyatk, dpydef, dspatk, dspdef, dspeed, dBasePyAtk, dBasePyDef, dBaseSpAtk, dBaseSpDef, dBaseSpeed, dPyAtkLevel, dPyDefLevel, dSpAtkLevel, dSpDefLevel, dSpeedLevel, dProtectLevel, dProtectRate, dReflect, dLightScreen, dmontext, defender, defenderboxp, defenderimg, defenderHP, defenderHPbar, defenderHPcount, defenderMaxHP, dbadstatus, dpoisoned, dfrozen, dburned, dparalyzed, dflinched, dconfusedLevel, dSeeded, dbadpoisoned, dbadpoisonLevel) {
-    //alert("acc Check pmove: " + pmove.name);
+function accuracyCheck(accOrder, aMove, aPP, paccuracy, pevasion, attackertext, attackerboxp, amon, player, attacker, attackerimg, attackerHP, attackerHPbar, attackerHPcount, attackerMaxHP, attackerPower, aEvasion, aEvasionLevel, aProtectLevel, aProtectMessage, aProtectRate, aReflect, aLightScreen, abadstatus, aburned, afrozen, aparalyzed, afullyparalyzed, apoisoned, aflinched, aconfusedLevel, apyatk, apydef, aspatk, aspdef, aspeed, aBasePyAtk, aBasePyDef, aBaseSpAtk, aBaseSpDef, aBaseSpeed, aPyAtkLevel, aPyDefLevel, aSpAtkLevel, aSpDefLevel, aSpeedLevel, dMove, dPP, dmon, dpyatk, dpydef, dspatk, dspdef, dspeed, dBasePyAtk, dBasePyDef, dBaseSpAtk, dBaseSpDef, dBaseSpeed, dPyAtkLevel, dPyDefLevel, dSpAtkLevel, dSpDefLevel, dSpeedLevel, dProtectLevel, dProtectRate, dReflect, dLightScreen, dmontext, defender, defenderboxp, defenderimg, defenderHP, defenderHPbar, defenderHPcount, defenderMaxHP, dbadstatus, dpoisoned, dfrozen, dburned, dparalyzed, dflinched, dconfusedLevel, dSeeded, dbadpoisoned, dbadpoisonLevel) {
+    //alert("acc Check aMove: " + aMove.name);
     //alert("acc Check defenderMaxHP: " + defenderMaxHP);
     let missrate = Math.round(Math.random() * pevasion);
     console.log("accuracyCheck player" + player + " turn");
@@ -1980,21 +2010,21 @@ function accuracyCheck(accOrder, pmove, paccuracy, pevasion, attackertext, attac
         console.log("No Guard is present, ignoring accuracy checks");
     } else {
         console.log("No Guard is not present, checking accuracy");
-        if (pmove.accuracy != "-") {
+        if (aMove.accuracy != "-") {
             console.log("accuracyCheck0");
-            let hitrate = paccuracy * pmove.accuracy / 100;
+            let hitrate = paccuracy * aMove.accuracy / 100;
             if (missrate <= hitrate) {
                 console.log("accifEvasionLevel: " + aEvasionLevel);
             }
             else {
                 //need to update game data, set power to 0 (null);-      +
-                attackerMessage = amon + "'s " + pmove.name + " missed!";
+                attackerMessage = amon + "'s " + aMove.name + " missed!";
                 console.log(attackerMessage);
                 messagebox.innerHTML = attackerMessage;
                 attackmiss = true;
-                pmove.setpp--;
+                aPP[aMove.moveid]--;
                 if (defender.ability == "Pressure") {
-                    pmove.setpp--;
+                    aPP[aMove.moveid]--;
                 }
                 if (player == 1) {
                     console.log("accuracyCheckelse2");
@@ -2005,38 +2035,38 @@ function accuracyCheck(accOrder, pmove, paccuracy, pevasion, attackertext, attac
         }
     }
     console.log("skipped fEvasionLevel: " + aEvasionLevel);
-    gamedata1 = checkMove(accOrder, pmove, amon, apyatk, apydef, aspatk, aspdef, aspeed, aBasePyAtk, aBasePyDef, aBaseSpAtk, aBaseSpDef, aBaseSpeed, aPyAtkLevel, aPyDefLevel, aSpAtkLevel, aSpDefLevel, aSpeedLevel, abadstatus, aburned, afrozen, aparalyzed, afullyparalyzed, apoisoned, aflinched, aconfusedLevel, attacker, attackertext, attackerboxp, attackerimg, attackerHP, attackerHPbar, attackerHPcount, attackerMaxHP, attackerPower, aEvasion, aEvasionLevel, aProtectLevel, aProtectMessage, aProtectRate, aReflect, aLightScreen, dMove, dmon, dpyatk, dpydef, dspatk, dspdef, dspeed, dBasePyAtk, dBasePyDef, dBaseSpAtk, dBaseSpDef, dBaseSpeed, dPyAtkLevel, dPyDefLevel, dSpAtkLevel, dSpDefLevel, dSpeedLevel, dProtectLevel, dProtectRate, dReflect, dLightScreen, dmontext, defender, defenderboxp, defenderimg, defenderHP, defenderHPbar, defenderHPcount, defenderMaxHP, dbadstatus, dpoisoned, dfrozen, dburned, dparalyzed, dflinched, dconfusedLevel, dSeeded, lastMoveCategory, lastDamageDealt);
+    gamedata1 = checkMove(accOrder, aMove, aPP, amon, apyatk, apydef, aspatk, aspdef, aspeed, aBasePyAtk, aBasePyDef, aBaseSpAtk, aBaseSpDef, aBaseSpeed, aPyAtkLevel, aPyDefLevel, aSpAtkLevel, aSpDefLevel, aSpeedLevel, abadstatus, aburned, afrozen, aparalyzed, afullyparalyzed, apoisoned, aflinched, aconfusedLevel, attacker, attackertext, attackerboxp, attackerimg, attackerHP, attackerHPbar, attackerHPcount, attackerMaxHP, attackerPower, aEvasion, aEvasionLevel, aProtectLevel, aProtectMessage, aProtectRate, aReflect, aLightScreen, dMove, dPP, dmon, dpyatk, dpydef, dspatk, dspdef, dspeed, dBasePyAtk, dBasePyDef, dBaseSpAtk, dBaseSpDef, dBaseSpeed, dPyAtkLevel, dPyDefLevel, dSpAtkLevel, dSpDefLevel, dSpeedLevel, dProtectLevel, dProtectRate, dReflect, dLightScreen, dmontext, defender, defenderboxp, defenderimg, defenderHP, defenderHPbar, defenderHPcount, defenderMaxHP, dbadstatus, dpoisoned, dfrozen, dburned, dparalyzed, dflinched, dconfusedLevel, dSeeded, lastMoveCategory, lastDamageDealt);
 }
 
 function checkPP(player) {
     if (player == 1) {
-        if (p1move.setpp == 0) {
-            if (p1moveid == 1) {
+        if (p1PPs[p1moveid] == 0) {
+            if (p1moveid == 0) {
                 p1move1ZeroPP = true;
                 labelmoves[0].style.filter = "invert(1)";
-            } else if (p1moveid == 2) {
+            } else if (p1moveid == 1) {
                 p1move2ZeroPP = true;
                 labelmoves[1].style.filter = "invert(1)";
-            } else if (p1moveid == 3) {
+            } else if (p1moveid == 2) {
                 p1move3ZeroPP = true;
                 labelmoves[2].style.filter = "invert(1)";
-            } else if (p1moveid == 4) {
+            } else if (p1moveid == 3) {
                 p1move4ZeroPP = true;
                 labelmoves[3].style.filter = "invert(1)";
             } else
                 console.log("Unknown p1 moveid reached zero PP");
         }
         if (p1move1ZeroPP == true && p1move2ZeroPP == true && p1move3ZeroPP == true && p1move4ZeroPP == true) {
-            radiomove0.checked = true;
-            radiomove1.disabled = true;
-            radiomove2.disabled = true;
-            radiomove3.disabled = true;
-            radiomove4.disabled = true;
+            moveStruggle = true;
+            radiomoves[0].disabled = true;
+            radiomoves[1].disabled = true;
+            radiomoves[2].disabled = true;
+            radiomoves[3].disabled = true;
         }  else {
             console.log("all zero PP is not true");
         } 
     } else if (player == 2) {
-        if (p2move.setpp == 0) {
+        if (p2PPs[p2moveid] == 0) {
             if (p2moveid == 1) {
                 p2move1ZeroPP = true;
             } else if (p2moveid == 2) {
@@ -2049,7 +2079,7 @@ function checkPP(player) {
                 console.log("Unknown p2 moveid reached zero PP");
         }
         if (p2move1ZeroPP == true && p2move2ZeroPP == true && p2move3ZeroPP == true && p2move4ZeroPP == true) {
-            p2moveid = 0;
+            p2moveid = "struggle";
         }
     } else {
         console.log("Can't check PP due to unknown player ID");
@@ -2058,180 +2088,163 @@ function checkPP(player) {
 
 function updatePlayerData(player) {
     if (player == 1) {
-        p1hp = gamedata1[0];
+        p1PPs = gamedata1[0];
+        p1hp = gamedata1[1];
+        //p1maxhp
         console.log("P1HP: uPD1 " + p1hp + " (case" + player +")");
-        p1pyatk = gamedata1[2];
-        p1pydef = gamedata1[3];
-        p1spatk = gamedata1[4];
-        p1spdef = gamedata1[5];
-        p1speed = gamedata1[6];
-        p1BasePyAtk = gamedata1[7];
-        p1BasePyDef = gamedata1[8];
-        p1BaseSpAtk = gamedata1[9];
-        p1BaseSpDef = gamedata1[10];
-        p1BaseSpeed = gamedata1[11];
-        p1PyAtkLevel = gamedata1[12];
-        p1PyDefLevel = gamedata1[13];
-        p1SpAtkLevel = gamedata1[14];
-        p1SpDefLevel = gamedata1[15];
-        p1SpeedLevel = gamedata1[16];
+        p1pyatk = gamedata1[3];
+        p1pydef = gamedata1[4];
+        p1spatk = gamedata1[5];
+        p1spdef = gamedata1[6];
+        p1speed = gamedata1[7];
+        p1BasePyAtk = gamedata1[8];
+        p1BasePyDef = gamedata1[9];
+        p1BaseSpAtk = gamedata1[10];
+        p1BaseSpDef = gamedata1[11];
+        p1BaseSpeed = gamedata1[12];
+        p1PyAtkLevel = gamedata1[13];
+        p1PyDefLevel = gamedata1[14];
+        p1SpAtkLevel = gamedata1[15];
+        p1SpDefLevel = gamedata1[16];
+        p1SpeedLevel = gamedata1[17];
         //atatckerpower
-        p1badstatus = gamedata1[18];
-        p1poisoned = gamedata1[19];
-        p1burned = gamedata1[20];
-        p1paralyzed = gamedata1[21];
-        p1flinched = gamedata1[22];
-        p1confusedLevel = gamedata1[23];
-        p1fullyparalyzed = gamedata1[24];
-        p1frozen = gamedata1[25];
-        p1Evasion = gamedata1[26];
-        p1EvasionLevel = gamedata1[27];
-        p1ProtectLevel = gamedata1[28];
-        p1ProtectMessage = gamedata1[29];
-        p1ProtectRate = gamedata1[30];
-        p1Reflect = gamedata1[31];
-        p1LightScreen = gamedata1[32];
+        p1badstatus = gamedata1[19];
+        p1poisoned = gamedata1[20];
+        p1burned = gamedata1[21];
+        p1paralyzed = gamedata1[22];
+        p1flinched = gamedata1[23];
+        p1confusedLevel = gamedata1[24];
+        p1fullyparalyzed = gamedata1[25];
+        p1frozen = gamedata1[26];
+        p1Evasion = gamedata1[27];
+        p1EvasionLevel = gamedata1[28];
+        p1ProtectLevel = gamedata1[29];
+        p1ProtectMessage = gamedata1[30];
+        p1ProtectRate = gamedata1[31];
+        p1Reflect = gamedata1[32];
+        p1LightScreen = gamedata1[33];
+        p2PPs = gamedata1[34];
+        p2hp = gamedata1[35];
         //p2maxhp
-        p2hp = gamedata1[33];
-        p2pyatk = gamedata1[35];
-        p2pydef = gamedata1[36];
-        p2spatk = gamedata1[37];
-        p2spdef = gamedata1[38];
-        p2speed = gamedata1[39];
-        p2BasePyAtk = gamedata1[40];
-        p2BasePyDef = gamedata1[41];
-        p2BaseSpAtk = gamedata1[42];
-        p2BaseSpDef = gamedata1[43];
-        p2BaseSpeed = gamedata1[44];
-        p2PyAtkLevel = gamedata1[45];
-        p2PyDefLevel = gamedata1[46];
-        p2SpAtkLevel = gamedata1[47];
-        p2SpDefLevel = gamedata1[48];
-        p2SpeedLevel = gamedata1[49];
-        p2ProtectLevel = gamedata1[50];
-        p2ProtectRate = gamedata1[51];
-        p2Reflect = gamedata1[52];
-        p2LightScreen = gamedata1[53];
-        p2badstatus = gamedata1[54];
-        p2poisoned = gamedata1[55];
-        p2frozen = gamedata1[56];
-        p2burned = gamedata1[57];
-        p2paralyzed = gamedata1[58];
-        p2flinched = gamedata1[59];
-        p2confusedLevel = gamedata1[60];
-        p2Seeded = gamedata1[61];
+        p2pyatk = gamedata1[37];
+        p2pydef = gamedata1[38];
+        p2spatk = gamedata1[39];
+        p2spdef = gamedata1[40];
+        p2speed = gamedata1[41];
+        p2BasePyAtk = gamedata1[42];
+        p2BasePyDef = gamedata1[43];
+        p2BaseSpAtk = gamedata1[44];
+        p2BaseSpDef = gamedata1[45];
+        p2BaseSpeed = gamedata1[46];
+        p2PyAtkLevel = gamedata1[47];
+        p2PyDefLevel = gamedata1[48];
+        p2SpAtkLevel = gamedata1[49];
+        p2SpDefLevel = gamedata1[50];
+        p2SpeedLevel = gamedata1[51];
+        p2ProtectLevel = gamedata1[52];
+        p2ProtectRate = gamedata1[53];
+        p2Reflect = gamedata1[54];
+        p2LightScreen = gamedata1[55];
+        p2badstatus = gamedata1[56];
+        p2poisoned = gamedata1[57];
+        p2frozen = gamedata1[58];
+        p2burned = gamedata1[59];
+        p2paralyzed = gamedata1[60];
+        p2flinched = gamedata1[61];
+        p2confusedLevel = gamedata1[62];
+        p2Seeded = gamedata1[63];
 
     } else if (player == 2) {
-        p2hp = gamedata1[0];
+        p2PPs = gamedata1[0];
+        p2hp = gamedata1[1];
+        //p2maxhp
         console.log("P2HP: uPD1 " + p2hp + " (case" + player +")");
-        p2pyatk = gamedata1[2];
-        p2pydef = gamedata1[3];
-        p2spatk = gamedata1[4];
-        p2spdef = gamedata1[5];
-        p2speed = gamedata1[6];
-        p2BasePyAtk = gamedata1[7];
-        p2BasePyDef = gamedata1[8];
-        p2BaseSpAtk = gamedata1[9];
-        p2BaseSpDef = gamedata1[10];
-        p2BaseSpeed = gamedata1[11];
-        p2PyAtkLevel = gamedata1[12];
-        p2PyDefLevel = gamedata1[13];
-        p2SpAtkLevel = gamedata1[14];
-        p2SpDefLevel = gamedata1[15];
-        p2SpeedLevel = gamedata1[16];
+        p2pyatk = gamedata1[3];
+        p2pydef = gamedata1[4];
+        p2spatk = gamedata1[5];
+        p2spdef = gamedata1[6];
+        p2speed = gamedata1[7];
+        p2BasePyAtk = gamedata1[8];
+        p2BasePyDef = gamedata1[9];
+        p2BaseSpAtk = gamedata1[10];
+        p2BaseSpDef = gamedata1[11];
+        p2BaseSpeed = gamedata1[12];
+        p2PyAtkLevel = gamedata1[13];
+        p2PyDefLevel = gamedata1[14];
+        p2SpAtkLevel = gamedata1[15];
+        p2SpDefLevel = gamedata1[16];
+        p2SpeedLevel = gamedata1[17];
         //attackerPower
-        p2badstatus = gamedata1[18];
-        p2poisoned = gamedata1[19];
-        p2burned = gamedata1[20];
-        p2paralyzed = gamedata1[21];
-        p2flinched = gamedata1[22];
-        p2confusedLevel = gamedata1[23];
-        p2fullyparalyzed = gamedata1[24];
-        p2frozen = gamedata1[25];
-        p2Evasion = gamedata1[26];
-        p2EvasionLevel = gamedata1[27];
-        p2ProtectLevel = gamedata1[28];
-        p2ProtectMessage = gamedata1[29];
-        p2ProtectRate = gamedata1[30];
-        p2Reflect = gamedata1[31];
-        p2LightScreen = gamedata1[32];
-        p1hp = gamedata1[33];
+        p2badstatus = gamedata1[19];
+        p2poisoned = gamedata1[20];
+        p2burned = gamedata1[21];
+        p2paralyzed = gamedata1[22];
+        p2flinched = gamedata1[23];
+        p2confusedLevel = gamedata1[24];
+        p2fullyparalyzed = gamedata1[25];
+        p2frozen = gamedata1[26];
+        p2Evasion = gamedata1[27];
+        p2EvasionLevel = gamedata1[28];
+        p2ProtectLevel = gamedata1[29];
+        p2ProtectMessage = gamedata1[30];
+        p2ProtectRate = gamedata1[31];
+        p2Reflect = gamedata1[32];
+        p2LightScreen = gamedata1[33];
+        p1PPs = gamedata1[34];
+        p1hp = gamedata1[35];
         //p1maxhp
-        p1pyatk = gamedata1[35];
-        p1pydef = gamedata1[36];
-        p1spatk = gamedata1[37];
-        p1spdef = gamedata1[38];
-        p1speed = gamedata1[39];
-        p1BasePyAtk = gamedata1[40];
-        p1BasePyDef = gamedata1[41];
-        p1BaseSpAtk = gamedata1[42];
-        p1BaseSpDef = gamedata1[43];
-        p1BaseSpeed = gamedata1[44];
-        p1PyAtkLevel = gamedata1[45];
-        p1PyDefLevel = gamedata1[46];
-        p1SpAtkLevel = gamedata1[47];
-        p1SpDefLevel = gamedata1[48];
-        p1SpeedLevel = gamedata1[49];
-        p1ProtectLevel = gamedata1[50];
-        p1ProtectRate = gamedata1[51];
-        p1Reflect = gamedata1[52];
-        p1LightScreen = gamedata1[53];
-        p1badstatus = gamedata1[54];
-        p1poisoned = gamedata1[55];
-        p1frozen = gamedata1[56];
-        p1burned = gamedata1[57];
-        p1paralyzed = gamedata1[58];
-        p1flinched = gamedata1[59];
-        p1confusedLevel = gamedata1[60];
-        p1Seeded = gamedata1[61];
+        p1pyatk = gamedata1[37];
+        p1pydef = gamedata1[38];
+        p1spatk = gamedata1[39];
+        p1spdef = gamedata1[40];
+        p1speed = gamedata1[41];
+        p1BasePyAtk = gamedata1[42];
+        p1BasePyDef = gamedata1[43];
+        p1BaseSpAtk = gamedata1[44];
+        p1BaseSpDef = gamedata1[45];
+        p1BaseSpeed = gamedata1[46];
+        p1PyAtkLevel = gamedata1[47];
+        p1PyDefLevel = gamedata1[48];
+        p1SpAtkLevel = gamedata1[49];
+        p1SpDefLevel = gamedata1[50];
+        p1SpeedLevel = gamedata1[51];
+        p1ProtectLevel = gamedata1[52];
+        p1ProtectRate = gamedata1[53];
+        p1Reflect = gamedata1[54];
+        p1LightScreen = gamedata1[55];
+        p1badstatus = gamedata1[56];
+        p1poisoned = gamedata1[57];
+        p1frozen = gamedata1[58];
+        p1burned = gamedata1[59];
+        p1paralyzed = gamedata1[60];
+        p1flinched = gamedata1[61];
+        p1confusedLevel = gamedata1[62];
+        p1Seeded = gamedata1[63];
     } else {
         console.log("ERROR: Can't update Player (" + player +") Data");
     }
-    return [p1hp, p1pyatk, p1pydef, p1spatk, p1spdef, p1speed, p1BasePyAtk, p1BasePyDef, p1BaseSpAtk, p1BaseSpDef, p1BaseSpeed, p1PyAtkLevel, p1PyDefLevel, p1SpAtkLevel, p1SpDefLevel, p1SpeedLevel, p1Power, p1Evasion, p1EvasionLevel, p1ProtectLevel, p1ProtectMessage, p1ProtectRate, p1Reflect, p1LightScreen, p1badstatus, p1poisoned, p1frozen, p1burned, p1paralyzed, p1fullyparalyzed, p1flinched, p1confusedLevel, p1Seeded, p2hp, p2pyatk, p2pydef, p2spatk, p2spdef, p2speed, p2BasePyAtk, p2BasePyDef, p2BaseSpAtk, p2BaseSpDef, p2BaseSpeed, p2PyAtkLevel, p2PyDefLevel, p2SpAtkLevel, p2SpDefLevel, p2SpeedLevel, p2Power, p2Evasion, p2EvasionLevel, p2ProtectLevel, p2ProtectMessage, p2ProtectRate, p2Reflect, p2LightScreen, p2badstatus, p2poisoned, p2frozen, p2burned, p2paralyzed, p2fullyparalyzed, p2flinched, p2confusedLevel, p2Seeded]
+    return [p1PPs, p1hp, p1pyatk, p1pydef, p1spatk, p1spdef, p1speed, p1BasePyAtk, p1BasePyDef, p1BaseSpAtk, p1BaseSpDef, p1BaseSpeed, p1PyAtkLevel, p1PyDefLevel, p1SpAtkLevel, p1SpDefLevel, p1SpeedLevel, p1Power, p1Evasion, p1EvasionLevel, p1ProtectLevel, p1ProtectMessage, p1ProtectRate, p1Reflect, p1LightScreen, p1badstatus, p1poisoned, p1frozen, p1burned, p1paralyzed, p1fullyparalyzed, p1flinched, p1confusedLevel, p1Seeded, p2PPs, p2hp, p2pyatk, p2pydef, p2spatk, p2spdef, p2speed, p2BasePyAtk, p2BasePyDef, p2BaseSpAtk, p2BaseSpDef, p2BaseSpeed, p2PyAtkLevel, p2PyDefLevel, p2SpAtkLevel, p2SpDefLevel, p2SpeedLevel, p2Power, p2Evasion, p2EvasionLevel, p2ProtectLevel, p2ProtectMessage, p2ProtectRate, p2Reflect, p2LightScreen, p2badstatus, p2poisoned, p2frozen, p2burned, p2paralyzed, p2fullyparalyzed, p2flinched, p2confusedLevel, p2Seeded]
 }
 
-function checkBarrier(amon, barrier, type) {
+function checkBarrier(player, amon, barrier, type) {
     if (barrier > 0) {
-        console.log(amon + "'s " + type + " Turn: " + barrier);
+        messagebox.innerHTML = amon + "'s " + type + " Turn: " + barrier + "<br>";
         barrier++;
         if (barrier > 5) {
             barrier = 0;
-            alert("Your " + amon + "'s " + type + " whore off!");
+            if (player == 1) {
+                messagebox.innerHTML = "Your " + amon + "'s " + type + " whore off!<br>";
+            } else if (player == 2) {
+                messagebox.innerHTML = "CPU " + amon + "'s " + type + " whore off!<br>";
+            } else {
+                alert("WHOSE BARRIER IS THIS?");
+            }
         }
     }
     return barrier;
 }
 
-function checkWeatherAbilities(mon) {
-    if (mon.ability == "Sand Stream") {
-        weather = "Sandstorm";
-    }
-    else if (mon.ability == "Drizzle") {
-        weather = "Rainy";
-    }
-    else if (mon.ability == "Drought") {
-        weather = "Sunny";
-    }
-    else if (mon.ability == "Snow Warning") {
-        weather = "Hail";
-    }
-    return weather;
-}
-
-function checkWeather(attacker, defender) {
-    if (weatherLevel == -1) {
-        checkWeatherAbilities(attacker);
-        checkWeatherAbilities(defender);
-        if (weather != "clear") {
-            weatherLevel++;
-        }
-    } else {
-
-    }
-    return [weather, weatherLevel];
-}
-
-function attackTurn(turnOrder, player, attacker, attackerboxp, spanattackermon, attackerimg, attackerHP, attackerMaxHP, attackerHPbar, attackerHPcount, attackerMove, attackerMoveID, attackerPower, aEvasion, aEvasionLevel, aProtectLevel, aProtectMessage, aProtectRate, aReflect, aLightScreen, abadstatus, aburned, apoisoned, aflinched, aconfusedLevel, aparalyzed, afullyparalyzed, afrozen, apyatk, apydef, aspatk, aspdef, aspeed, aBasePyAtk, aBasePyDef, aBaseSpAtk, aBaseSpDef, aBaseSpeed, aPyAtkLevel, aPyDefLevel, aSpAtkLevel, aSpDefLevel, aSpeedLevel, aaccuracy, devasion, amon, amove1ZeroPP, amove2ZeroPP, amove3ZeroPP, amove4ZeroPP, dMove, dmon, dpyatk, dpydef, dspatk, dspdef, dspeed, dBasePyAtk, dBasePyDef, dBaseSpAtk, dBaseSpDef, dBaseSpeed, dPyAtkLevel, dPyDefLevel, dSpAtkLevel, dSpDefLevel, dSpeedLevel, dProtectLevel, dProtectRate, dReflect, dLightScreen, dmontext, defender, defenderboxp, defenderimg, defenderHP, defenderMaxHP, defenderHPbar, defenderHPcount, dbadstatus, dbadpoisoned, dbadpoisonLevel, dpoisoned, dfrozen, dburned, dparalyzed, dflinched, dconfusedLevel, dSeeded) {
+function attackTurn(turnOrder, player, attacker, attackerboxp, spanattackermon, attackerimg, attackerHP, attackerMaxHP, attackerHPbar, attackerHPcount, attackerMove, attackerMoveID, aPP, attackerPower, aEvasion, aEvasionLevel, aProtectLevel, aProtectMessage, aProtectRate, aReflect, aLightScreen, abadstatus, aburned, apoisoned, aflinched, aconfusedLevel, aparalyzed, afullyparalyzed, afrozen, apyatk, apydef, aspatk, aspdef, aspeed, aBasePyAtk, aBasePyDef, aBaseSpAtk, aBaseSpDef, aBaseSpeed, aPyAtkLevel, aPyDefLevel, aSpAtkLevel, aSpDefLevel, aSpeedLevel, aaccuracy, devasion, amon, amove1ZeroPP, amove2ZeroPP, amove3ZeroPP, amove4ZeroPP, dMove, dPP, dmon, dpyatk, dpydef, dspatk, dspdef, dspeed, dBasePyAtk, dBasePyDef, dBaseSpAtk, dBaseSpDef, dBaseSpeed, dPyAtkLevel, dPyDefLevel, dSpAtkLevel, dSpDefLevel, dSpeedLevel, dProtectLevel, dProtectRate, dReflect, dLightScreen, dmontext, defender, defenderboxp, defenderimg, defenderHP, defenderMaxHP, defenderHPbar, defenderHPcount, dbadstatus, dbadpoisoned, dbadpoisonLevel, dpoisoned, dfrozen, dburned, dparalyzed, dflinched, dconfusedLevel, dSeeded) {
     if (turnOrder == "first") {
         messagebox = messagebox1;
     } else if (turnOrder == "second") {
@@ -2239,9 +2252,8 @@ function attackTurn(turnOrder, player, attacker, attackerboxp, spanattackermon, 
     }
     messagebox.innerHTML = "";
     console.log("Player " + player + " turn");
-    aReflect = checkBarrier(amon, aReflect, "Reflect");
-    aLightScreen = checkBarrier(amon, aLightScreen, "Light Screen");
-    checkWeather(attacker, defender);
+    aReflect = checkBarrier(player, amon, aReflect, "Reflect");
+    aLightScreen = checkBarrier(player, amon, aLightScreen, "Light Screen");
     if (attackerHP > 0) {
         if (plagiomon1 != "NULLMON" && plagiomon2 != "NULLMON") {
             if (dMove.effect != "protect") {
@@ -2250,7 +2262,7 @@ function attackTurn(turnOrder, player, attacker, attackerboxp, spanattackermon, 
                     dProtectRate = 100;
                 }
             }
-                console.log("pmove: " + attackerMove.name + " | amon: " + amon + " | attacker: " + attacker);
+                console.log("aMove: " + attackerMove.name + " | amon: " + amon);
                 if (attacker.type1 == "Roosting") {
                     attacker.type1 = "Flying";
                 }
@@ -2264,10 +2276,8 @@ function attackTurn(turnOrder, player, attacker, attackerboxp, spanattackermon, 
                     aspeed = attacker.maxspeed/2;
                     let fullparalysis = Math.round(Math.random() * 100);
                     if (fullparalysis > 75 ) {
-                       afullyparalyzed = true;
-                        setTimeout(() => {
-                            messagebox.innerHTML = amon + " is fully paralyzed!<br>It can't move!";
-                        }, 2000);
+                        afullyparalyzed = true;
+                        messagebox.innerHTML = amon + " is fully paralyzed!<br>It can't move!";
                     }
                 }
                 else if (afrozen == true) {
@@ -2278,29 +2288,26 @@ function attackTurn(turnOrder, player, attacker, attackerboxp, spanattackermon, 
                             abadstatus = false;
                             spanattackermon.innerHTML = "P1<b>" + amon + "</b>:";
                             spanattackermon.style.color = "";
-                            setTimeout(() => {
-                                messagebox.innerHTML = amon + " thawed out of freeze!";
-                            }, 2000)
+                            messagebox.innerHTML += amon + " thawed out of freeze!";
                             //alert(amon + " defrost!");
                         } else {
-                            setTimeout(() => {
-                                messagebox.innerHTML = amon + " is frozen rock solid!";
-                            }, 2000);
+                            messagebox.innerHTML += amon + " is frozen rock solid!";
                         }
                     }
                 }
                 //Struggle
-                if (attackerMoveID == 0) {
+                if (attackerMoveID == "struggle") {
                     console.log(attacker.name + " will use Struggle!");
-                    accuracyCheck(turnOrder, attackerMove, aaccuracy, devasion, spanattackermon, attackerboxp, amon,  player, attacker, attackerimg, attackerHP, attackerHPbar, attackerHPcount, attackerMaxHP, attackerPower, aEvasion, aEvasionLevel, aProtectLevel, aProtectMessage, aProtectRate, aReflect, aLightScreen, abadstatus, aburned, afrozen, aparalyzed, afullyparalyzed, apoisoned, aflinched, aconfusedLevel, apyatk, apydef, aspatk, aspdef, aspeed, aBasePyAtk, aBasePyDef, aBaseSpAtk, aBaseSpDef, aBaseSpeed, aPyAtkLevel, aPyDefLevel, aSpAtkLevel, aSpDefLevel, aSpeedLevel, dMove, dmon, dpyatk, dpydef, dspatk, dspdef, dspeed, dBasePyAtk, dBasePyDef, dBaseSpAtk, dBaseSpDef, dBaseSpeed, dPyAtkLevel, dPyDefLevel, dSpAtkLevel, dSpDefLevel, dSpeedLevel, dProtectLevel, dProtectRate, dReflect, dLightScreen, dmontext, defender, defenderboxp, defenderimg, defenderHP, defenderHPbar, defenderHPcount, defenderMaxHP, dbadstatus, dpoisoned, dfrozen, dburned, dparalyzed, dflinched, dconfusedLevel, dSeeded, dbadpoisoned, dbadpoisonLevel);
+                    accuracyCheck(turnOrder, attackerMove, aPP, aaccuracy, devasion, spanattackermon, attackerboxp, amon,  player, attacker, attackerimg, attackerHP, attackerHPbar, attackerHPcount, attackerMaxHP, attackerPower, aEvasion, aEvasionLevel, aProtectLevel, aProtectMessage, aProtectRate, aReflect, aLightScreen, abadstatus, aburned, afrozen, aparalyzed, afullyparalyzed, apoisoned, aflinched, aconfusedLevel, apyatk, apydef, aspatk, aspdef, aspeed, aBasePyAtk, aBasePyDef, aBaseSpAtk, aBaseSpDef, aBaseSpeed, aPyAtkLevel, aPyDefLevel, aSpAtkLevel, aSpDefLevel, aSpeedLevel, dMove, dPP, dmon, dpyatk, dpydef, dspatk, dspdef, dspeed, dBasePyAtk, dBasePyDef, dBaseSpAtk, dBaseSpDef, dBaseSpeed, dPyAtkLevel, dPyDefLevel, dSpAtkLevel, dSpDefLevel, dSpeedLevel, dProtectLevel, dProtectRate, dReflect, dLightScreen, dmontext, defender, defenderboxp, defenderimg, defenderHP, defenderHPbar, defenderHPcount, defenderMaxHP, dbadstatus, dpoisoned, dfrozen, dburned, dparalyzed, dflinched, dconfusedLevel, dSeeded, dbadpoisoned, dbadpoisonLevel);
                     console.log(attacker.name + " used Struggle!!");
                 }
-                else if (attackerMoveID == 1 || attackerMoveID == 2 || attackerMoveID == 3 || attackerMoveID == 4) {
+                else if (attackerMoveID == 0 || attackerMoveID == 1 || attackerMoveID == 2 || attackerMoveID == 3) {
                     console.log(attacker.name + " will use " + attackerMove.name + "!");
-                    accuracyCheck(turnOrder, attackerMove, aaccuracy, devasion, spanattackermon, attackerboxp, amon,  player, attacker, attackerimg, attackerHP, attackerHPbar, attackerHPcount, attackerMaxHP, attackerPower, aEvasion, aEvasionLevel, aProtectLevel, aProtectMessage, aProtectRate, aReflect, aLightScreen, abadstatus, aburned, afrozen, aparalyzed, afullyparalyzed, apoisoned, aflinched, aconfusedLevel, apyatk, apydef, aspatk, aspdef, aspeed, aBasePyAtk, aBasePyDef, aBaseSpAtk, aBaseSpDef, aBaseSpeed, aPyAtkLevel, aPyDefLevel, aSpAtkLevel, aSpDefLevel, aSpeedLevel, dMove, dmon, dpyatk, dpydef, dspatk, dspdef, dspeed, dBasePyAtk, dBasePyDef, dBaseSpAtk, dBaseSpDef, dBaseSpeed, dPyAtkLevel, dPyDefLevel, dSpAtkLevel, dSpDefLevel, dSpeedLevel, dProtectLevel, dProtectRate, dReflect, dLightScreen, dmontext, defender, defenderboxp, defenderimg, defenderHP, defenderHPbar, defenderHPcount, defenderMaxHP, dbadstatus, dpoisoned, dfrozen, dburned, dparalyzed, dflinched, dconfusedLevel, dSeeded, dbadpoisoned, dbadpoisonLevel);
+                    accuracyCheck(turnOrder, attackerMove, aPP, aaccuracy, devasion, spanattackermon, attackerboxp, amon,  player, attacker, attackerimg, attackerHP, attackerHPbar, attackerHPcount, attackerMaxHP, attackerPower, aEvasion, aEvasionLevel, aProtectLevel, aProtectMessage, aProtectRate, aReflect, aLightScreen, abadstatus, aburned, afrozen, aparalyzed, afullyparalyzed, apoisoned, aflinched, aconfusedLevel, apyatk, apydef, aspatk, aspdef, aspeed, aBasePyAtk, aBasePyDef, aBaseSpAtk, aBaseSpDef, aBaseSpeed, aPyAtkLevel, aPyDefLevel, aSpAtkLevel, aSpDefLevel, aSpeedLevel, dMove, dPP, dmon, dpyatk, dpydef, dspatk, dspdef, dspeed, dBasePyAtk, dBasePyDef, dBaseSpAtk, dBaseSpDef, dBaseSpeed, dPyAtkLevel, dPyDefLevel, dSpAtkLevel, dSpDefLevel, dSpeedLevel, dProtectLevel, dProtectRate, dReflect, dLightScreen, dmontext, defender, defenderboxp, defenderimg, defenderHP, defenderHPbar, defenderHPcount, defenderMaxHP, dbadstatus, dpoisoned, dfrozen, dburned, dparalyzed, dflinched, dconfusedLevel, dSeeded, dbadpoisoned, dbadpoisonLevel);
                     console.log(attacker.name + " used " + attackerMove.name + "!!");
                 }  else {
                     messagebox.innerHTML = "You need to choose a move to begin battle...";
+                    console.log(attacker.name + " failed to use " + attackerMove.name + "!");
                 }
                 console.log("before checkPP");
                 checkPP(player, attackerMove, attackerMoveID, amove1ZeroPP, amove2ZeroPP, amove3ZeroPP, amove4ZeroPP);

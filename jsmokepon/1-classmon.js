@@ -23,10 +23,12 @@ class Plagiomon {
         this.maxspatk = spatk * level + (((-level/10) + 10)/2);
         this.maxspdef = spdef * level + (((-level/10) + 10)/2);
         this.maxspeed = speed * level + (((-level/10) + 10)/2);
-        this.moveset;
+        this.moveset = [];
         this.struggle = {
+            moveid: "moveStruggle",
             name: "Struggle",
-            category: "physical",
+            category: "Physical",
+            contact: true,
             critrate: "standard",
             power: 50,
             accuracy: "-",
@@ -37,7 +39,9 @@ class Plagiomon {
             minpp: 1,
             maxpp: 1,
             effect: "RecoilStruggle",
+            recoil: Math.round(this.maxhp/4),
             target: "single",
+            description: "You are not supposed to be reading this."
         };
     }
 }
@@ -53,9 +57,9 @@ class Plagiomon {
 let Maceta = plagiodex[3] = new Plagiomon("Maceta", 3, "Overgrow", 50, "Grass", "Poison", 3.64, 2.89, 2.91, 3.28, 3.28, 2.84);
 Maceta.moveset = [
     {
-        moveid: "move1",
+        moveid: 0,
         name: "Giga Drain",
-        category: "special",
+        category: "Special",
         contact: false,
         critrate: "standard",
         power: 75,
@@ -63,17 +67,18 @@ Maceta.moveset = [
         type: "Grass",
         stab: true,
         priority: 0,
-        setpp: 100,
+        setpp: 10,
         minpp: 10,
         maxpp: 16,
         effect: "drain",
         recoil: 0,
         target: "single",
+        description: "Half of the HP drained from the target is added to the user's HP.",
     },
     {
-        moveid: "move2",
+        moveid: 1,
         name: "Sludge Bomb",
-        category: "special",
+        category: "Special",
         contact: false,
         critrate: "standard",
         power: 90,
@@ -87,11 +92,12 @@ Maceta.moveset = [
         effect: "poison",
         recoil: 0,
         target: "single",
+        description: "Has a 30% chance of poisoning the target.",
     },
     {
-        moveid: "move3",
+        moveid: 2,
         name: "Leech Seed",
-        category: "status",
+        category: "Status",
         contact: false,
         critrate: "none",
         power: "-",
@@ -105,11 +111,12 @@ Maceta.moveset = [
         effect: "sap",
         recoil: 0,
         target: "single",
+        description: "Plants a seed on the target Pokémon. Drains ⅛ of the target's HP for the attacker every turn.",
     },
     {
-        moveid: "move4",
+        moveid: 3,
         name: "Protect",
-        category: "status",
+        category: "Status",
         contact: false,
         critrate: "none",
         power: "-",
@@ -123,6 +130,7 @@ Maceta.moveset = [
         effect: "protect",
         recoil: 0,
         target: "self",
+        description: "Protects the user from all attacks. Its chance of failing rises if it is used in succession.",
     },
 ];
 console.log(Maceta.moveset);
@@ -132,9 +140,9 @@ console.log(Maceta.moveset);
 let Kakuchin = plagiodex[6] = new Plagiomon("Kakuchin", 6, "Blaze", 50, "Fire", "Flying", 3.6, 2.93, 2.8, 3.48, 2.95, 3.28);
 Kakuchin.moveset = [
     {
-        moveid: "move1",
+        moveid: 0,
         name: "Fire Blast",
-        category: "special",
+        category: "Special",
         contact: false,
         critrate: "standard",
         power: 110,
@@ -148,11 +156,12 @@ Kakuchin.moveset = [
         effect: "burn",
         recoil: 0,
         target: "single",
+        description: "A powerful fiery blast that has a 10% chance of burning the target.",
     },
     {
-        moveid: "move2",
+        moveid: 1,
         name: "Air Slash",
-        category: "special",
+        category: "Special",
         contact: false,
         critrate: "standard",
         power: 75,
@@ -165,11 +174,12 @@ Kakuchin.moveset = [
         maxpp: 24,
         effect: "flinch",
         target: "single",
+        description: "Has a 30% chance of causing the target to flinch.",
     },
     {
-        moveid: "move3",
+        moveid: 2,
         name: "Earthquake",
-        category: "physical",
+        category: "Physical",
         contact: false,
         critrate: "standard",
         power: 100,
@@ -183,13 +193,14 @@ Kakuchin.moveset = [
         effect: "hitDig",
         recoil: 0,
         target: "all",
+        description: "Can hit a Pokémon during the semi-invulnerable turn of Dig, and if it does, it doubles the damage."
     },
     //Tentaive Focus Blast replacement
     //Tentative Hurricane replacement
     {
-        moveid: "move4",
+        moveid: 3,
         name: "Shadow Claw",
-        category: "physical",
+        category: "Physical",
         contact: true,
         critrate: "increased",
         power: 70,
@@ -203,6 +214,7 @@ Kakuchin.moveset = [
         effect: "highCrit",
         recoil: 0,
         target: "single",
+        description: "The user slashes with a sharp claw made from shadows. It has a high critical-hit ratio.",
     },
     //Tentative Earthquake replacement
     //Tentative Scorching Sands replacement
@@ -213,9 +225,9 @@ console.log(Kakuchin.moveset);
 let Pochoclo = plagiodex[9] = new Plagiomon("Pochoclo", 9, "Torrent", 50, "Water", "", 3.62, 2.91, 3.28, 2.95, 3.39, 2.80);
 Pochoclo.moveset = [
     {
-        moveid: "move1",
+        moveid: 0,
         name: "Hydro Pump",
-        category: "special",
+        category: "Special",
         contact: false,
         critrate: "standard",
         power: 110,
@@ -229,11 +241,12 @@ Pochoclo.moveset = [
         effect: "none",
         recoil: 0,
         target: "single",
+        description: "A huge volume of water is blasted at the foe under great pressure.",
     },
     {
-        moveid: "move2",
+        moveid: 1,
         name: "Aqua Jet",
-        category: "physical",
+        category: "Physical",
         contact: true,
         critrate: "standard",
         power: 40,
@@ -247,11 +260,12 @@ Pochoclo.moveset = [
         effect: "quickattack",
         recoil: 0,
         target: "single",
+        description: "A fast Water-type attack that it is guaranteed to strike first. It has a priority of +1",
     },
     {
-        moveid: "move3",
+        moveid: 2,
         name: "Ice Beam",
-        category: "special",
+        category: "Special",
         contact: false,
         critrate: "standard",
         power: 90,
@@ -265,11 +279,12 @@ Pochoclo.moveset = [
         effect: "freeze",
         recoil: 0,
         target: "single",
+        description: "Has a 10% chance of freezing the target.",
     },
     {
-        moveid: "move4",
+        moveid: 3,
         name: "Mirror Coat",
-        category: "special",
+        category: "Special",
         contact: false,
         critrate: "none",
         power: "-",
@@ -283,6 +298,7 @@ Pochoclo.moveset = [
         effect: "returnDamage2x",
         recoil: 0,
         target: "single",
+        description: "A retaliation move that counters any special attack, inflicting double the damage taken.",
     },
 ];
 console.log(Pochoclo.moveset);
@@ -290,9 +306,9 @@ console.log(Pochoclo.moveset);
 let Shikapu = plagiodex[25] = new Plagiomon("Shikapu", 25, "Static", 50, "Electric", "", 2.74, 2.29, 1.96, 2.18, 2.18, 3.06);
 Shikapu.moveset = [
     {
-        moveid: "move1",
+        moveid: 0,
         name: "Volt Tackle",
-        category: "physical",
+        category: "Physical",
         contact: true,
         critrate: "standard",
         power: 120,
@@ -306,29 +322,31 @@ Shikapu.moveset = [
         effect: "paralyze",
         recoil: 1/3,
         target: "single",
+        description: "The user receives recoil damage equal to ⅓ of the damage done to the target. Also has a 10% chance of paralyzing the target.",
     },
     {
-        moveid: "move2",
-        name: "Thunderbolt",
-        category: "special",
-        contact: false,
+        moveid: 1,
+        name: "Fake Out",
+        category: "Physical",
+        contact: true,
         critrate: "standard",
-        power: 90,
+        power: 40,
         accuracy: 100,
-        type: "Electric",
+        type: "Normal",
         stab: true,
-        priority: 0,
-        setpp: 15,
-        minpp: 15,
+        priority: 3,
+        setpp: 10,
+        minpp: 10,
         maxpp: 16,
-        effect: "paralyze",
+        effect: "flinch100%",
         recoil: 0,
         target: "single",
+        description: "A 1st-turn, 1st-strike move that causes flinching. Usable only on 1st turn. Has +3 Priority",
     },
     {
-        moveid: "move3",
+        moveid: 2,
         name: "Counter",
-        category: "physical",
+        category: "Physical",
         contact: true,
         critrate: "none",
         power: "-",
@@ -342,12 +360,13 @@ Shikapu.moveset = [
         effect: "returnDamage2x",
         recoil: 0,
         target: "single",
+        description: "A retaliation move that counters any physical attack, inflicting double the damage taken.",
     },
     {
-        moveid: "move4",
+        moveid: 3,
         name: "Electroweb",
         contact: false,
-        category: "special",
+        category: "Special",
         critrate: "standard",
         power: 55,
         accuracy: 95,
@@ -360,6 +379,7 @@ Shikapu.moveset = [
         effect: "lowerSpeed1x100%",
         recoil: 0,
         target: "single",
+        description: "Lowers the target's Speed stat by one stage.",
     },
 ];
 console.log(Shikapu.moveset);
@@ -369,9 +389,9 @@ console.log(Shikapu.moveset);
 let Gexninja = plagiodex[658] = new Plagiomon("Gexninja", 658, "Torrent", 50, "Water", "Dark", 3.48, 3.17, 2.56, 3.35, 2.65, 3.77);
 Gexninja.moveset = [
     {
-        moveid: "move1",
+        moveid: 0,
         name: "Hydro Pump",
-        category: "special",
+        category: "Special",
         contact: false,
         critrate: "standard",
         power: 110,
@@ -385,11 +405,12 @@ Gexninja.moveset = [
         effect: "none",
         recoil: 0,
         target: "all",
+        description: "A huge volume of water is blasted at the foe under great pressure.",
     },
     {
-        moveid: "move2",
+        moveid: 1,
         name: "Night Slash",
-        category: "physical",
+        category: "Physical",
         contact: true,
         critrate: "increased",
         power: 70,
@@ -403,11 +424,12 @@ Gexninja.moveset = [
         effect: "highcrit",
         recoil: 0,
         target: "single",
+        description: "The user slashes the foe the instant an opportunity arises. It has a high critical-hit ratio.",
     },
     {
-        moveid: "move3",
+        moveid: 2,
         name: "Swagger",
-        category: "status",
+        category: "Status",
         contact: false,
         critrate: "none",
         power: "-",
@@ -421,11 +443,12 @@ Gexninja.moveset = [
         effect: "confuse100%",
         recoil: 0,
         target: "single",
+        description: "The user enrages the foe into confusion. Also, it sharply raises the foe's Attack stat.",
     },
     {
-        moveid: "move4",
+        moveid: 3,
         name: "Double Team",
-        category: "status",
+        category: "Status",
         contact: false,
         critrate: "none",
         power: "-",
@@ -439,6 +462,7 @@ Gexninja.moveset = [
         effect: "raiseEvasion",
         recoil: 0,
         target: "self",
+        description: "By moving rapidly, the user makes illusory copies of itself to raise its evasion by one stage.",
     },
 ];
 console.log(Gexninja.moveset);
@@ -447,9 +471,9 @@ console.log(Gexninja.moveset);
 let Shazakazam = plagiodex[65] = new Plagiomon("Shazakazam", 65, "Synchronize", 50, "Psychic", "", 3.14, 2.18, 2.07, 4.05, 3.17, 3.72);
 Shazakazam.moveset = [
     {
-        moveid: "move1",
+        moveid: 0,
         name: "Psychic",
-        category: "special",
+        category: "Special",
         contact: false,
         critrate: "standard",
         power: 90,
@@ -463,11 +487,12 @@ Shazakazam.moveset = [
         effect: "lowerSpDef1x10%",
         recoil: 0,
         target: "single",
+        description: "Has a 10% chance of lowering the target's Special Defense by one stage.",
     },
     {
-        moveid: "move2",
+        moveid: 1,
         name: "Tri Attack",
-        category: "special",
+        category: "Special",
         contact: false,
         critrate: "standard",
         power: 80,
@@ -481,11 +506,12 @@ Shazakazam.moveset = [
         effect: "triattack",
         recoil: 0,
         target: "single",
+        description: "Has a 20% chance of either paralyzing, freezing, or burning the target. Each ailment has an equal chance of being inflicted.",
     },
     {
-        moveid: "move3",
+        moveid: 2,
         name: "Focus Blast",
-        category: "special",
+        category: "Special",
         contact: false,
         critrate: "standard",
         power: 120,
@@ -499,11 +525,12 @@ Shazakazam.moveset = [
         effect: "lowerSpDef1x10%",
         recoil: 0,
         target: "single",
+        description: "A powerful blast that has a 10% chance of lowering the target's Sp. Def. by one stage.",
     },
     {
-        moveid: "move4",
+        moveid: 3,
         name: "Reflect",
-        category: "status",
+        category: "Status",
         contact: false,
         critrate: "none",
         power: "-",
@@ -517,6 +544,7 @@ Shazakazam.moveset = [
         effect: "halfPhysicalDamage",
         recoil: 0,
         target: "self",
+        description: "A wall of light that halves damage from physical attacks for five turns.",
     },
 ];
 console.log(Shazakazam.moveset);
@@ -525,9 +553,9 @@ console.log(Shazakazam.moveset);
 let Cuatrobiceps = plagiodex[68] = new Plagiomon("Cuatrobiceps", 68, "No Guard", 50, "Fighting", "", 3.84, 3.94, 2.84, 2.51, 2.95, 2.29);
 Cuatrobiceps.moveset = [
     {
-        moveid: "move1",
+        moveid: 0,
         name: "Dynamic Punch",
-        category: "physical",
+        category: "Physical",
         critrate: "standard",
         contact: true,
         power: 100,
@@ -541,11 +569,12 @@ Cuatrobiceps.moveset = [
         effect: "confuse100%",
         recoil: 0,
         target: "single",
+        description: "An attack that always confuses. Inaccurate unless it's used by an user with No Guard ability."
     },
     {
-        moveid: "move2",
+        moveid: 1,
         name: "Payback",
-        category: "physical",
+        category: "Physical",
         contact: true,
         critrate: "standard",
         power: 50,
@@ -559,11 +588,12 @@ Cuatrobiceps.moveset = [
         effect: "revengeTurn",
         recoil: 0,
         target: "single",
+        description: "If the user can use this attack after the foe attacks, its power is doubled.",
     },
     {
-        moveid: "move3",
+        moveid: 2,
         name: "Fire Punch",
-        category: "physical",
+        category: "Physical",
         contact: true,
         critrate: "standard",
         power: 75,
@@ -577,11 +607,12 @@ Cuatrobiceps.moveset = [
         effect: "burn",
         recoil: 0,
         target: "single",
+        description: "A fiery punch that has a 10% chance of burning the target.",
     },
     {
-        moveid: "move4",
+        moveid: 3,
         name: "Stone Edge",
-        category: "physical",
+        category: "Physical",
         contact: false,
         critrate: "increased",
         power: 100,
@@ -595,6 +626,7 @@ Cuatrobiceps.moveset = [
         effect: "highCrit",
         recoil: 0,
         target: "single",
+        description: "Stabs the foe with sharpened stones from below. Has a high critical-hit ratio.",
     },
 ];
 console.log(Cuatrobiceps.moveset);
@@ -603,9 +635,9 @@ console.log(Cuatrobiceps.moveset);
 let Rockzilla = plagiodex[248] = new Plagiomon("Rockzilla", 248, "Sand Stream", 50, "Rock", "Dark", 4.04, 4.03, 3.5, 3.17, 3.28, 2.43);
 Rockzilla.moveset = [
     {
-        moveid: "move1",
+        moveid: 0,
         name: "Rock Slide",
-        category: "physical",
+        category: "Physical",
         contact: false,
         critrate: "standard",
         power: 75,
@@ -618,12 +650,13 @@ Rockzilla.moveset = [
         maxpp: 16,
         effect: "flinch",
         recoil: 0,
-        target: "single",
+        target: "adjacentFoes",
+        description: "Large boulders are hurled at the foes. Has a 30% chance of causing each target to flinch.",
     },
     {
-        moveid: "move2",
+        moveid: 1,
         name: "Crunch",
-        category: "physical",
+        category: "Physical",
         contact: true,
         critrate: "standard",
         power: 80,
@@ -634,14 +667,15 @@ Rockzilla.moveset = [
         setpp: 15,
         minpp: 15,
         maxpp: 24,
-        effect: "lowerPyDef1x10%",
+        effect: "lowerPyDef1x20%",
         recoil: 0,
         target: "single",
+        description: "Has a 20% chance of lowering the target's Defense stat by one stage.",
     },
     {
-        moveid: "move3",
+        moveid: 2,
         name: "Double Edge",
-        category: "physical",
+        category: "Physical",
         contact: true,
         critrate: "standard",
         power: 120,
@@ -655,11 +689,12 @@ Rockzilla.moveset = [
         effect: "none",
         recoil: 1/3,
         target: "single",
+        description: "The user receives recoil damage equal to ⅓ of the damage done to the target.",
     },
     {
-        moveid: "move4",
+        moveid: 3,
         name: "Dragon Dance",
-        category: "status",
+        category: "Status",
         contact: false,
         critrate: "none",
         power: "-",
@@ -673,6 +708,7 @@ Rockzilla.moveset = [
         effect: "raisePyAtk1xSpeed1x",
         recoil: 0,
         target: "self",
+        description: "Raises the user's Attack stat and Speed stat by one stage each.",
     },
 ];
 console.log(Rockzilla.moveset);

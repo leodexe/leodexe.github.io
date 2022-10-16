@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mokepon?</title>
+    <title>PLAGIOMON XD</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -21,8 +21,9 @@
     <section class="atk-select">
         <div class="players-info">
             <h2><span id="mon-name" hidden></span><span id="turncounter"></span></h2>
+            <p id="weather-info"></p>
             <div id="p1-info">
-                <figure class="mon-imgcontainer">
+                <figure class="mon-imgcontainer mon-img1">
                     <img src="./mons/mewtwosomething.png" alt="" id="p1-img">
                 </figure>
                 <div class="p1-mon-status">
@@ -34,7 +35,7 @@
                 </div>
             </div>
             <div id="p2-info">
-                <figure class="mon-imgcontainer">
+                <figure class="mon-imgcontainer mon-img2">
                     <img src="./mons/lucariosomething.png" alt="" id="p2-img">
                 </figure>
                 <div class="p2-mon-status">
@@ -49,19 +50,17 @@
     </section>
     <section id="moves-section-hider" hidden>
         <div class="moves-section" id="moves-section">
-            <input type="radio" name="movepool" id="move0" hidden>
+            <!--input type="radio" name="movepool" id="moveStruggle" hidden-->
+            <button class="button-info" id="attackinfo">Help</button>
             <div id="move-container">
                 <!--here goes injected moveset-->
             </div>
-            <div id="attackbox">
-                <button class="button-select" id="attacknow">Attack!</button>
-            </div>
-
+            <button class="button-select" id="attacknow">Attack!</button>
         </div>
     </section>
     <section id="messages">
-        <p id="upper-message-box">Nintendo no me demandes por favor :c</p>
-        <p id="lower-message-box">Las imágenes pertenecen a TerminalMontage, checa sus videos.</p>
+        <p id="upper-message-box" class="message-box">Nintendo no me demandes por favor :c</p>
+        <p id="lower-message-box" class="message-box">Las imágenes pertenecen a TerminalMontage, checa sus videos.</p>
     </section>
     <section id="restart">
         <span id="restart-text"></span>
