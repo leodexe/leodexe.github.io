@@ -25,8 +25,8 @@ h1 {
     margin: 10% 0;
 }
 
-h1, .h2-monselect {
-    background: rgba(255,255,255,0.66);
+h1, h2 {
+    background: rgba(255,255,255,0.75);
     border-radius: 1rem;
 }
 
@@ -198,6 +198,30 @@ h1, .h2-monselect {
     border-radius: 1rem;
     margin-right: auto;
     transition: width 1s;
+}
+
+#map-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+#map-title, #map {
+    grid-column: 1/4;
+    /* min-width: 200px;
+    width: 95vw;
+    max-width: 1280px;
+    max-height: 1024px; */
+}
+
+#map-section #map {
+    border: solid 1px black;
+}
+
+#map-section #arrowUp {
+    grid-column: 1/4;
+    display: block;
+    width: 33.333333%;
+    justify-self: center;
 }
 
 #moves-section-hider {

@@ -14,11 +14,10 @@
         </div>
         <h2 class="h2-monselect" id="h2-monselect">Pick a mon and click the orange button!</h2>
         <button class="button-select" id="button-monselect">Select your mon</button>
-        <button class="button-select" id="button-rngselect">Random mon</button>
-        <button class="button-select" id="button-cpuselect">Select CPU mon</button>
+        <!-- <button class="button-select" id="button-rngselect">Random mon</button>
+        <button class="button-select" id="button-cpuselect">Select CPU mon</button> -->
     </section>
-    <button class="button-select" id="rematchnow" hidden>Rematch!</button>
-    <section class="atk-select">
+    <section id="player-section" hidden>
         <div class="players-info">
             <h2><span id="mon-name" hidden></span><span id="turncounter"></span></h2>
             <p id="weather-info"></p>
@@ -48,6 +47,16 @@
             </div>
         </div>
     </section>
+    <section id="map-section-hider" hidden>
+        <div id="map-section">
+            <h2 id="map-title">Defeat the enemy mons!</h2>
+            <canvas id="map"></canvas>
+            <button onmouseup="moveStop()" onmousedown="moveUp()" id="arrowUp">Up</button>
+            <button onmouseup="moveStop()" onmousedown="moveLeft()" id="arrowLeft">Left</button>
+            <button onmouseup="moveStop()" onmousedown="moveDown()" id="arrowDown">Down</button>
+            <button onmouseup="moveStop()" onmousedown="moveRight()" id="arrowRight">Right</button>
+        </div>
+    </section>
     <section id="moves-section-hider" hidden>
         <div class="moves-section" id="moves-section">
             <!--input type="radio" name="movepool" id="moveStruggle" hidden-->
@@ -59,11 +68,14 @@
         </div>
     </section>
     <section id="messages">
-        <p id="upper-message-box" class="message-box">Nintendo no me demandes por favor :c</p>
-        <p id="lower-message-box" class="message-box">Las imágenes pertenecen a TerminalMontage, checa sus videos.</p>
+        <p id="upper-message-box" class="message-box">Nintendo <a href="https://tierragamer.com/noticias/nintendo-meme-game-boy-carton/">no me demandes</a> por favor :c</p>
+        <p id="lower-message-box" class="message-box">Las imágenes pertenecen a <a href="https://www.youtube.com/c/TerminalMontage">TerminalMontage</a>, checa sus videos.</p>
+        <button class="button-select" id="button-backtomap" hidden>Back to map</button>
+        <button class="button-select" id="rematchnow" hidden>Rematch!</button>
     </section>
     <section id="restart">
-        <span id="restart-text"></span>
+        <button class="button-select" id="button-restart" hidden>Reiniciar</button>
+        <p id="restart-text"></p>
     </section>
     <script defer src="./1-classmon.js"></script>
     <script defer src="./2-showmon.js"></script>

@@ -59,7 +59,7 @@ plagiodex.forEach((plagiomon) => {
         <input type="radio" name="typemon" title="${plagiomon.name}" class="plagiomon-radio ${plagiomon._idname}" id="${plagiomon.id}" hidden>
         <label for="${plagiomon.id}" class="label-plagiomon label-${plagiomon._idname}">
             <figure class="mon-imgcontainer">
-                <img src="${plagiomon.img}" alt="${plagiomon.name}" class="plagiomon-img">
+                <img src="${plagiomon.img.src}" alt="${plagiomon.name}" class="plagiomon-img">
             </figure>
             <span id="${plagiomon._idname}-nameLv">${plagiomon.name}</span>
             <p id="${plagiomon._idname}-stats"></p>

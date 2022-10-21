@@ -3,11 +3,11 @@ const sectionmonselect = document.getElementById("mon-select");
 const radiodex = document.querySelectorAll(".plagiomon-radio");
 const monselect = document.getElementById("button-monselect");
 monselect.addEventListener("click", fmonselect);
-const rngselect = document.getElementById("button-rngselect");
-rngselect.addEventListener("click", fmonrandom);
-const cpuselect = document.getElementById("button-cpuselect");
-cpuselect.addEventListener("click", fcpuselect);
-
+// const rngselect = document.getElementById("button-rngselect");
+// rngselect.addEventListener("click", fmonrandom);
+// const cpuselect = document.getElementById("button-cpuselect");
+// cpuselect.addEventListener("click", fcpuselect);
+const playersection = document.getElementById("player-section");
 const spanturncounter = document.getElementById("turncounter");
 const spanmon = document.getElementById("mon-name");
 const weathertext = document.getElementById("weather-info");
@@ -21,6 +21,15 @@ const spanP2mon = document.getElementById("p2-mon");
 const spanP2HPcount = document.getElementById("p2-life-count");
 const pP2HPbar = document.getElementById("p2-hpbar");
 const pP2status = document.getElementById("p2-statmodifiers");
+const mapsectionhider = document.getElementById("map-section-hider");
+const maptitle = document.getElementById("map-title");
+const mapcanvas = document.getElementById("map");
+const mapMaxWidth = 768;
+let mapWidth;
+let mapHeight;
+const draw = mapcanvas.getContext("2d");
+const plagiomap = new Image();
+plagiomap.src = "./plagiomap.png";
 const movesectionhider = document.getElementById("moves-section-hider");
 const divmovesection = document.getElementById("moves-section");
 const divmovecontainer = document.getElementById("move-container");
@@ -36,14 +45,26 @@ const buttonattacknow = document.getElementById("attacknow");
 buttonattacknow.addEventListener("click", selectp1Move);
 const buttonattackinfo = document.getElementById("attackinfo");
 buttonattackinfo.addEventListener("click", fgetAttackInfo);
-let messagebox, savebox1, savebox2;
+let gamemode, drawInterval, messagebox, savebox1, savebox2;
+const sectionMessages = document.getElementById("messages");
 const messagebox1 = document.getElementById("upper-message-box");
 const messagebox2 = document.getElementById("lower-message-box");
+const buttonmap = document.getElementById("button-backtomap");
+buttonmap.addEventListener("click", foverworld);
+const buttonrestart = document.getElementById("button-restart");
+buttonrestart.addEventListener("click", () => {
+    location.reload();    
+});
 const spanrestartbox = document.getElementById("restart-text");
 
 let plagiomon1, lastmon1, p1mon, p1monid, p1hp, p1maxhp, p1pyatk, p1pydef, p1spatk, p1spdef, p1speed, p1BasePyAtk, p1BasePyDef, p1BaseSpAtk, p1BaseSpDef, p1BaseSpeed, p1PyAtkLevel, p1PyDefLevel, p1SpAtkLevel, p1SpDefLevel, p1SpeedLevel, p1Accuracy, p1AccuracyLevel, p1Evasion, p1EvasionLevel, p1Reflect, p1LightScreen, p1Power, p1moveset, p1PPs, p1move, p1moveid, p1flinched, p1confusedLevel, p1badstatus, p1burned, p1paralyzed, p1fullyparalyzed, p1frozen, p1badpoisoned, p1badpoisonLevel, p1poisoned, p1Seeded, p1recurrentDamage, p1ProtectRate, p1ProtectLevel,  p1ProtectMessage, p1ProtectReset, p1move1ZeroPP, p1move2ZeroPP, p1move3ZeroPP, p1move4ZeroPP;
 let plagiomon2, lastmon2, p2mon, p2monid, p2hp, p2maxhp, p2pyatk, p2pydef, p2spatk, p2spdef, p2speed, p2BasePyAtk, p2BasePyDef, p2BaseSpAtk, p2BaseSpDef, p2BaseSpeed, p2PyAtkLevel, p2PyDefLevel, p2SpAtkLevel, p2SpDefLevel, p2SpeedLevel, p2Accuracy, p2AccuracyLevel, p2Evasion, p2EvasionLevel, p2Reflect, p2LightScreen, p2Power, p2moveset, p2PPs, p2move, p2moveid, p2flinched, p2confusedLevel, p2badstatus, p2burned, p2paralyzed, p2fullyparalyzed, p2frozen, p2badpoisoned, p2badpoisonLevel, p2poisoned, p2Seeded, p2recurrentDamage, p2ProtectRate, p2ProtectLevel, p2ProtectMessage, p2ProtectReset, p2move1ZeroPP, p2move2ZeroPP, p2move3ZeroPP, p2move4ZeroPP;
-let selection = 1;
+
+let plagiomons = [];
+let p1up, p1down, p1left, p1right;
+let cpup, cpdown, cpleft, cpright;
+let defeatedmons = 0;
+
 plagiomon1 = p1mon = p1monid = plagiomon2 = p2mon = p2monid = "NULLMON";
 let PPindex, p1weather, p2weather; //not needed for now
 let attackmiss, gamedata1, gamedata2, hpleech, leechMessage, weather, weatherLevel, lastMoveCategory, lastDamageDealt, sametypeattackbonus, turncounter, p1win, p1loss, p1tie, roundcounter;
@@ -53,12 +74,8 @@ sametypeattackbonus = 1.5;
 function frematchnow() {
     if (plagiomon1 == "NULLMON") {
         plagiomon1 = lastmon1;
-        p1mon = plagiomon1.name;
-        P1img.src = plagiomon1.img;
     } if (plagiomon2 == "NULLMON") {
         plagiomon2 = lastmon2;
-        p2mon = plagiomon2.name;
-        p2monid = plagiomon2.id;
     }
     fselectedmon();
 }
@@ -68,8 +85,10 @@ function fgetAttackInfo() {
     let noradio = false;
     for (radio of radiomoves) {
         if (radio.checked == true) {
-            messagebox1.innerHTML = "Category: " + p1moveset[infodex].category + " | Power: " + p1moveset[infodex].power + " | Accuracy: " + p1moveset[infodex].accuracy + "%";
-            messagebox2.innerHTML = p1moveset[infodex].description;
+            let newtext1 = "Category: " + p1moveset[infodex].category + " | Power: " + p1moveset[infodex].power + " | Accuracy: " + p1moveset[infodex].accuracy + "%";
+            let newtext2 = p1moveset[infodex].description
+            messagebox1.innerHTML = newtext1;
+            messagebox2.innerHTML = newtext2;
             noradio = true;
         }
         infodex++;
@@ -90,12 +109,11 @@ function fmonselect() {
         }
     }
     if (p1monid != "NULLMON") {
-        selection = 2;
         plagiomon1 = plagiodex[p1monid];
         p1mon = plagiomon1.name;
-        P1img.src = plagiomon1.img;
+        P1img.src = plagiomon1.img.src;
         if (p1hp <= 0) {
-            P1img.style.filter = "grayscale(0)";
+            P1img.src = "./mons/" + plagiomon1.name + "something.png";
             spanP1HPcount.style.color = pP1HPbar.style.background = "black";
         } if (p2hp <= 0) {
             pP1HPbar.style.width = "0px";
@@ -104,11 +122,21 @@ function fmonselect() {
         spanP1mon.innerHTML = "You chose " + p1mon;
         spanP2mon.innerHTML = "Select CPU mon.";
         h2subtitle.innerHTML = "Select Player 2 (CPU) mon";
-        monselect.hidden = true;
-
-        if (plagiomon2 != "NULLMON") {
-            fselectedmon();
+        for (mons of plagiodex) {
+            if (mons != undefined) {
+                console.log(mons);
+                plagiomons.push(mons);
+                if (mons.id != plagiomon1.id) {
+                    let rx = frandom(0, mapcanvas.width - mons.width);
+                    let ry = frandom(0, mapcanvas.height - mons.height);
+                    mons.x = rx;
+                    mons.y = ry;
+                }
+            }
         }
+        foverworld()
+        // fselectedmon();
+        
     } else {
         spanP1mon.innerHTML = "No mon has been selected.";
     }
@@ -119,70 +147,268 @@ function fmonselect() {
     });
 }
 
-function fcpuselect() {
-    plagiomon2 = p2mon = p2monid = "NULLMON";
-    for (radiomon in radiodex) {
-        if (radiodex[radiomon].checked == true) {
-            console.log("CPU chose: " + radiodex[radiomon].title);
-            p2monid = radiodex[radiomon].id;
-        }
+function foverworld() {
+    h1maintitle.hidden = true;
+    sectionmonselect.hidden = true;
+    // monselect.hidden = true;
+    // cpuselect.hidden = true;
+    // rngselect.hidden = true;
+    playersection.hidden = true;
+    mapsectionhider.hidden = false;
+    if (defeatedmons > 9) {
+        defeatedmons = 9;
     }
-    if (p2monid != "NULLMON") {
-        selection = 3;
-        plagiomon2 = plagiodex[p2monid];
-        p2mon = plagiomon2.name;
-        P2img.src = plagiomon2.img;
-        if (p2hp <= 0) {
-            P2img.style.filter = "grayscale(0)";
-            spanP2HPcount.style.color = pP2HPbar.style.background = "black";
-        } if (p1hp <= 0) {
-            pP2HPbar.style.width = "0px";
-        }
-        cpuselect.hidden = true;
-        h2subtitle.innerHTML = "Select Player 1 (your) mon";
-        if (plagiomon1 != "NULLMON") {
-            fselectedmon();
-        }
-    } else {
-        spanP2mon.innerHTML = "No mon has been selected.";
+    maptitle.innerHTML = "Defeat the enemy mons! (" + (9 - defeatedmons) + " remaining)";
+    sectionMessages.hidden = true;
+    buttonmap.hidden = true;
+    buttonrestart.hidden = true;
+    gamemode = "overworld";
+    // draw.fillRect(10, 10, plagiomon1.width, plagiomon1.height);
+    // draw.drawImage(plagiomon1.img, 10, 10, plagiomon1.width, plagiomon1.height);
+    if (p1win == 7 && plagiomons.length == 8) {
+        createTito();
+        plagiomons.push(Tito);
+    } else if (p1win == 8 && plagiomons.length == 9) {
+        createMiaudos();
+        plagiomons.push(Miaudos);
+        Miaudos.x = mapcanvas.width/2 - Miaudos.width/2;
+        Miaudos.y = mapcanvas.height/2 - Miaudos.height/2;
     }
-    radiodex.forEach((radiomon) => {
-        if (radiomon.checked == true) {
-            radiomon.checked = false;
-        }
-    });
+    drawInterval = setInterval(drawPlayer, 1000/60);
 }
 
-function fmonrandom() {
-    radiodex.forEach((radiomon) => {
-        if (radiomon.checked == true) {
-            radiomon.checked = false;
-        }
-    });
-    let random;
-    while (plagiodex[random] == undefined) {
-        random = Math.ceil(Math.random() * plagiodex.length - 1);
+function drawPlayer() {
+    if (window.innerWidth <= mapMaxWidth) {
+        mapWidth = window.innerWidth * 0.95;
+    } else {
+        mapWidth = mapMaxWidth;
     }
-    if (selection == 1) {
-        plagiomon1 = plagiodex[random];
-        p1mon = plagiomon1.name;
-        P1img.src = plagiomon1.img;
-        selection++;
-        fmonrandom();
-    } else if (selection == 2) {
-        plagiomon2 = plagiodex[random];
-        p2mon = plagiomon2.name;
-        P2img.src = plagiomon2.img;
-        selection++;
-        fselectedmon();
-    } else if (selection == 3) {
-        plagiomon1 = plagiodex[random];
-        p1mon = plagiomon1.name;
-        P1img.src = plagiomon1.img;
-        selection++;
-        fselectedmon();
+    mapcanvas.width = mapWidth;
+    mapHeight = mapWidth / 1.33333333333;
+    mapcanvas.height = mapHeight;
+    if (plagiomon1.xA != 0) {
+        plagiomon1.previousX = plagiomon1.x;
+    }
+    if (plagiomon1.yA != 0) {
+        plagiomon1.previousY = plagiomon1.y;
+    }
+    plagiomon1.width = mapWidth/10;
+    plagiomon1.height = mapHeight/10;
+    plagiomon1.x+= plagiomon1.xA;
+    plagiomon1.y+= plagiomon1.yA;
+    checkBoundaries();
+    draw.clearRect(0, 0, mapcanvas.width, mapcanvas.height);
+    draw.drawImage(plagiomap, 0, 0, mapcanvas.width, mapcanvas.height);
+    let xborder = plagiomon1.width/10;
+    let yborder = plagiomon1.height/10;
+    // draw.fillRect(plagiomon1.x - xborder, plagiomon1.y - yborder, plagiomon1.width/2, plagiomon1.height/2);
+    draw.fillRect(plagiomon1.x, plagiomon1.y - yborder*8, plagiomon1.width/8, plagiomon1.height/1.5); //firstBaseP
+
+    draw.fillRect(plagiomon1.x + xborder, plagiomon1.y - yborder*8, plagiomon1.width/3, plagiomon1.height/8); //HigherP
+
+    draw.fillRect(plagiomon1.x + xborder, plagiomon1.y - yborder*5, plagiomon1.width/3, plagiomon1.height/8); //LowerP
+
+    draw.fillRect(plagiomon1.x + xborder*4, plagiomon1.y - yborder*7, plagiomon1.width/8, plagiomon1.height/4); //RightP
+
+    draw.fillRect(plagiomon1.x + xborder*8, plagiomon1.y - yborder*8, plagiomon1.width/8, plagiomon1.height/1.5); //Number1
+
+    draw.fillRect(plagiomon1.x + xborder*7, plagiomon1.y - yborder*7, plagiomon1.width/8, plagiomon1.height/8); //TopDot1
+
+    draw.fillRect(plagiomon1.x + xborder*7, plagiomon1.y - yborder*2.61, plagiomon1.width/8, plagiomon1.height/8); //LowLeftDot1
+
+    draw.fillRect(plagiomon1.x + xborder*9, plagiomon1.y - yborder*2.61, plagiomon1.width/8, plagiomon1.height/8); //LowLeftDot2
+
+
+    for (cpumon of plagiomons) {
+        cpumon.width = mapWidth/10;
+        cpumon.height = mapHeight/10;
+        if (cpumon.defeated == true) {
+            cpumon.img.src = "./mons/" + cpumon.name + "defeated.png";
+        }
+        draw.drawImage(cpumon.img, cpumon.x, cpumon.y, cpumon.width, cpumon.height);
+    }
+    if (plagiomon1.xA != 0 || plagiomon1.yA != 0) {
+        checkCollision(plagiomon1, false);
+    } else {
+        for (rmon of plagiomons) {
+            if (rmon.name != "Tito" && rmon.name != "Miaudos") {
+                checkCollision(rmon, true);
+            }
+        }
     }
 }
+
+function checkCollision(object, margin) {
+    p1up = object.y;
+    p1down = object.y + object.height;
+    p1left = object.x;
+    p1right = object.x + object.width;
+    for (cpumon of plagiomons) {
+        cpup = cpumon.y;
+        cpdown = cpumon.y + cpumon.height;
+        cpleft = cpumon.x;
+        cpright = cpumon.x + cpumon.width;
+        if (cpumon.defeated == false) {
+            if (p1down >= cpup && p1right >= cpleft && p1up <= cpdown && p1left <= cpright) {
+                // alert("COLLISION DETECTED");
+                if (margin == true) {
+                    if (object.defeated == false) {
+                        if (object.name != cpumon.name) {
+                            if (object.name != plagiomon1.name) {
+                                let rx = frandom(0, mapcanvas.width - cpumon.width);
+                                let ry = frandom(0, mapcanvas.height - cpumon.height);
+                                object.x = rx;
+                                object.y = ry;
+                            }
+                        }
+                    }
+                    // object.x+= object.width;
+                    // p1right+= object.width;
+                    // object.y+= object.height;
+                    // p1down += object.height;
+                    // if (p1right >= mapWidth) {
+                    //     let modx = p1right % mapWidth;
+                    //     object.x = modx;
+                    //     console.log(object.name + "X: " + object.x + " | modx: " + modx);
+                    // }
+                    // if (p1down >= mapHeight) {
+                    //     let mody = p1down % mapHeight;
+                    //     object.y = mody;
+                    //     console.log(object.name + " Y: " + object.y + " | mody: " + mody);
+                    // }
+                } else {
+                    if (object.name != cpumon.name) {
+                        console.log(object.name);
+                        console.log("P1UP y: " + p1up);
+                        console.log("P1DOWN: " + p1down);
+                        console.log("P1LEFT x: " + p1left);
+                        console.log("P1RIGHT: " + p1right);
+                        console.log("CPUP: " + cpup);
+                        console.log("CPDOWN: " + cpdown);
+                        console.log("CPLEFT: " + cpleft);
+                        console.log("CPRIGHT: " + cpright);
+                        clearInterval(drawInterval);
+                        // alert("Collided with: " + cpumon.name);
+                        plagiomon2 = cpumon;
+                        p2mon = plagiomon2.name;
+                        p2monid = plagiomon2.id;
+                        P2img.src = plagiomon2.img.src;
+                        gamemode = "battle";
+                        // drawInterval = 0;
+                        fselectedmon();
+                        if (object.xA != 0) {
+                            object.x = object.previousX;
+                        }
+                        if (object.yA != 0) {
+                            object.y = object.previousY;
+                        }
+                        // cpumon.defeated = true;
+                        object.xA = 0;
+                        object.yA = 0;
+                        p1up = object.y;
+                        p1down = object.y + object.height;
+                        p1left = object.x;
+                        p1right = object.x + object.width;
+                        if (p1down >= cpup && p1right >= cpleft && p1up <= cpdown && p1left <= cpright) {
+                            cpumon.x+= object.width;
+                            cpright+= object.width;
+                            cpumon.y+= object.height;
+                            cpdown += object.height;
+                        }
+                        // cpumon.defeated = true;
+                        console.log("P1X: " + object.x);
+                        console.log("P1Y: " + object.y);
+                    }
+                }
+                
+            }
+
+        }
+    }
+}
+
+function frandom(min, max) {
+    let rng = min - 1;
+    while (rng < min) {
+        rng = Math.ceil(Math.random() * max);
+    }
+    return rng;
+}
+
+function moveStop() {
+    plagiomon1.xA = 0;
+    plagiomon1.yA = 0;
+}
+
+function moveUp() {
+    plagiomon1.yA = -plagiomon1.height/10;
+}
+
+function moveDown() {
+    plagiomon1.yA = plagiomon1.height/10;
+}
+
+function moveLeft() {
+    plagiomon1.xA = -plagiomon1.width/10;
+}
+
+function moveRight() {
+    plagiomon1.xA = plagiomon1.width/10;
+}
+
+function checkBoundaries() {
+    if (plagiomon1.x < 0) {
+        plagiomon1.x = 0;
+    }
+    if (plagiomon1.y < 0) {
+        plagiomon1.y = 0;
+    }
+    if (plagiomon1.x > mapcanvas.width - plagiomon1.width) {
+        plagiomon1.x = mapcanvas.width - plagiomon1.width;
+    }
+    if (plagiomon1.y > mapcanvas.height - plagiomon1.height) {
+        plagiomon1.y = mapcanvas.height - plagiomon1.height;
+    }
+    for (rmon of plagiomons) {
+        if (rmon != undefined) {
+            if (rmon.x < 0) {
+                rmon.x = 0;
+            }
+            if (rmon.y < 0) {
+                rmon.y = 0;
+            }
+            if (rmon.x > mapcanvas.width - rmon.width) {
+                rmon.x = mapcanvas.width - rmon.width;
+            }
+            if (rmon.y > mapcanvas.height - rmon.height) {
+                rmon.y = mapcanvas.height - rmon.height;
+            }
+        }
+    }
+}
+
+function keylogger(key) {
+    if (gamemode == "overworld") {
+        if (key.code == "ArrowUp" || key.code == "ArrowDown" || key.code == "ArrowLeft" || key.code == "ArrowRight" ) {
+            if (key.code == "ArrowUp") {
+                moveUp();
+            }
+            else if (key.code == "ArrowDown") {
+                moveDown();
+            }
+            if (key.code == "ArrowLeft") {
+                moveLeft();
+            }
+            else if (key.code == "ArrowRight") {
+                moveRight();
+            }
+            drawPlayer();
+        }
+    }
+}
+window.addEventListener("keydown", keylogger);
+window.addEventListener("keyup", moveStop);
+
 
 function checkInitialWeather(mon) {
     if (turncounter == 0) {
@@ -249,6 +475,9 @@ function colorMove() {
         else if (p1moveset[i].type == "Rock") {
             label.style.background = "#bbaa66";
         }
+        else if (p1moveset[i].type == "Bug") {
+            label.style.background = "#bbcc33";
+        }
         else if (p1moveset[i].type == "Ghost") {
             label.style.background = "#7777bb";
         }
@@ -275,7 +504,6 @@ function colorMove() {
         }
         else if (p1moveset[i].type == "Dark") {
             label.style.background = "#998877";
-            // label.style.color = "white";
         }
         i++;
     }
@@ -290,13 +518,18 @@ function fselectedmon() {
     p1moveid = p2moveid = undefined;
     h1maintitle.hidden = true;
     sectionmonselect.hidden = true;
-    monselect.hidden = true;
-    cpuselect.hidden = true;
-    rngselect.hidden = true;
+    // monselect.hidden = true;
+    // cpuselect.hidden = true;
+    // rngselect.hidden = true;
     spanmon.hidden = false;
     spanmon.innerHTML = "Select your " + p1mon + "'s attack ";
+    playersection.hidden = false;
+    mapsectionhider.hidden = true;
     movesectionhider.hidden = false;
+    sectionMessages.hidden = false;
+    buttonmap.hidden = true;
     buttonrematchnow.hidden = true;
+    buttonrestart.hidden = true;
     let sampletext = "";
     p1moveset = plagiomon1.moveset;
     p1PPs = [];
@@ -333,8 +566,8 @@ function fselectedmon() {
     p1spatk = plagiomon1.maxspatk;
     p1spdef = plagiomon1.maxspdef;
     p1speed = plagiomon1.maxspeed;
-    P1img.style.filter = "grayscale(0)";
-    spanP1mon.innerHTML = "Your <b>" + p1mon + "</b>:";
+    P1img.src = "./mons/" + plagiomon1.name + "something.png";
+    spanP1mon.innerHTML = "Your <b>" + p1mon + "</b> | Lv" + plagiomon1.level + " | ";
     spanP1HPcount.style.color = pP1HPbar.style.background = "green";
     pP1HPbar.style.width = "100px";
     roundDecimalsAndShowHP(p1hp, spanP1HPcount, p1maxhp);
@@ -351,8 +584,8 @@ function fselectedmon() {
         PPindex++;
         p2PPs[PPindex] = move.setpp;
     });
-    P2img.style.filter = "grayscale(0)";
-    spanP2mon.innerHTML = "CPU <b>" + p2mon + "</b>: ";
+    P2img.src = "./mons/" + plagiomon2.name + "something.png";
+    spanP2mon.innerHTML = "CPU <b>" + p2mon + "</b> | Lv" + plagiomon2.level + " | ";
     spanP2HPcount.style.color = pP2HPbar.style.background = "green";
     pP2HPbar.style.width = "100px";
     roundDecimalsAndShowHP(p2hp, spanP2HPcount, p2maxhp);
@@ -447,11 +680,15 @@ function changeStats2(stat, level, sign, factor) {
 function roundDecimals(value, n) {
     if (parseInt(value) != value) {
         value = value.toFixed(n);
+    } else {
+        // alert("VALUE SHOULD HAVE NO DECIMALS: " + value);
     }
     return value;
 }
 
 function roundDecimalsAndShowHP(monhp, showhp, showmaxhp) {
+    console.log("monhp: " + monhp);
+    // monhp = parseFloat(monhp);
     let percentagehp = 100 / (showmaxhp / monhp);
     let floathp, floatpercentagehp;
     if (monhp != 0) {
@@ -504,15 +741,27 @@ function checkp2hp() {
 }
 
 function resetUI() {
-    plagiomon1 = p1mon = p1monid = plagiomon2 = p2mon = p2monid = "NULLMON";
-    selection = 1;
+    // plagiomon1 = p1mon = p1monid = plagiomon2 = p2mon = p2monid = "NULLMON";
     h1maintitle.hidden = false;
-    sectionmonselect.hidden = false;
-    monselect.hidden = false;
-    cpuselect.hidden = false;
-    rngselect.hidden = false;
-    spanmon.hidden = true;
-    buttonrematchnow.hidden = false;
+    sectionmonselect.hidden = true;
+    // monselect.hidden = false;
+    // cpuselect.hidden = false;
+    // rngselect.hidden = false;
+    if (p1win < 9) {
+        spanmon.hidden = true;
+        buttonmap.hidden = false;
+    } else {
+        if (p1hp > 0) {
+            h1maintitle.innerHTML = "Felicidades! Sos un Maestro Pokémon!!";
+        } else {
+            h1maintitle.innerHTML = "Plagiomon! Plágialos a todos!!"
+        }
+        spanmon.innerHTML = "";
+        weathertext.innerHTML = "";
+        buttonrematchnow.hidden = false;
+        buttonrestart.hidden = false;
+        spanrestartbox.innerHTML = "Presiona el botón de Reiniciar para empezar una nueva partida.";
+    }
     if (spanP1mon.style.color != "")
         spanP1mon.style.color = "";
     if (messagebox1.style.color != "")
@@ -529,7 +778,7 @@ function resetUI() {
         label.style.filter = "invert(0)";
 }
 
-function colorHPbar(playerhp, playermaxhp, playerHPbar, playerHPcount, playerimg) {
+function colorHPbar(playermon, playerhp, playermaxhp, playerHPbar, playerHPcount, playerimg) {
     console.log("Player HP: " + playerhp);
     console.log("Player MaxHP: " + playermaxhp);
     console.log("Player HP bar: " + playerHPbar.innerHTML);
@@ -550,9 +799,7 @@ function colorHPbar(playerhp, playermaxhp, playerHPbar, playerHPcount, playerimg
             playerHPcount.innerHTML = "HP: " + playerhp + "/" + playermaxhp.toFixed(2) + " (0%)";
         }
         setTimeout(() => {
-            playerimg.style.filter = "grayscale(1)";
-            playerimg.style.transition = "filter 1s";
-            spanrestartbox.innerHTML = "Presiona el botón de seleccionar mon para iniciar una nueva batalla.";
+            playerimg.src = "./mons/" + playermon + "defeated.png";
         }, 2000);
     }
     // playerHPbar.style.transform = "scaleX(" + (playerhpcolor / 100) + ") translateX(" + (-100 + playerhpcolor) + "px)";
@@ -576,6 +823,7 @@ function colorHPbar(playerhp, playermaxhp, playerHPbar, playerHPcount, playerimg
     } else {
         playerHPcount.style.color = playerhpcolor;
     }
+    console.log("playerhp: " + playerhp);
     roundDecimalsAndShowHP(playerhp, playerHPcount, playermaxhp);
     return playerhp;
 }
@@ -608,6 +856,42 @@ function GhostMultiplier(damageMultiplier, pmove, defender) {
             damageMultiplier*= 2;
         }
         if (defender.type1 == "Dark" || defender.type2 == "Dark") {
+            damageMultiplier/= 2;
+        }
+    }
+    return damageMultiplier;
+}
+
+function BugMultiplier(damageMultiplier, pmove, defender) {
+    if (pmove.type == "Bug") {
+        if (defender.type1 == "Grass" || defender.type2 == "Grass") {
+            damageMultiplier*= 2;
+        }
+        if (defender.type1 == "Psychic" || defender.type2 == "Psychic") {
+            damageMultiplier*= 2;
+        }
+        if (defender.type1 == "Dark" || defender.type2 == "Dark") {
+            damageMultiplier*= 2;
+        }
+        if (defender.type1 == "Fighting" || defender.type2 == "Fighting") {
+            damageMultiplier/= 2;
+        }
+        if (defender.type1 == "Flying" || defender.type2 == "Flying") {
+            damageMultiplier/= 2;
+        }
+        if (defender.type1 == "Poison" || defender.type2 == "Poison") {
+            damageMultiplier/= 2;
+        }
+        if (defender.type1 == "Ghost" || defender.type2 == "Ghost") {
+            damageMultiplier/= 2;
+        }
+        if (defender.type1 == "Steel" || defender.type2 == "Steel") {
+            damageMultiplier/= 2;
+        }
+        if (defender.type1 == "Fire" || defender.type2 == "Fire") {
+            damageMultiplier/= 2;
+        }
+        if (defender.type1 == "Fairy" || defender.type2 == "Fairy") {
             damageMultiplier/= 2;
         }
     }
@@ -966,7 +1250,7 @@ function checkMove(checkOrder, aMove, aPP, amon, apyatk, apydef, aspatk, aspdef,
         messagebox.innerHTML = dmon + " fainted!";
         return [aPP, attackerHP, attackerMaxHP, apyatk, apydef, aspatk, aspdef, aspeed, aBasePyAtk, aBasePyDef, aBaseSpAtk, aBaseSpDef, aBaseSpeed, aPyAtkLevel, aPyDefLevel, aSpAtkLevel, aSpDefLevel, aSpeedLevel, attackerPower, abadstatus, apoisoned, aburned, aparalyzed, aflinched, aconfusedLevel, afullyparalyzed, afrozen, aEvasion, aEvasionLevel, aProtectLevel, aProtectMessage, aProtectRate, aReflect, aLightScreen, dPP, defenderHP, defenderMaxHP, dpyatk, dpydef, dspatk, dspdef, dspeed, dBasePyAtk, dBasePyDef, dBaseSpAtk, dBaseSpDef, dBaseSpeed, dPyAtkLevel, dPyDefLevel, dSpAtkLevel, dSpDefLevel, dSpeedLevel, dProtectLevel, dProtectRate, dReflect, dLightScreen, dbadstatus, dpoisoned, dfrozen, dburned, dparalyzed, dflinched, dconfusedLevel, dSeeded]
     }
-    let attackerMessage = "";
+    let attackerMessage = amon + "'s turn <b>(" + checkOrder + ")</b><br>";
     let aconfused = false;
     let attackerPercentHP = attackerHP/attackerMaxHP*100;
     if (weather == "Sandstorm") {
@@ -995,7 +1279,9 @@ function checkMove(checkOrder, aMove, aPP, amon, apyatk, apydef, aspatk, aspdef,
                 if (confuserate > 50) {
                     aconfused = true;
                     attackerHP -= confusionDamage;
-                    attackerMessage+= amon + " hurt itself in it's confusion! (-" + confusionDamage + "HP)";
+                    attackerMessage+= amon + " hurt itself in it's confusion! (-" + confusionDamage + "HP)<br>";
+                } else {
+                    attackerMessage+= amon + " is confused!<br>";
                 }
             } else if (aconfusedLevel < 5) {
                 let snapConfusion = Math.random() * 100;
@@ -1003,15 +1289,17 @@ function checkMove(checkOrder, aMove, aPP, amon, apyatk, apydef, aspatk, aspdef,
                     if (confuserate > 50) {
                         aconfused = true;
                         attackerHP -= confusionDamage;
-                        attackerMessage+= amon + " hurt itself in it's confusion! (-" + confusionDamage + "HP)";
+                        attackerMessage+= amon + " hurt itself in it's confusion! (-" + confusionDamage + "HP)<br>";
+                    } else {
+                        attackerMessage+= amon + " is confused!<br>";
                     }
                 } else {
                     aconfusedLevel = -1;
-                    attackerMessage += amon + " snapped out of it's confusion!";
+                    attackerMessage+= amon + " snapped out of it's confusion!<br>";
                 }
             } else {
                 aconfusedLevel = -1;
-                attackerMessage += amon + " snapped out of it's confusion!";
+                attackerMessage+= amon + " snapped out of it's confusion!<br>";
             }
         }
         if (aMove.name == "Fake Out") {
@@ -1094,11 +1382,11 @@ function checkMove(checkOrder, aMove, aPP, amon, apyatk, apydef, aspatk, aspdef,
                                             attackerPower = checkDamageDealt*2;
                                             console.log("Mirror Coat *2");
                                         } else {
-                                            attackerMessage = "<b>" + amon + "'s</b> used " + aMove.name + " failed due to no damage dealt!";
-                                            console.log("<b>" + amon + "'s</b> used " + aMove.name + " failed due to no damage dealt!");    
+                                            // attackerMessage+= "<br><b>" + amon + "'s</b> used " + aMove.name + " failed due to no damage dealt!";
+                                            console.log("<br><b>" + amon + "'s</b> used " + aMove.name + " failed due to no damage dealt!");    
                                         }
                                     } else {
-                                        attackerMessage = "<b>" + amon + "'s</b> used " + aMove.name + " failed due to non-special move! (" + checkMoveCategory + ")";
+                                        // attackerMessage+= "<br><b>" + amon + "'s</b> used " + aMove.name + " failed due to non-special move! (" + checkMoveCategory + ")";
                                         console.log("<b>" + amon + "'s</b> used " + aMove.name + " failed due to non-special move! (" + checkMoveCategory + ")");
                                     }
                                 } else if (aMove.name == "Counter") {
@@ -1108,11 +1396,11 @@ function checkMove(checkOrder, aMove, aPP, amon, apyatk, apydef, aspatk, aspdef,
                                             attackerPower = checkDamageDealt*2;
                                             console.log("Mirror Coat *2");
                                         } else {
-                                            attackerMessage = "<b>" + amon + "'s</b> used " + aMove.name + " failed due to no damage dealt!";
+                                            // attackerMessage+= "<br><b>" + amon + "'s</b> used " + aMove.name + " failed due to no damage dealt!";
                                             console.log("<b>" + amon + "'s</b> used " + aMove.name + " failed due to no damage dealt!");    
                                         }
                                     } else {
-                                        attackerMessage = "<b>" + amon + "'s</b> used " + aMove.name + " failed due to non-physical move! (" + checkMoveCategory + ")";
+                                        // attackerMessage+= "<br><b>" + amon + "'s</b> used " + aMove.name + " failed due to non-physical move! (" + checkMoveCategory + ")";
                                         console.log("<b>" + amon + "'s</b> used " + aMove.name + " failed due to non-special move! (" + checkMoveCategory + ")");
                                     }
                                 } else {
@@ -1152,6 +1440,7 @@ function checkMove(checkOrder, aMove, aPP, amon, apyatk, apydef, aspatk, aspdef,
                             damageMultiplier = PoisonMultiplier(damageMultiplier, aMove, defender);
                             damageMultiplier = GroundMultiplier(damageMultiplier, aMove, defender)
                             damageMultiplier = RockMultiplier(damageMultiplier, aMove, defender)
+                            damageMultiplier = BugMultiplier(damageMultiplier, aMove, defender)
                             damageMultiplier = GhostMultiplier(damageMultiplier, aMove, defender)
                             // Physical / Special Split as per Generations I-III
                             damageMultiplier = FireMultiplier(damageMultiplier, aMove, defender);
@@ -1190,7 +1479,7 @@ function checkMove(checkOrder, aMove, aPP, amon, apyatk, apydef, aspatk, aspdef,
                         attackerPower*= damageMultiplier;
                         console.log("Full Power: " + attackerPower);
                         if (damageMultiplier == 0) {
-                            attackerMessage = "<b>" + amon + "</b> used " + aMove.name + "! " + effectiveMessage + "<b>" + dmon + "</b>.";
+                            attackerMessage+= "<b>" + amon + "</b> used " + aMove.name + "! " + effectiveMessage + "<b>" + dmon + "</b>.<br>";
                             messagebox.innerHTML = attackerMessage;
                             // alert(attackerMessage);
                         } else {
@@ -1213,29 +1502,33 @@ function checkMove(checkOrder, aMove, aPP, amon, apyatk, apydef, aspatk, aspdef,
                                 let randomMultiplier = 0;
                                 while (randomMultiplier < 0.93) {
                                     randomMultiplier = Math.random() * 1.08;
-                                    console.log("RNG: " + randomMultiplier)
+                                    console.log("RNG: " + randomMultiplier);
                                 }
                                 attackerPower *= randomMultiplier;
                             }
                             attackerPower = bumpZeroDamage(attackerPower);
+                            console.log("FullPower after RNG: " + attackerPower);
                             roundedPower = roundDecimals(attackerPower, 2);
-                            if (criticalrate > 95 ) {
+                            if (attackerPower > 0) {
+                                if (criticalrate > 95 ) {
                                     if (aMove.name == "Struggle") {
-                                        attackerMessage = "<b>CRITICAL HIT!!</b><br>" + amon + " has no moves left!<br>" + amon + " used <i><u>" + aMove.name + "</u></i>!!!<br>" + dmon + " took " + roundedPower + " major damage!";    
+                                        attackerMessage+= "<b>CRITICAL HIT!!</b><br>" + amon + " has no moves left!<br>" + amon + " used <i><u>" + aMove.name + "</u></i>!!!<br>" + dmon + " took " + roundedPower + " major damage!<br>";    
                                     } else {
-                                        attackerMessage = "<b>CRITICAL HIT!!</b><br>" + dmon + " took " + roundedPower + " major damage from " + amon + "'s " + aMove.name + "!!!" + effectiveMessage;
+                                        attackerMessage+= "<b>CRITICAL HIT!!</b><br>" + dmon + " took " + roundedPower + " major damage from " + amon + "'s " + aMove.name + "!!!" + effectiveMessage + "<br>";
                                     }
-                                
-                            } else {
-                                if (aMove.name == "Struggle") {
-                                    attackerMessage = "<b>" + amon + "</b> has no moves left!<br><b>" + amon + "</b> used <i><u>" + aMove.name + "</u></i>!!<br>" + dmon + " took " + roundedPower + " damage!!!";
                                 } else {
-                                    attackerMessage = "<b>" + amon + "</b> used " + aMove.name + "!<br>" + dmon + " took " + roundedPower + " damage!!" + effectiveMessage;
+                                    if (aMove.name == "Struggle") {
+                                        attackerMessage+= "<b>" + amon + "</b> has no moves left!<br><b>" + amon + "</b> used <i><u>" + aMove.name + "</u></i>!!<br>" + dmon + " took " + roundedPower + " damage!!!<br>";
+                                    } else {
+                                        attackerMessage+= "<b>" + amon + "</b> used " + aMove.name + "!<br>" + dmon + " took " + roundedPower + " damage!!" + effectiveMessage + "<br>";
+                                    }
                                 }
+                            } else {
+                                // attackerMessage+= "<br><b>" + amon + "</b> used " + aMove.name + "! " + dmon + " took no damage!!";
                             }
                             // alert("Full Power: " + roundedPower);
                             if (attackerPower < 0) {
-                                attackerMessage = "<b>" + amon + "</b> used " + aMove.name + "!<br>But it failed!";
+                                attackerMessage+= "<b>" + amon + "</b> used " + aMove.name + "! But it failed!<br>";
                                 messagebox.innerHTML = attackerMessage;
                             }
                             if (attackerPower > 0) { //calc drain and recoil
@@ -1245,24 +1538,32 @@ function checkMove(checkOrder, aMove, aPP, amon, apyatk, apydef, aspatk, aspdef,
                                     } else {
                                         recoilDamage = attackerPower*aMove.recoil;
                                     }
-                                defenderHP -= attackerPower;
-                                if (aMove.name == "Absorb" || aMove.name == "Mega Drain" || aMove.name == "Leech Life" || aMove.name == "Giga Drain" || aMove.name == "Drain Punch" || aMove.name == "Horn Leech") {
-                                    if (attackerHP < attackerMaxHP) {
-                                        console.log("Attacker HP less than MAXHP before " + aMove.name + ": <" + attackerHP);
-                                        attackerHP += attackerPower/2;
-                                        console.log("Attacker HP less than MAXHP after " + aMove.name + ": <" + attackerHP);
-                                    } 
-                                    if (attackerHP > attackerMaxHP) {
-                                        console.log("Attacker HP more than MAXHP before " + aMove.name + ": >" + attackerHP);
-                                        attackerHP = attackerMaxHP;
-                                        console.log("Attacker HP equal MAXHP after " + aMove.name + ": >" + attackerHP);
+                                    if (attackerHP - recoilDamage < 0) {
+                                        recoilDamage = attackerHP;
                                     }
-                                    attackerMessage += " | <b>" + amon + " restored " + roundedPower/2 + "HP" ;
+                                console.log("beforedamagecalc Defender HP: (" + dmon + " - " + defenderHP + ")");
+                                defenderHP-= attackerPower;
+                                console.log("afterdamagecalc Defender HP: (" + dmon + " - " + defenderHP + ")");
+                                if (aMove.name == "Absorb" || aMove.name == "Mega Drain" || aMove.name == "Leech Life" || aMove.name == "Giga Drain" || aMove.name == "Drain Punch" || aMove.name == "Horn Leech") {
+                                    let drainHP = attackerPower/2;
+                                    let drainMaxHP = attackerHP + drainHP;
+                                    if (drainMaxHP <= attackerMaxHP) {
+                                        console.log("drainMaxHP less than MAXHP before " + aMove.name + ": <" + attackerHP);
+                                        attackerHP += drainHP;
+                                        console.log("drainMaxHP less than MAXHP after " + aMove.name + ": <" + attackerHP + " (+" + drainHP + ")");
+                                    } else {
+                                        drainHP = attackerMaxHP - attackerHP;
+                                        console.log("drainMaxHP more than MAXHP before " + aMove.name + ": <" + attackerHP);
+                                        attackerHP += drainHP;
+                                        console.log("draxnMaxHP more than MAXHP after " + aMove.name + ": <" + attackerHP + " (+" + drainHP + ")");
+                                    }
+                                    drainHP = roundDecimals(drainHP, 2);
+                                    attackerMessage+= " | <b>" + amon + " restored " + drainHP + "HP" ;
                                 }
                                 if (aMove.recoil > 0) {
                                     attackerHP-= recoilDamage;
                                     recoilDamage = roundDecimals(recoilDamage, 2);
-                                    attackerMessage+= "<br>" + amon + " is hurt by the recoil damage! (-" + recoilDamage + "HP)";
+                                    attackerMessage+= " | " + amon + " is hurt by the recoil damage! (-" + recoilDamage + "HP)<br>";
                                     console.log(attackerMessage);
                                 } else {
                                 }
@@ -1288,7 +1589,7 @@ function checkMove(checkOrder, aMove, aPP, amon, apyatk, apydef, aspatk, aspdef,
                                                 dpyatk = defender.maxpyatk/2;
                                                 dmontext.innerHTML += "| BRN";
                                                 dmontext.style.color = "red";
-                                                attackerMessage += "<br><b>" + dmon + "</b> was <i>burned!!!</i>";
+                                                attackerMessage+= "<b>" + dmon + "</b> was <i>burned!!!</i><br>";
                                                 if (defender.ability == "Synchronize") {
                                                     if (attacker.type1 != "Fire" && attacker.type2 != "Fire") {
                                                         aburned = true;
@@ -1296,7 +1597,7 @@ function checkMove(checkOrder, aMove, aPP, amon, apyatk, apydef, aspatk, aspdef,
                                                         apyatk = attacker.maxpyatk/2;
                                                         attackertext.innerHTML += "| BRN";
                                                         attackertext.style.color = "red";
-                                                        attackerMessage += "<br>" + dmon + "'s <b>" + defender.ability + "</b> burned " + amon + "!!!";
+                                                        attackerMessage+= dmon + "'s <b>" + defender.ability + "</b> burned " + amon + "!!!<br>";
                                                     }
                                                 }
                                             }
@@ -1318,7 +1619,7 @@ function checkMove(checkOrder, aMove, aPP, amon, apyatk, apydef, aspatk, aspdef,
                                                 dbadstatus = true;
                                                 dmontext.innerHTML += "| FRZ";
                                                 dmontext.style.color = "deepskyblue";
-                                                attackerMessage += "<br><b>" + dmon + "</b> was <i>frozen solid!!!</i>";
+                                                attackerMessage+= "<b>" + dmon + "</b> was <i>frozen solid!!!</i><br>";
                                             }
                                         }
                                     } if (aMove.effect == "paralyze" || aMove.effect == "triattack") {
@@ -1344,7 +1645,7 @@ function checkMove(checkOrder, aMove, aPP, amon, apyatk, apydef, aspatk, aspdef,
                                                 dspeed = defender.maxspeed/2;
                                                 dmontext.innerHTML += "| PAR";
                                                 dmontext.style.color = "gold";
-                                                attackerMessage+= "<br><b>" + dmon + "</b> was <i>paralyzed! it may be unable to move!!</i>";
+                                                attackerMessage+= "<b>" + dmon + "</b> was <i>paralyzed! it may be unable to move!!</i><br>";
                                                 if (defender.ability == "Synchronize") {
                                                     if (attacker.type1 != "Electric" && attacker.type2 != "Electric") {
                                                         aparalyzed = true;
@@ -1352,7 +1653,7 @@ function checkMove(checkOrder, aMove, aPP, amon, apyatk, apydef, aspatk, aspdef,
                                                         aspeed = attacker.maxspeed/2;
                                                         attackertext.innerHTML += "| PAR";
                                                         attackertext.style.color = "gold";
-                                                        attackerMessage+= "<br>" + dmon + "'s <b>" + defender.ability + "</b> paralyzed " + amon + "!!!";
+                                                        attackerMessage+= dmon + "'s <b>" + defender.ability + "</b> paralyzed " + amon + "!!!<br>";
                                                     }
                                                 }
                                             }
@@ -1369,15 +1670,14 @@ function checkMove(checkOrder, aMove, aPP, amon, apyatk, apydef, aspatk, aspdef,
                                                 dbadstatus = true;
                                                 dmontext.innerHTML+= "| PSN";
                                                 dmontext.style.color = "purple";
-                                                messagebox.style.color = "purple";
-                                                attackerMessage+= "<br><b>" + dmon + "</b> has been <i>poisoned!!!</i>";
+                                                attackerMessage+= "<b>" + dmon + "</b> has been <i>poisoned!!!</i><br>";
                                                 if (defender.ability == "Synchronize") {
                                                     if (attacker.type1 != "Steel" && attacker.type2 != "Steel" && attacker.type1 != "Poison" && attacker.type2 != "Poison") {
                                                         apoisoned = true;
                                                         abadstatus = true;
                                                         attackertext.innerHTML+= "| PSN";
                                                         attackertext.style.color = "purple";
-                                                        attackerMessage+= dmon + "'s <b>" + defender.ability + "</b> poisoned " + amon + "!!!";
+                                                        attackerMessage+= dmon + "'s <b>" + defender.ability + "</b> poisoned " + amon + "!!!<br>";
                                                     }
                                                 }
                                             }
@@ -1387,10 +1687,19 @@ function checkMove(checkOrder, aMove, aPP, amon, apyatk, apydef, aspatk, aspdef,
                                 if (aMove.effect == "flinch100%") {
                                     dflinched = true;
                                 }
+                                if (aMove.effect == "confuse10%") {
+                                    if (dconfusedLevel == -1) {
+                                        let confuserate = Math.round(Math.random() * 100);
+                                        if (confuserate > 90) {
+                                            dconfusedLevel++;
+                                            attackerMessage+= dmon + " became confused!<br>";
+                                        }
+                                    }
+                                }
                                 if (aMove.effect == "confuse100%") {
                                     if (dconfusedLevel == -1) {
                                         dconfusedLevel++;
-                                        attackerMessage+= "<br" + dmon + " became confused!";
+                                        attackerMessage+= dmon + " became confused!<br>";
                                     }
                                 }
                                 if (aMove.effect == "flinch") {
@@ -1415,13 +1724,13 @@ function checkMove(checkOrder, aMove, aPP, amon, apyatk, apydef, aspatk, aspdef,
                         if (aMove.name == "Leech Seed") {
                             if (defender.type1 != "Grass" && defender.type2 != "Grass") {
                                 if (dSeeded == false) {
-                                    attackerMessage+= "<b>" + amon + " used " + aMove.name + "!<br>" + dmon + " was seeded!";
+                                    attackerMessage+= amon + " used " + aMove.name + "!<br>" + dmon + " was seeded!<br>";
                                     dSeeded = true;
                                     console.log("player2 was seeded");
                                 } else
-                                    attackerMessage+= "<b>" + amon + " used " + aMove.name + "!<br>But " + dmon + " is already seeded!";
+                                    attackerMessage+= amon + " used " + aMove.name + "!<br>But " + dmon + " is already seeded!<br>";
                             } else {
-                                attackerMessage+= "<b>" + amon + " used " + aMove.name + "! <b>It doesn't affect</b> " + dmon + ".";
+                                attackerMessage+= "<b>" + amon + " used " + aMove.name + "! <b>It doesn't affect</b> " + dmon + ".<br>";
                             }
                         }
                         if (aMove.name == "Swagger") {
@@ -1430,15 +1739,15 @@ function checkMove(checkOrder, aMove, aPP, amon, apyatk, apydef, aspatk, aspdef,
                                 let attackChange = changeStats2(dBasePyAtk, dPyAtkLevel, "+", 2);
                                 dBasePyAtk = attackChange[0];
                                 dPyAtkLevel = attackChange[1];
-                                attackerMessage += dmon + "'s Attack sharply rose!<br>";
+                                attackerMessage+= dmon + "'s Attack sharply rose!<br>";
                             } else {
-                                attackerMessage += dmon + "'s Attack won't rise anymore!<br>";
+                                attackerMessage+= dmon + "'s Attack won't rise anymore!<br>";
                             }
                             if (dconfusedLevel == -1) {
                                 dconfusedLevel++;
-                                attackerMessage+= dmon + " became confused!!";
+                                attackerMessage+= dmon + " became confused!!<br>";
                             } else {
-                                attackerMessage+= dmon + " is already confused!";
+                                attackerMessage+= dmon + " is already confused!<br>";
                             }
                         }
                     }
@@ -1490,7 +1799,7 @@ function checkMove(checkOrder, aMove, aPP, amon, apyatk, apydef, aspatk, aspdef,
                                         aspeed = attacker.maxspeed/2;
                                         attackertext.innerHTML += "| PAR";
                                         attackertext.style.color = "gold";
-                                        attackerMessage+= "<br>" + dmon + "'s <b>" + defender.ability + "</b> paralyzed " + amon + "!!!";
+                                        attackerMessage+= dmon + "'s <b>" + defender.ability + "</b> paralyzed " + amon + "!!!<br>";
                                     }
                                 }
                             }
@@ -1499,7 +1808,7 @@ function checkMove(checkOrder, aMove, aPP, amon, apyatk, apydef, aspatk, aspdef,
                 }
 
                 else { //defender is protected
-                    attackerMessage = defender.name + " protected itself from " + attacker.name + "'s " + aMove.name + "!";
+                    attackerMessage+= defender.name + " protected itself from " + attacker.name + "'s " + aMove.name + "!<br>";
                     // attackerboxp.innerHTML = "<b>" + attacker.name + "</b> used " + aMove.name + "!";
                 }
             } 
@@ -1511,51 +1820,51 @@ function checkMove(checkOrder, aMove, aPP, amon, apyatk, apydef, aspatk, aspdef,
                         let changeEvasion = changeStats1(aEvasion, aEvasionLevel, "+", 3);
                         aEvasion = changeEvasion[0];
                         aEvasionLevel = changeEvasion[1];
-                        attackerMessage+= "<b>" + amon + " used " + aMove.name + "!<br>" + amon + " evasiveness rose!";
+                        attackerMessage+= "<b>" + amon + " used " + aMove.name + "!<br>" + amon + " evasiveness rose!<br>";
                     } else {
-                        attackerMessage+= "<b>" + amon + " used " + aMove.name + "!<br>" + amon + " already has MAX evasiveness!";
+                        attackerMessage+= "<b>" + amon + " used " + aMove.name + "!<br>" + amon + " already has MAX evasiveness!<br>";
                     }
                 } else if (aMove.name == "Protect" || aMove.name == "Detect" || aMove.name == "Endure") {
                     if (dMove.target != "self") {
                         if (aProtectLevel == 0) {
                             aProtectLevel++;
                             aProtectRate/= 3;
-                            aProtectMessage = amon + " protected itself! x" + aProtectLevel
+                            aProtectMessage = amon + " protected itself! x" + aProtectLevel + "<br>";
                             attackerMessage+= aProtectMessage;
                         } else {
                             let protectrate = Math.random() * 100;
                             if (protectrate <= aProtectRate) {
                                 aProtectLevel++;
                                 aProtectRate/= 3;
-                                aProtectMessage = amon + " protected itself! x" + aProtectLevel
+                                aProtectMessage = amon + " protected itself! x" + aProtectLevel + "<br>";
                                 attackerMessage+= aProtectMessage;
                             } else {
                                 aProtectLevel = 0;
                                 aProtectRate = 100;
-                                aProtectMessage = amon + "'s " + aMove.name + " failed!"
+                                aProtectMessage = amon + "'s " + aMove.name + " failed!<br>";
                                 attackerMessage+= aProtectMessage;
                             }
                         }
                     } else {
                         aProtectLevel = 0;
                         aProtectRate = 100;
-                        aProtectMessage = amon + " used " + aMove.name + ", but it failed!"
+                        aProtectMessage = amon + " used " + aMove.name + ", but it failed!<br>";
                         attackerMessage+= aProtectMessage;
                     }
                 } else if (aMove.name == "Reflect" || aMove.name == "Light Screen" || aMove.name == "Aurora Veil") {
                     if (aMove.name == "Reflect") {
                         if (aReflect == 0) {
                             aReflect++;
-                            attackerMessage = amon + " used " + aMove.name + "! it gained resistance from physical attacks!";
+                            attackerMessage+= amon + " used " + aMove.name + "! it gained resistance from physical attacks!<br>";
                         } else {
-                            attackerMessage = amon + " used " + aMove.name + "! But it failed!";
+                            attackerMessage+= amon + " used " + aMove.name + "! But it failed!<br>";
                         }
                     } else if (aMove.name == "Light Screen") {
                         if (aLightScreen == 0) {
                             aLightScreen++;
-                            attackerMessage = amon + " used " + aMove.name + "! it gained resistance from special attacks!";
+                            attackerMessage+= amon + " used " + aMove.name + "! it gained resistance from special attacks!<br>";
                         } else {
-                            attackerMessage = amon + " used " + aMove.name + "! But it failed!";
+                            attackerMessage+= amon + " used " + aMove.name + "! But it failed!<br>";
                         }
                     } else if (aMove.name == "Aurora Veil") {
                         alert("MOVE NOT IMPLEMENTED");
@@ -1571,7 +1880,7 @@ function checkMove(checkOrder, aMove, aPP, amon, apyatk, apydef, aspatk, aspdef,
                                 attackerHP = attackerMaxHP;
                             }
                         }
-                        attackerMessage+= amon + " used " + aMove.name + "!<br>" + amon + " roosted and restored HP!";
+                        attackerMessage+= amon + " used " + aMove.name + "!<br>" + amon + " roosted and restored HP!<br>";
                         if (aMove.name == "Roost") {
                             if (attacker.type1 == "Flying") {
                                 attacker.type1 = "Roosting";
@@ -1581,11 +1890,11 @@ function checkMove(checkOrder, aMove, aPP, amon, apyatk, apydef, aspatk, aspdef,
                             }
                         }
                     } else {
-                        attackerMessage+= amon + " used " + aMove.name + "!<br>But HP is already full!";
+                        attackerMessage+= amon + " used " + aMove.name + "!<br>But HP is already full!<br>";
                     }
                 }
                 else if (aMove.name == "Dragon Dance") {
-                    attackerMessage = amon + " used " + aMove.name + "!<br>"
+                    attackerMessage+= amon + " used " + aMove.name + "!<br>"
                     if (aPyAtkLevel < 6) {
                         let attackChange = changeStats1(aBasePyAtk, aPyAtkLevel, "+", 2);
                         aBasePyAtk = attackChange[0];
@@ -1598,9 +1907,9 @@ function checkMove(checkOrder, aMove, aPP, amon, apyatk, apydef, aspatk, aspdef,
                         let speedChange = changeStats1(aBaseSpeed, aSpeedLevel, "+", 2);
                         aBaseSpeed = speedChange[0];
                         aSpeedLevel = speedChange[1];
-                        attackerMessage+= amon + "'s Speed rose!!!"
+                        attackerMessage+= amon + "'s Speed rose!!!<br>"
                     } else {
-                        attackerMessage+= amon + "'s Speed won't rise anymore!!!"
+                        attackerMessage+= amon + "'s Speed won't rise anymore!!!<br>"
                     }
                 }
             }
@@ -1610,23 +1919,26 @@ function checkMove(checkOrder, aMove, aPP, amon, apyatk, apydef, aspatk, aspdef,
                 if (defender.ability == "Pressure") {
                     aPP[aMove.moveid]--;
                 }
+                if (aPP[aMove.moveid] < 0) {
+                    aPP[aMove.moveid] = 0;
+                }
             }
-            updatePP();
         } else {
             console.log("lost turn due flinch, freeze, paralysis or miss!");
             if (aflinched == true) {
-                attackerMessage = amon + " flinched!";
+                attackerMessage = amon + " flinched!<br>";
             } else if (afullyparalyzed == true) {
-                attackerMessage = amon + " is fully paralyzed! It can't move!";
+                attackerMessage = amon + " is fully paralyzed! It can't move!<br>";
             } else if (afrozen == true) {
-                attackerMessage = amon + " is frozen rock solid!";
+                attackerMessage = amon + " is frozen rock solid!<br>";
             } else if (aconfused == true) {
                 //put something here
             } else if (attackmiss == true) {
-                attackerMessage = amon + " used " + aMove.name + "! But it's attack missed!";
+                attackerMessage+= amon + " used " + aMove.name + "! But it's attack missed!<br>";
             } else {
-                attackerMessage = amon + "Lost turn for unknown reasons!";
+                attackerMessage+= amon + "Lost turn for unknown reasons!<br>";
             }
+            console.log("aflinched: " + aflinched + " afrozen: " + afrozen + " afullyparalyzed: " + afullyparalyzed + " aconfused: " + aconfused + " attackmiss: " + attackmiss)
             aflinched = false;
             afullyparalyzed = false;
             aconfused = false;
@@ -1634,6 +1946,15 @@ function checkMove(checkOrder, aMove, aPP, amon, apyatk, apydef, aspatk, aspdef,
             aProtectLevel = 0;
             aProtectRate = 100;
             messagebox.innerHTML = attackerMessage;
+            if (aMove.name != "Struggle") {
+                aPP[aMove.moveid]--;
+                if (defender.ability == "Pressure") {
+                    aPP[aMove.moveid]--;
+                }
+                if (aPP[aMove.moveid] < 0) {
+                    aPP[aMove.moveid] = 0;
+                }
+            }
         }
     } else {
         alert("ERROR: ZERO PP should not be here!");
@@ -1652,13 +1973,13 @@ function checkMove(checkOrder, aMove, aPP, amon, apyatk, apydef, aspatk, aspdef,
         checkMoveCategory = aMove.category;
         //alert("Other category: " + checkMoveCategory);
     }
-    attackerHP = colorHPbar(attackerHP, attackerMaxHP, attackerHPbar, attackerHPcount, attackerimg);
-    defenderHP = colorHPbar(defenderHP, defenderMaxHP, defenderHPbar, defenderHPcount, defenderimg);
+    attackerHP = colorHPbar(amon, attackerHP, attackerMaxHP, attackerHPbar, attackerHPcount, attackerimg);
+    defenderHP = colorHPbar(dmon, defenderHP, defenderMaxHP, defenderHPbar, defenderHPcount, defenderimg);
     roundDecimalsAndShowHP(attackerHP, attackerHPcount, attackerMaxHP);
     roundDecimalsAndShowHP(defenderHP, defenderHPcount, defenderMaxHP);
     lastDamageDealt = checkDamageDealt;
     lastMoveCategory = checkMoveCategory;
-
+    updatePP();
     return [aPP, attackerHP, attackerMaxHP, apyatk, apydef, aspatk, aspdef, aspeed, aBasePyAtk, aBasePyDef, aBaseSpAtk, aBaseSpDef, aBaseSpeed, aPyAtkLevel, aPyDefLevel, aSpAtkLevel, aSpDefLevel, aSpeedLevel, attackerPower, abadstatus, apoisoned, aburned, aparalyzed, aflinched, aconfusedLevel, afullyparalyzed, afrozen, aEvasion, aEvasionLevel, aProtectLevel, aProtectMessage, aProtectRate, aReflect, aLightScreen, dPP, defenderHP, defenderMaxHP, dpyatk, dpydef, dspatk, dspdef, dspeed, dBasePyAtk, dBasePyDef, dBaseSpAtk, dBaseSpDef, dBaseSpeed, dPyAtkLevel, dPyDefLevel, dSpAtkLevel, dSpDefLevel, dSpeedLevel, dProtectLevel, dProtectRate, dReflect, dLightScreen, dbadstatus, dpoisoned, dfrozen, dburned, dparalyzed, dflinched, dconfusedLevel, dSeeded]
 }
 
@@ -1670,12 +1991,14 @@ function leechSeedandPoison(player, dphp, aphp, pmessageboxp, plagiomon, seeded,
             let burnDamage = plagiomon.maxhp * 6.25 / 100;
             burnDamage = bumpZeroDamage(burnDamage);
             dphp -= burnDamage;
-            pmessageboxp.innerHTML+= "<br>" + plagiomon.name + " lost " + burnDamage + "HP due to burn!";
+            burnDamage = roundDecimals(burnDamage, 2);
+            pmessageboxp.innerHTML+= plagiomon.name + " lost " + burnDamage + "HP due to burn!<br>";
         } else if (poisoned == true) {
             let poisonDamage = plagiomon.maxhp * 12.5 / 100;
             poisonDamage = bumpZeroDamage(poisonDamage);
             dphp -= poisonDamage;
-            pmessageboxp.innerHTML+= "<br>" + plagiomon.name + " lost " + poisonDamage + "HP due to poisoning!!";
+            poisonDamage = roundDecimals(poisonDamage, 2);
+            pmessageboxp.innerHTML+= plagiomon.name + " lost " + poisonDamage + "HP due to poisoning!!<br>";
         } else if (badpoisoned == true) {
             if (poisonLevel == 0) {
                 poisonLevel = 1;
@@ -1685,27 +2008,28 @@ function leechSeedandPoison(player, dphp, aphp, pmessageboxp, plagiomon, seeded,
             badpoisonDamage = (plagiomon.maxhp * ((poisonLevel/16) * 100)) / 100;
             badpoisonDamage = bumpZeroDamage(badpoisonDamage);
             dphp -= badpoisonDamage;
-            pmessageboxp.innerHTML+= "<br>" + plagiomon.name + " lost " + badpoisonDamage + "HP due to bad poisoning!!!";
+            badpoisonDamage = roundDecimals(badpoisonDamage, 2);
+            pmessageboxp.innerHTML+= plagiomon.name + " lost " + badpoisonDamage + "HP due to bad poisoning!!!<br>";
         }
         if (seeded == true) {
             if (aphp > 0) {
                 hpleech = plagiomon.maxhp * 12.5 / 100;
-                if (dphp < hpleech) {
-                    if (dphp >= 0) {
+                if (dphp > 0) {
+                    if (dphp < hpleech) {
                         hpleech = dphp;
-                    } else {
-                        hpleech = 0;
                     }
-                } 
-                hpleech = bumpZeroDamage(hpleech);
-                dphp -= hpleech;
-                console.log("INSIDE hpleech value: " + hpleech);
-                if (burned == true || poisoned == true || badpoisoned == true) {
-                    leechMessage = "<br>" + plagiomon.name + " also lost " + hpleech + "HP due to leech seed!";
-                    pmessageboxp.innerHTML+= leechMessage;
-                } else {
-                    leechMessage = "<br>" + plagiomon.name + " lost " + hpleech + "HP due to leech seed!";
-                    pmessageboxp.innerHTML+= leechMessage;
+                    hpleech = bumpZeroDamage(hpleech); 
+                    dphp -= hpleech;
+                    // hpleech = roundDecimals(hpleech, 2); THIS LINE BREAKS LEECH SEED
+                    let roundleech = roundDecimals(hpleech, 2)
+                    console.log("INSIDE hpleech value: " + hpleech);
+                    if (burned == true || poisoned == true || badpoisoned == true) {
+                        leechMessage = plagiomon.name + " also lost " + roundleech + "HP due to leech seed!<br>";
+                        pmessageboxp.innerHTML+= leechMessage;
+                    } else {
+                        leechMessage = plagiomon.name + " lost " + roundleech + "HP due to leech seed!<br>";
+                        pmessageboxp.innerHTML+= leechMessage;
+                    }
                 }
             }
         }
@@ -1761,23 +2085,26 @@ function playerAttack(player) {
     }
 }
 
-function weatherDamage(weather, mon, hp, maxhp, player) {
-    if (hp > 0) {
-        if (weather == "Sandstorm") {
-            if (mon.type1 != "Rock" && mon.type2 != "Rock" && mon.type1 != "Ground" && mon.type2 != "Ground" && mon.type1 != "Steel" && mon.type2 != "Steel") {
-                let weatherDamage = maxhp*6.25/100;
-                hp-= weatherDamage;
-                if (player == 1) {
-                    messagebox1.innerHTML += "<br>" + mon.name + " is buffeted by the sandstorm! (-" + weatherDamage + "HP)";
-                } else if (player == 2) {
-                    messagebox2.innerHTML += "<br>" + mon.name + " is buffeted by the sandstorm! (-" + weatherDamage + "HP)";
+function weatherDamage(weather, mon, dhp, dmaxhp, ahp, player) {
+    if (ahp > 0 && dhp > 0) {
+        if (dhp > 0) {
+            if (weather == "Sandstorm") {
+                if (mon.type1 != "Rock" && mon.type2 != "Rock" && mon.type1 != "Ground" && mon.type2 != "Ground" && mon.type1 != "Steel" && mon.type2 != "Steel") {
+                    let weatherDamage = dmaxhp*6.25/100;
+                    dhp-= weatherDamage;
+                    weatherDamage = roundDecimals(weatherDamage, 2);
+                    if (player == 1) {
+                        messagebox1.innerHTML += mon.name + " is buffeted by the sandstorm! (-" + weatherDamage + "HP)<br>";
+                    } else if (player == 2) {
+                        messagebox2.innerHTML += mon.name + " is buffeted by the sandstorm! (-" + weatherDamage + "HP)<br>";
+                    }
                 }
             }
+        } else {
+            dhp = 0;
         }
-    } else {
-        hp = 0;
     }
-    return hp;
+    return dhp;
 }
 
 function checkFirstStrike(p1move, p2move) {
@@ -1839,8 +2166,8 @@ function checkFirstStrike(p1move, p2move) {
     checkWeather();
     p1recurrentDamage = leechSeedandPoison(1, p1hp, p2hp, messagebox1, plagiomon1, p1Seeded, p1burned, p1badpoisoned, p1badpoisonLevel, p1poisoned);
     p2recurrentDamage = leechSeedandPoison(2, p2hp, p1hp, messagebox2, plagiomon2, p2Seeded, p2burned, p2badpoisoned, p2badpoisonLevel, p2poisoned);
-    p1hp = weatherDamage(weather, plagiomon1, p1hp, p1maxhp, 1);
-    p2hp = weatherDamage(weather, plagiomon2, p2hp, p2maxhp, 2);
+    p1hp = weatherDamage(weather, plagiomon1, p1hp, p1maxhp, p2hp, 1);
+    p2hp = weatherDamage(weather, plagiomon2, p2hp, p2maxhp, p1hp, 2);
     // p1badpoisonLevel = p1recurrentDamage[0];
     // p1hp = p1recurrentDamage[2];
     // p1Seeded = p1recurrentDamage[3];
@@ -1859,8 +2186,8 @@ function checkFirstStrike(p1move, p2move) {
     // if (p1hp > p1maxhp) {
     //     p1hp = p1maxhp;
     // }
-    p1hp = colorHPbar(p1hp, p1maxhp, pP1HPbar, spanP1HPcount, P1img);
-    p2hp = colorHPbar(p2hp, p2maxhp, pP2HPbar, spanP2HPcount, P2img);
+    p1hp = colorHPbar(p1mon, p1hp, p1maxhp, pP1HPbar, spanP1HPcount, P1img);
+    p2hp = colorHPbar(p2mon, p2hp, p2maxhp, pP2HPbar, spanP2HPcount, P2img);
     if (p1hp <= 0 && p2hp > 0) {
         setTimeout(() => {
             p1loss++;
@@ -1868,10 +2195,23 @@ function checkFirstStrike(p1move, p2move) {
             spanP1mon.innerHTML = "Your <b>" + p1mon + "</b>&#x1FAA6;";
             spanP2mon.innerHTML = "CPU <b>" + p2mon + "</b>&#x1F451;";
             messagebox2.innerHTML = "Your <b>" + p1mon + "</b> fainted, <i><u>you lose...</u></i> :(" + " | Your wins: " + p1win + " | Your losses: " + p1loss;
+            buttonrematchnow.hidden = false;
+            buttonrestart.hidden = false;
         }, 2000);
     } else if (p2hp <= 0 && p1hp > 0) {
         setTimeout(() => {
             p1win++;
+            defeatedmons++;
+            if (plagiomon1.level < 60) {
+                plagiomon1.level++;
+                plagiomon1.maxhp = plagiomon1.basehp * plagiomon1.level + ((-plagiomon1.level/10) + 10) * 1;
+                plagiomon1.maxpyatk = plagiomon1.pyatk * plagiomon1.level + (((-plagiomon1.level/10) + 10)/2);
+                plagiomon1.maxpydef = plagiomon1.pydef * plagiomon1.level + (((-plagiomon1.level/10) + 10)/2);
+                plagiomon1.maxspatk = plagiomon1.spatk * plagiomon1.level + (((-plagiomon1.level/10) + 10)/2);
+                plagiomon1.maxspdef = plagiomon1.spdef * plagiomon1.level + (((-plagiomon1.level/10) + 10)/2);
+                plagiomon1.maxspeed = plagiomon1.speed * plagiomon1.level + (((-plagiomon1.level/10) + 10)/2);
+            }
+            plagiomon2.defeated = true;
             messagebox2.innerHTML = "";
             spanP1mon.innerHTML = "Your <b>" + p1mon + "</b>&#x1F451;";
             spanP2mon.innerHTML = "CPU <b>" + p2mon + "</b>&#x1FAA6;";
@@ -1884,7 +2224,10 @@ function checkFirstStrike(p1move, p2move) {
             messagebox2.innerHTML = "Your ties: " + p1tie;
             spanP1mon.innerHTML = "Your <b>" + p1mon + "</b>&#x1FAA6;";
             spanP2mon.innerHTML = "CPU <b>" + p2mon + "</b>&#x1FAA6;";
+            buttonrematchnow.hidden = false;
+            buttonrestart.hidden = false;
         }, 2000);
+
     }
     if (p1hp > 0 && p2hp > 0) {
         turncounter++;
@@ -2018,23 +2361,13 @@ function accuracyCheck(accOrder, aMove, aPP, paccuracy, pevasion, attackertext, 
             }
             else {
                 //need to update game data, set power to 0 (null);-      +
-                attackerMessage = amon + "'s " + aMove.name + " missed!";
-                console.log(attackerMessage);
-                messagebox.innerHTML = attackerMessage;
+                // attackerMessage+= amon + "'s " + aMove.name + " missed!";
+                // console.log(attackerMessage);
+                // messagebox.innerHTML = attackerMessage;
                 attackmiss = true;
-                aPP[aMove.moveid]--;
-                if (defender.ability == "Pressure") {
-                    aPP[aMove.moveid]--;
-                }
-                if (player == 1) {
-                    console.log("accuracyCheckelse2");
-                    updatePP();
-                }
             }
-        } else {
         }
     }
-    console.log("skipped fEvasionLevel: " + aEvasionLevel);
     gamedata1 = checkMove(accOrder, aMove, aPP, amon, apyatk, apydef, aspatk, aspdef, aspeed, aBasePyAtk, aBasePyDef, aBaseSpAtk, aBaseSpDef, aBaseSpeed, aPyAtkLevel, aPyDefLevel, aSpAtkLevel, aSpDefLevel, aSpeedLevel, abadstatus, aburned, afrozen, aparalyzed, afullyparalyzed, apoisoned, aflinched, aconfusedLevel, attacker, attackertext, attackerboxp, attackerimg, attackerHP, attackerHPbar, attackerHPcount, attackerMaxHP, attackerPower, aEvasion, aEvasionLevel, aProtectLevel, aProtectMessage, aProtectRate, aReflect, aLightScreen, dMove, dPP, dmon, dpyatk, dpydef, dspatk, dspdef, dspeed, dBasePyAtk, dBasePyDef, dBaseSpAtk, dBaseSpDef, dBaseSpeed, dPyAtkLevel, dPyDefLevel, dSpAtkLevel, dSpDefLevel, dSpeedLevel, dProtectLevel, dProtectRate, dReflect, dLightScreen, dmontext, defender, defenderboxp, defenderimg, defenderHP, defenderHPbar, defenderHPcount, defenderMaxHP, dbadstatus, dpoisoned, dfrozen, dburned, dparalyzed, dflinched, dconfusedLevel, dSeeded, lastMoveCategory, lastDamageDealt);
 }
 
@@ -2067,13 +2400,13 @@ function checkPP(player) {
         } 
     } else if (player == 2) {
         if (p2PPs[p2moveid] == 0) {
-            if (p2moveid == 1) {
+            if (p2moveid == 0) {
                 p2move1ZeroPP = true;
-            } else if (p2moveid == 2) {
+            } else if (p2moveid == 1) {
                 p2move2ZeroPP = true;
-            } else if (p2moveid == 3) {
+            } else if (p2moveid == 2) {
                 p2move3ZeroPP = true;
-            } else if (p2moveid == 4) {
+            } else if (p2moveid == 3) {
                 p2move4ZeroPP = true;
             } else
                 console.log("Unknown p2 moveid reached zero PP");
@@ -2228,7 +2561,7 @@ function updatePlayerData(player) {
 
 function checkBarrier(player, amon, barrier, type) {
     if (barrier > 0) {
-        messagebox.innerHTML = amon + "'s " + type + " Turn: " + barrier + "<br>";
+        messagebox.innerHTML = amon + "'s " + type + " Turn: " + barrier + "<br><br>";
         barrier++;
         if (barrier > 5) {
             barrier = 0;
@@ -2270,14 +2603,14 @@ function attackTurn(turnOrder, player, attacker, attackerboxp, spanattackermon, 
                     attacker.type2 = "Flying";
                 }
                 if (aflinched == true) {
-                    messagebox.innerHTML = amon + " flinched!";
+                    messagebox.innerHTML = amon + " flinched!<br>";
                 }
                 if (aparalyzed == true) {
                     aspeed = attacker.maxspeed/2;
                     let fullparalysis = Math.round(Math.random() * 100);
                     if (fullparalysis > 75 ) {
                         afullyparalyzed = true;
-                        messagebox.innerHTML = amon + " is fully paralyzed!<br>It can't move!";
+                        messagebox.innerHTML = amon + " is fully paralyzed!<br>It can't move!<br>";
                     }
                 }
                 else if (afrozen == true) {
@@ -2286,12 +2619,16 @@ function attackTurn(turnOrder, player, attacker, attackerboxp, spanattackermon, 
                         if (unfreeze > 80) {
                             afrozen = false;
                             abadstatus = false;
-                            spanattackermon.innerHTML = "P1<b>" + amon + "</b>:";
+                            if (player == 1) {
+                                spanattackermon.innerHTML = "Your <b>" + amon + "</b> | Lv" + attacker.level
+                            } else if (player == 2) {
+                                spanattackermon.innerHTML = "CPU <b>" + amon + "</b> | Lv" + attacker.level
+                            }
                             spanattackermon.style.color = "";
-                            messagebox.innerHTML += amon + " thawed out of freeze!";
+                            messagebox.innerHTML += amon + " thawed out of freeze!<br>";
                             //alert(amon + " defrost!");
                         } else {
-                            messagebox.innerHTML += amon + " is frozen rock solid!";
+                            messagebox.innerHTML += amon + " is frozen rock solid!<br>";
                         }
                     }
                 }

@@ -2,12 +2,13 @@ const moncontainer = document.getElementById("mon-container");
 let plagiodex = [];
 
 class Plagiomon {
-    constructor(name, id, ability, level, type1, type2, basehp, pyatk, pydef, spatk, spdef, speed) {
+    constructor(name, id, ability, level, type1, type2, basehp, pyatk, pydef, spatk, spdef, speed, x = 10, y = 10) {
         this.name = name;
         this.id = id;
         this._idname = "_" + id + name;
         this.ability = ability;
-        this.img = "./mons/" + this.name + "something.png"
+        this.img = new Image();
+        this.img.src = "./mons/" + this.name + "something.png";
         this.level = level;
         this.type1 = type1;
         this.type2 = type2;
@@ -43,6 +44,15 @@ class Plagiomon {
             target: "single",
             description: "You are not supposed to be reading this."
         };
+        this.x = x;
+        this.previousX = 0;
+        this.previousY = 0;
+        this.y = y;
+        this.width = 80;
+        this.height = 60;
+        this.xA = 0;
+        this.yA = 0;
+        this.defeated = false;
     }
 }
 
@@ -145,8 +155,8 @@ Kakuchin.moveset = [
         category: "Special",
         contact: false,
         critrate: "standard",
-        power: 110,
-        accuracy: 85,
+        power: 120,
+        accuracy: 80,
         type: "Fire",
         stab: true,
         priority: 0,
@@ -230,8 +240,8 @@ Pochoclo.moveset = [
         category: "Special",
         contact: false,
         critrate: "standard",
-        power: 110,
-        accuracy: 80,
+        power: 120,
+        accuracy: 85,
         type: "Water",
         stab: true,
         priority: 0,
@@ -326,22 +336,39 @@ Shikapu.moveset = [
     },
     {
         moveid: 1,
-        name: "Fake Out",
-        category: "Physical",
-        contact: true,
-        critrate: "standard",
-        power: 40,
-        accuracy: 100,
+        name: "Swagger",
+        category: "Status",
+        contact: false,
+        critrate: "none",
+        power: "-",
+        accuracy: 85,
         type: "Normal",
-        stab: true,
-        priority: 3,
-        setpp: 10,
-        minpp: 10,
-        maxpp: 16,
-        effect: "flinch100%",
+        stab: false,
+        priority: 0,
+        setpp: 15,
+        minpp: 15,
+        maxpp: 24,
+        effect: "confuse100%",
         recoil: 0,
         target: "single",
-        description: "A 1st-turn, 1st-strike move that causes flinching. Usable only on 1st turn. Has +3 Priority",
+        description: "The user enrages the foe into confusion. Also, it sharply raises the foe's Attack stat.",
+        // moveid: 1,
+        // name: "Fake Out",
+        // category: "Physical",
+        // contact: true,
+        // critrate: "standard",
+        // power: 40,
+        // accuracy: 100,
+        // type: "Normal",
+        // stab: true,
+        // priority: 3,
+        // setpp: 10,
+        // minpp: 10,
+        // maxpp: 16,
+        // effect: "flinch100%",
+        // recoil: 0,
+        // target: "single",
+        // description: "A 1st-turn, 1st-strike move that causes flinching. Usable only on 1st turn. Has +3 Priority",
     },
     {
         moveid: 2,
@@ -394,8 +421,8 @@ Gexninja.moveset = [
         category: "Special",
         contact: false,
         critrate: "standard",
-        power: 110,
-        accuracy: 80,
+        power: 120,
+        accuracy: 85,
         type: "Water",
         stab: true,
         priority: 0,
@@ -630,6 +657,188 @@ Cuatrobiceps.moveset = [
     },
 ];
 console.log(Cuatrobiceps.moveset);
+
+//#132 Tito
+let Tito;
+function createTito() {
+    Tito = plagiodex[132] = new Plagiomon("Tito", 132, plagiomon1.ability, 60, plagiomon1.type1, plagiomon1.type2, 3, plagiomon1.pyatk, plagiomon1.pydef, plagiomon1.spatk, plagiomon1.spdef, plagiomon1.speed);
+
+    Tito.moveset = plagiomon1.moveset;
+
+    Tito.moveset = [
+        {
+            moveid: 0,
+            name: plagiomon1.moveset[0].name,
+            category: plagiomon1.moveset[0].category,
+            contact: plagiomon1.moveset[0].contact,
+            critrate: plagiomon1.moveset[0].critrate,
+            power: plagiomon1.moveset[0].power,
+            accuracy: plagiomon1.moveset[0].accuracy,
+            type: plagiomon1.moveset[0].type,
+            stab: plagiomon1.moveset[0].stab,
+            priority: plagiomon1.moveset[0].priority,
+            setpp: 5,
+            minpp: 5,
+            maxpp: 5,
+            effect: plagiomon1.moveset[0].effect,
+            recoil: plagiomon1.moveset[0].recoil,
+            target: plagiomon1.moveset[0].target,
+            description: plagiomon1.moveset[0].description,
+        },
+        {
+            moveid: 1,
+            name: plagiomon1.moveset[1].name,
+            category: plagiomon1.moveset[1].category,
+            contact: plagiomon1.moveset[1].contact,
+            critrate: plagiomon1.moveset[1].critrate,
+            power: plagiomon1.moveset[1].power,
+            accuracy: plagiomon1.moveset[1].accuracy,
+            type: plagiomon1.moveset[1].type,
+            stab: plagiomon1.moveset[1].stab,
+            priority: plagiomon1.moveset[1].priority,
+            setpp: 5,
+            minpp: 5,
+            maxpp: 5,
+            effect: plagiomon1.moveset[1].effect,
+            recoil: plagiomon1.moveset[1].recoil,
+            target: plagiomon1.moveset[1].target,
+            description: plagiomon1.moveset[1].description,
+        },
+        {
+            moveid: 2,
+            name: plagiomon1.moveset[2].name,
+            category: plagiomon1.moveset[2].category,
+            contact: plagiomon1.moveset[2].contact,
+            critrate: plagiomon1.moveset[2].critrate,
+            power: plagiomon1.moveset[2].power,
+            accuracy: plagiomon1.moveset[2].accuracy,
+            type: plagiomon1.moveset[2].type,
+            stab: plagiomon1.moveset[2].stab,
+            priority: plagiomon1.moveset[2].priority,
+            setpp: 5,
+            minpp: 5,
+            maxpp: 5,
+            effect: plagiomon1.moveset[2].effect,
+            recoil: plagiomon1.moveset[2].recoil,
+            target: plagiomon1.moveset[2].target,
+            description: plagiomon1.moveset[2].description,
+        },
+        {
+            moveid: 3,
+            name: plagiomon1.moveset[3].name,
+            category: plagiomon1.moveset[3].category,
+            contact: plagiomon1.moveset[3].contact,
+            critrate: plagiomon1.moveset[3].critrate,
+            power: plagiomon1.moveset[3].power,
+            accuracy: plagiomon1.moveset[3].accuracy,
+            type: plagiomon1.moveset[3].type,
+            stab: plagiomon1.moveset[3].stab,
+            priority: plagiomon1.moveset[3].priority,
+            setpp: 5,
+            minpp: 5,
+            maxpp: 5,
+            effect: plagiomon1.moveset[3].effect,
+            recoil: plagiomon1.moveset[3].recoil,
+            target: plagiomon1.moveset[3].target,
+            description: plagiomon1.moveset[3].description,
+        },
+    ];
+    // Tito.moveset[0].setpp = 5;
+    // Tito.moveset[1].setpp = 5;
+    // Tito.moveset[2].setpp = 5;
+    // Tito.moveset[3].setpp = 5;
+    console.log(Tito.moveset);
+    // plagiomon1.moveset[0].setpp = plagiomon1.moveset[0].minpp;
+    // plagiomon1.moveset[1].setpp = plagiomon1.moveset[1].minpp;
+    // plagiomon1.moveset[2].setpp = plagiomon1.moveset[2].minpp;
+    // plagiomon1.moveset[3].setpp = plagiomon1.moveset[3].minpp;
+    console.log(plagiomon1.moveset);
+}
+
+//#150 Miaudos
+let Miaudos;
+function createMiaudos() {
+    Miaudos = plagiodex[150] = new Plagiomon("Miaudos", 150, "Pressure", 60, "Psychic", "", 4.16, 3.5, 3.06, 4.47, 3.06, 3.94);
+        Miaudos.moveset = [
+        {
+            moveid: 0,
+            name: "Psychic",
+            category: "Special",
+            contact: false,
+            critrate: "standard",
+            power: 90,
+            accuracy: 100,
+            type: "Psychic",
+            stab: true,
+            priority: 0,
+            setpp: 10,
+            minpp: 10,
+            maxpp: 16,
+            effect: "lowerSpDef1x10%",
+            recoil: 0,
+            target: "single",
+            description: "Has a 10% chance of lowering the target's Special Defense by one stage.",
+        },
+        {
+            moveid: 1,
+            name: "Thunderbolt",
+            category: "Special",
+            contact: false,
+            critrate: "standard",
+            power: 90,
+            accuracy: 100,
+            type: "Electric",
+            stab: true,
+            priority: 0,
+            setpp: 15,
+            minpp: 15,
+            maxpp: 24,
+            effect: "paralyze",
+            recoil: 0,
+            target: "single",
+            description: "Has a 10% chance of paralyzing the target.",
+        },
+        {
+            moveid: 2,
+            name: "Focus Blast",
+            category: "Special",
+            contact: false,
+            critrate: "standard",
+            power: 120,
+            accuracy: 70,
+            type: "Fighting",
+            stab: true,
+            priority: 0,
+            setpp: 5,
+            minpp: 5,
+            maxpp: 8,
+            effect: "lowerSpDef1x10%",
+            recoil: 0,
+            target: "single",
+            description: "A powerful blast that has a 10% chance of lowering the target's Sp. Def. by one stage.",
+        },
+        {
+            moveid: 3,
+            name: "Signal Beam",
+            category: "Special",
+            contact: false,
+            critrate: "standard",
+            power: 75,
+            accuracy: 100,
+            type: "Bug",
+            stab: true,
+            priority: 0,
+            setpp: 15,
+            minpp: 15,
+            maxpp: 24,
+            effect: "confuse10%",
+            recoil: 0,
+            target: "single",
+            description: "The user attacks with a sinister beam of light. Has a 10% chance of confusing the target. ",
+        },
+    ];
+    console.log(Miaudos.moveset);
+}
 
 //#248 Rockzilla
 let Rockzilla = plagiodex[248] = new Plagiomon("Rockzilla", 248, "Sand Stream", 50, "Rock", "Dark", 4.04, 4.03, 3.5, 3.17, 3.28, 2.43);
