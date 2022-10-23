@@ -65,11 +65,76 @@ let p1up, p1down, p1left, p1right;
 let cpup, cpdown, cpleft, cpright;
 let defeatedmons = 0;
 
+let clientID;
+let otherPlayers = [];
+
 plagiomon1 = p1mon = p1monid = plagiomon2 = p2mon = p2monid = "NULLMON";
 let PPindex, p1weather, p2weather; //not needed for now
 let attackmiss, gamedata1, gamedata2, hpleech, leechMessage, weather, weatherLevel, lastMoveCategory, lastDamageDealt, sametypeattackbonus, turncounter, p1win, p1loss, p1tie, roundcounter;
 p1win = p1loss = p1tie = roundcounter = 0;
 sametypeattackbonus = 1.5;
+
+
+// function mostrarMensaje() {
+//     setTimeout(() => {
+//         console.log("Mensaje uno");
+//     }, 1000);
+    
+//     setTimeout(() => {
+//         console.log("Mensaje dos");
+//     }, 2000);
+// }
+
+// mostrarMensaje();
+
+function fgetPlayerID() {
+    fetch("http://127.0.0.1:8080/join").then(function(res1) {
+        console.log(res1);
+        if (res1.ok) {
+            res1.text().then(function(res2) {
+                clientID = res2;
+                console.log(clientID);
+            });
+        }
+    });
+}
+
+function fgetPlayermon(objectmon) {
+    fetch(`http://127.0.0.1:8080/plagiomon/${clientID}`, {
+        method: "post",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            "plagiomon": objectmon.name,
+            "id": objectmon.id,
+        }),
+    })
+}
+
+function fgetPlayerCoords(x, y, w) {
+    fetch(`http://127.0.0.1:8080/plagiomon/${clientID}/playerCoords`, {
+        method: "post",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            x,
+            y,
+            w,
+        })
+    }).then(function(eDB) {
+        if (eDB.ok) {
+            eDB.json().then(function({enemyDB}) {
+                // console.log(enemyDB);
+                otherPlayers = enemyDB;
+            })
+        }        
+    })
+}
+
+
+// fgetPlayerID();
 
 function frematchnow() {
     if (plagiomon1 == "NULLMON") {
@@ -110,6 +175,11 @@ function fmonselect() {
     }
     if (p1monid != "NULLMON") {
         plagiomon1 = plagiodex[p1monid];
+        if (window.innerWidth <= mapMaxWidth) {
+            plagiomon1.y = window.innerWidth * 0.95 / 1.33333333333 / 10;
+        } else {
+            plagiomon1.y = mapMaxWidth * 0.95 / 1.33333333333 / 10;
+        }
         p1mon = plagiomon1.name;
         P1img.src = plagiomon1.img.src;
         if (p1hp <= 0) {
@@ -134,6 +204,7 @@ function fmonselect() {
                 }
             }
         }
+        // fgetPlayermon(plagiomon1);
         foverworld()
         // fselectedmon();
         
@@ -165,10 +236,10 @@ function foverworld() {
     gamemode = "overworld";
     // draw.fillRect(10, 10, plagiomon1.width, plagiomon1.height);
     // draw.drawImage(plagiomon1.img, 10, 10, plagiomon1.width, plagiomon1.height);
-    if (p1win == 7 && plagiomons.length == 8) {
+    if (p1win == 7 && plagiomons.length == 9) {
         createTito();
         plagiomons.push(Tito);
-    } else if (p1win == 8 && plagiomons.length == 9) {
+    } else if (p1win == 8 && plagiomons.length == 10) {
         createMiaudos();
         plagiomons.push(Miaudos);
         Miaudos.x = mapcanvas.width/2 - Miaudos.width/2;
@@ -227,6 +298,16 @@ function drawPlayer() {
         }
         draw.drawImage(cpumon.img, cpumon.x, cpumon.y, cpumon.width, cpumon.height);
     }
+    // fgetPlayerCoords(plagiomon1.x, plagiomon1.y, mapWidth);
+    for (player of otherPlayers) {
+        const filtermon = plagiodex.filter((mon) => mon.name == player.plagiomon);
+        const translateW = mapWidth / player.w;
+        const translateX = player.x * translateW;
+        const translateY = player.y * translateW;
+        if (filtermon[0] != undefined) {
+            draw.drawImage(filtermon[0].img, translateX, translateY, plagiomon1.width, plagiomon1.height);
+        }
+    }
     if (plagiomon1.xA != 0 || plagiomon1.yA != 0) {
         checkCollision(plagiomon1, false);
     } else {
@@ -262,20 +343,6 @@ function checkCollision(object, margin) {
                             }
                         }
                     }
-                    // object.x+= object.width;
-                    // p1right+= object.width;
-                    // object.y+= object.height;
-                    // p1down += object.height;
-                    // if (p1right >= mapWidth) {
-                    //     let modx = p1right % mapWidth;
-                    //     object.x = modx;
-                    //     console.log(object.name + "X: " + object.x + " | modx: " + modx);
-                    // }
-                    // if (p1down >= mapHeight) {
-                    //     let mody = p1down % mapHeight;
-                    //     object.y = mody;
-                    //     console.log(object.name + " Y: " + object.y + " | mody: " + mody);
-                    // }
                 } else {
                     if (object.name != cpumon.name) {
                         console.log(object.name);
@@ -2065,23 +2132,43 @@ function leechSeedandPoison(player, dphp, aphp, pmessageboxp, plagiomon, seeded,
 }
 
 function playerAttack(player) {
+
+// function mostrarMensaje() {
+//     setTimeout(() => {
+//         console.log("Mensaje uno");
+//     }, 1000);
+    
+//     setTimeout(() => {
+//         console.log("Mensaje dos");
+//     }, 2000);
+// }
+
+// mostrarMensaje();
+
     if (player == 1) {
+        messagebox1.innerHTML = "";
         console.log("Start P1 turn");
         attackTurn("first", 1, plagiomon1, messagebox1, spanP1mon, P1img, p1hp, p1maxhp, pP1HPbar, spanP1HPcount, p1move, p1moveid, p1PPs, p1Power, p1Evasion, p1EvasionLevel, p1ProtectLevel, p1ProtectMessage, p1ProtectRate, p1Reflect, p1LightScreen, p1badstatus, p1burned, p1poisoned, p1flinched, p1confusedLevel, p1paralyzed, p1fullyparalyzed, p1frozen, p1pyatk, p1pydef, p1spatk, p1spdef, p1speed, p1BasePyAtk, p1BasePyDef, p1BaseSpAtk, p1BaseSpDef, p1BaseSpeed, p1PyAtkLevel, p1PyDefLevel, p1SpAtkLevel, p1SpDefLevel, p1SpeedLevel, p1Accuracy, p2Evasion, p1mon, p1move1ZeroPP, p1move2ZeroPP, p1move3ZeroPP, p1move4ZeroPP, p2move, p2PPs, p2mon, p2pyatk, p2pydef, p2spatk, p2spdef,  p2speed, p2BasePyAtk, p2BasePyDef, p2BaseSpAtk, p2BaseSpDef, p2BaseSpeed, p2PyAtkLevel, p2PyDefLevel, p2SpAtkLevel, p2SpDefLevel, p2SpeedLevel, p2ProtectLevel, p2ProtectRate, p2Reflect, p2LightScreen, spanP2mon, plagiomon2, messagebox2, P2img, p2hp, p2maxhp, pP2HPbar, spanP2HPcount, p2badstatus, p2badpoisoned, p2badpoisonLevel, p2poisoned, p2frozen, p2burned, p2paralyzed, p2flinched, p2confusedLevel, p2Seeded);
         console.log("End P1 turn");
 
-        console.log("Start P2 turn");
-        attackTurn("second", 2, plagiomon2, messagebox2, spanP2mon, P2img, p2hp, p2maxhp, pP2HPbar, spanP2HPcount, p2move, p2moveid, p2PPs, p2Power, p2Evasion, p2EvasionLevel, p2ProtectLevel, p2ProtectMessage, p2ProtectRate, p2Reflect, p2LightScreen, p2badstatus, p2burned, p2poisoned, p2flinched, p2confusedLevel, p2paralyzed, p2fullyparalyzed, p2frozen, p2pyatk, p2pydef, p2spatk, p2spdef, p2speed, p2BasePyAtk, p2BasePyDef, p2BaseSpAtk, p2BaseSpDef, p2BaseSpeed, p2PyAtkLevel, p2PyDefLevel, p2SpAtkLevel, p2SpDefLevel, p2SpeedLevel, p2Accuracy, p1Evasion, p2mon, p2move1ZeroPP, p2move2ZeroPP, p2move3ZeroPP, p2move4ZeroPP, p1move, p1PPs, p1mon, p1pyatk, p1pydef, p1spatk, p1spdef, p1speed, p1BasePyAtk, p1BasePyDef, p1BaseSpAtk, p1BaseSpDef, p1BaseSpeed, p1PyAtkLevel, p1PyDefLevel, p1SpAtkLevel, p1SpDefLevel, p1SpeedLevel, p1ProtectLevel, p1ProtectRate, p1Reflect, p1LightScreen, spanP1mon, plagiomon1, messagebox1, P1img, p1hp, p1maxhp, pP1HPbar, spanP1HPcount, p1badstatus, p1badpoisoned, p1badpoisonLevel, p1poisoned, p1frozen, p1burned, p1paralyzed, p1flinched, p1confusedLevel, p1Seeded);
-            
-        console.log("End P2 turn");
+        messagebox2.innerHTML = "";
+        setTimeout(() => {
+            console.log("Start P2 turn");
+            attackTurn("second", 2, plagiomon2, messagebox2, spanP2mon, P2img, p2hp, p2maxhp, pP2HPbar, spanP2HPcount, p2move, p2moveid, p2PPs, p2Power, p2Evasion, p2EvasionLevel, p2ProtectLevel, p2ProtectMessage, p2ProtectRate, p2Reflect, p2LightScreen, p2badstatus, p2burned, p2poisoned, p2flinched, p2confusedLevel, p2paralyzed, p2fullyparalyzed, p2frozen, p2pyatk, p2pydef, p2spatk, p2spdef, p2speed, p2BasePyAtk, p2BasePyDef, p2BaseSpAtk, p2BaseSpDef, p2BaseSpeed, p2PyAtkLevel, p2PyDefLevel, p2SpAtkLevel, p2SpDefLevel, p2SpeedLevel, p2Accuracy, p1Evasion, p2mon, p2move1ZeroPP, p2move2ZeroPP, p2move3ZeroPP, p2move4ZeroPP, p1move, p1PPs, p1mon, p1pyatk, p1pydef, p1spatk, p1spdef, p1speed, p1BasePyAtk, p1BasePyDef, p1BaseSpAtk, p1BaseSpDef, p1BaseSpeed, p1PyAtkLevel, p1PyDefLevel, p1SpAtkLevel, p1SpDefLevel, p1SpeedLevel, p1ProtectLevel, p1ProtectRate, p1Reflect, p1LightScreen, spanP1mon, plagiomon1, messagebox1, P1img, p1hp, p1maxhp, pP1HPbar, spanP1HPcount, p1badstatus, p1badpoisoned, p1badpoisonLevel, p1poisoned, p1frozen, p1burned, p1paralyzed, p1flinched, p1confusedLevel, p1Seeded);
+            console.log("End P2 turn");
+        }, 3000);
     } else if (player == 2) {
+        messagebox2.innerHTML = "";
         console.log("Start P2 turn");
         attackTurn("first", 2, plagiomon2, messagebox2, spanP2mon, P2img, p2hp, p2maxhp, pP2HPbar, spanP2HPcount, p2move, p2moveid, p2PPs, p2Power, p2Evasion, p2EvasionLevel, p2ProtectLevel, p2ProtectMessage, p2ProtectRate, p2Reflect, p2LightScreen, p2badstatus, p2burned, p2poisoned, p2flinched, p2confusedLevel, p2paralyzed, p2fullyparalyzed, p2frozen, p2pyatk, p2pydef, p2spatk, p2spdef, p2speed, p2BasePyAtk, p2BasePyDef, p2BaseSpAtk, p2BaseSpDef, p2BaseSpeed, p2PyAtkLevel, p2PyDefLevel, p2SpAtkLevel, p2SpDefLevel, p2SpeedLevel, p2Accuracy, p1Evasion, p2mon, p2move1ZeroPP, p2move2ZeroPP, p2move3ZeroPP, p2move4ZeroPP, p1move, p1PPs, p1mon, p1pyatk, p1pydef, p1spatk, p1spdef, p1speed, p1BasePyAtk, p1BasePyDef, p1BaseSpAtk, p1BaseSpDef, p1BaseSpeed, p1PyAtkLevel, p1PyDefLevel, p1SpAtkLevel, p1SpDefLevel, p1SpeedLevel, p1ProtectLevel, p1ProtectRate, p1Reflect, p1LightScreen, spanP1mon, plagiomon1, messagebox1, P1img, p1hp, p1maxhp, pP1HPbar, spanP1HPcount, p1badstatus, p1badpoisoned, p1badpoisonLevel, p1poisoned, p1frozen, p1burned, p1paralyzed, p1flinched, p1confusedLevel, p1Seeded);
         console.log("End P2 turn");
 
-        console.log("Start P1 turn");
-        attackTurn("second", 1, plagiomon1, messagebox1, spanP1mon, P1img, p1hp, p1maxhp, pP1HPbar, spanP1HPcount, p1move, p1moveid, p1PPs, p1Power, p1Evasion, p1EvasionLevel, p1ProtectLevel, p1ProtectMessage, p1ProtectRate, p1Reflect, p1LightScreen, p1badstatus, p1burned, p1poisoned, p1flinched, p1confusedLevel, p1paralyzed, p1fullyparalyzed, p1frozen, p1pyatk, p1pydef, p1spatk, p1spdef, p1speed, p1BasePyAtk, p1BasePyDef, p1BaseSpAtk, p1BaseSpDef, p1BaseSpeed, p1PyAtkLevel, p1PyDefLevel, p1SpAtkLevel, p1SpDefLevel, p1SpeedLevel, p1Accuracy, p2Evasion, p1mon, p1move1ZeroPP, p1move2ZeroPP, p1move3ZeroPP, p1move4ZeroPP, p2move, p2PPs, p2mon, p2pyatk, p2pydef, p2spatk, p2spdef, p2speed, p2BasePyAtk, p2BasePyDef, p2BaseSpAtk, p2BaseSpDef, p2BaseSpeed, p2PyAtkLevel, p2PyDefLevel, p2SpAtkLevel, p2SpDefLevel, p2SpeedLevel, p2ProtectLevel, p2ProtectRate, p2Reflect, p2LightScreen, spanP2mon, plagiomon2, messagebox2, P2img, p2hp, p2maxhp, pP2HPbar, spanP2HPcount, p2badstatus, p2badpoisoned, p2badpoisonLevel, p2poisoned, p2frozen, p2burned, p2paralyzed, p2flinched, p2confusedLevel, p2Seeded);
-        console.log("End P1 turn");
+        messagebox1.innerHTML = "";
+        setTimeout(() => {
+            console.log("Start P1 turn");
+            attackTurn("second", 1, plagiomon1, messagebox1, spanP1mon, P1img, p1hp, p1maxhp, pP1HPbar, spanP1HPcount, p1move, p1moveid, p1PPs, p1Power, p1Evasion, p1EvasionLevel, p1ProtectLevel, p1ProtectMessage, p1ProtectRate, p1Reflect, p1LightScreen, p1badstatus, p1burned, p1poisoned, p1flinched, p1confusedLevel, p1paralyzed, p1fullyparalyzed, p1frozen, p1pyatk, p1pydef, p1spatk, p1spdef, p1speed, p1BasePyAtk, p1BasePyDef, p1BaseSpAtk, p1BaseSpDef, p1BaseSpeed, p1PyAtkLevel, p1PyDefLevel, p1SpAtkLevel, p1SpDefLevel, p1SpeedLevel, p1Accuracy, p2Evasion, p1mon, p1move1ZeroPP, p1move2ZeroPP, p1move3ZeroPP, p1move4ZeroPP, p2move, p2PPs, p2mon, p2pyatk, p2pydef, p2spatk, p2spdef, p2speed, p2BasePyAtk, p2BasePyDef, p2BaseSpAtk, p2BaseSpDef, p2BaseSpeed, p2PyAtkLevel, p2PyDefLevel, p2SpAtkLevel, p2SpDefLevel, p2SpeedLevel, p2ProtectLevel, p2ProtectRate, p2Reflect, p2LightScreen, spanP2mon, plagiomon2, messagebox2, P2img, p2hp, p2maxhp, pP2HPbar, spanP2HPcount, p2badstatus, p2badpoisoned, p2badpoisonLevel, p2poisoned, p2frozen, p2burned, p2paralyzed, p2flinched, p2confusedLevel, p2Seeded);
+            console.log("End P1 turn");
+        }, 3000);
     }
 }
 
@@ -2157,85 +2244,88 @@ function checkFirstStrike(p1move, p2move) {
         console.log("priority exception");
     }
     //alert("Last Damage Dealt after AttackTurn: " + lastDamageDealt);
-    p1flinched = false;
-    p2flinched = false;
-    p1fullyparalyzed = false;
-    p2fullyparalyzed = false;
-    lastDamageDealt = -1;
-    lastMoveCategory = undefined;
-    checkWeather();
-    p1recurrentDamage = leechSeedandPoison(1, p1hp, p2hp, messagebox1, plagiomon1, p1Seeded, p1burned, p1badpoisoned, p1badpoisonLevel, p1poisoned);
-    p2recurrentDamage = leechSeedandPoison(2, p2hp, p1hp, messagebox2, plagiomon2, p2Seeded, p2burned, p2badpoisoned, p2badpoisonLevel, p2poisoned);
-    p1hp = weatherDamage(weather, plagiomon1, p1hp, p1maxhp, p2hp, 1);
-    p2hp = weatherDamage(weather, plagiomon2, p2hp, p2maxhp, p1hp, 2);
-    // p1badpoisonLevel = p1recurrentDamage[0];
-    // p1hp = p1recurrentDamage[2];
-    // p1Seeded = p1recurrentDamage[3];
-    // if (p2hp > 0) {
-    //     p2hp+= p1recurrentDamage[1];
-    // } 
-    // if (p2hp > p2maxhp) {
-    //     p2hp = p2maxhp;
-    // }
-    // p2badpoisonLevel = p2recurrentDamage[0];
-    // p2hp = p2recurrentDamage[2];
-    // p2Seeded = p2recurrentDamage[3];
-    // if (p1hp > 0) {
-    //     p1hp+= p2recurrentDamage[1];
-    // } 
-    // if (p1hp > p1maxhp) {
-    //     p1hp = p1maxhp;
-    // }
-    p1hp = colorHPbar(p1mon, p1hp, p1maxhp, pP1HPbar, spanP1HPcount, P1img);
-    p2hp = colorHPbar(p2mon, p2hp, p2maxhp, pP2HPbar, spanP2HPcount, P2img);
-    if (p1hp <= 0 && p2hp > 0) {
-        setTimeout(() => {
-            p1loss++;
-            messagebox1.innerHTML = "";
-            spanP1mon.innerHTML = "Your <b>" + p1mon + "</b>&#x1FAA6;";
-            spanP2mon.innerHTML = "CPU <b>" + p2mon + "</b>&#x1F451;";
-            messagebox2.innerHTML = "Your <b>" + p1mon + "</b> fainted, <i><u>you lose...</u></i> :(" + " | Your wins: " + p1win + " | Your losses: " + p1loss;
-            buttonrematchnow.hidden = false;
-            buttonrestart.hidden = false;
-        }, 2000);
-    } else if (p2hp <= 0 && p1hp > 0) {
-        setTimeout(() => {
-            p1win++;
-            defeatedmons++;
-            if (plagiomon1.level < 60) {
-                plagiomon1.level++;
-                plagiomon1.maxhp = plagiomon1.basehp * plagiomon1.level + ((-plagiomon1.level/10) + 10) * 1;
-                plagiomon1.maxpyatk = plagiomon1.pyatk * plagiomon1.level + (((-plagiomon1.level/10) + 10)/2);
-                plagiomon1.maxpydef = plagiomon1.pydef * plagiomon1.level + (((-plagiomon1.level/10) + 10)/2);
-                plagiomon1.maxspatk = plagiomon1.spatk * plagiomon1.level + (((-plagiomon1.level/10) + 10)/2);
-                plagiomon1.maxspdef = plagiomon1.spdef * plagiomon1.level + (((-plagiomon1.level/10) + 10)/2);
-                plagiomon1.maxspeed = plagiomon1.speed * plagiomon1.level + (((-plagiomon1.level/10) + 10)/2);
-            }
-            plagiomon2.defeated = true;
-            messagebox2.innerHTML = "";
-            spanP1mon.innerHTML = "Your <b>" + p1mon + "</b>&#x1F451;";
-            spanP2mon.innerHTML = "CPU <b>" + p2mon + "</b>&#x1FAA6;";
-            messagebox1.innerHTML = "CPU <b>" + p2mon + "</b> fainted, <i><u>you win!!!</u></i> :)" + " | Your wins: " + p1win + " | Your losses: " + p1loss;
-        }, 2000);
-    } else if (p1hp <= 0 && p2hp <= 0) {
-        setTimeout(() => {
-            p1tie++;
-            messagebox1.innerHTML = "Wow, it's a tie!";
-            messagebox2.innerHTML = "Your ties: " + p1tie;
-            spanP1mon.innerHTML = "Your <b>" + p1mon + "</b>&#x1FAA6;";
-            spanP2mon.innerHTML = "CPU <b>" + p2mon + "</b>&#x1FAA6;";
-            buttonrematchnow.hidden = false;
-            buttonrestart.hidden = false;
-        }, 2000);
+    setTimeout(() => {
+        p1flinched = false;
+        p2flinched = false;
+        p1fullyparalyzed = false;
+        p2fullyparalyzed = false;
+        lastDamageDealt = -1;
+        lastMoveCategory = undefined;
+        checkWeather();
+        p1recurrentDamage = leechSeedandPoison(1, p1hp, p2hp, messagebox1, plagiomon1, p1Seeded, p1burned, p1badpoisoned, p1badpoisonLevel, p1poisoned);
+        p2recurrentDamage = leechSeedandPoison(2, p2hp, p1hp, messagebox2, plagiomon2, p2Seeded, p2burned, p2badpoisoned, p2badpoisonLevel, p2poisoned);
+        p1hp = weatherDamage(weather, plagiomon1, p1hp, p1maxhp, p2hp, 1);
+        p2hp = weatherDamage(weather, plagiomon2, p2hp, p2maxhp, p1hp, 2);
+        // p1badpoisonLevel = p1recurrentDamage[0];
+        // p1hp = p1recurrentDamage[2];
+        // p1Seeded = p1recurrentDamage[3];
+        // if (p2hp > 0) {
+        //     p2hp+= p1recurrentDamage[1];
+        // } 
+        // if (p2hp > p2maxhp) {
+        //     p2hp = p2maxhp;
+        // }
+        // p2badpoisonLevel = p2recurrentDamage[0];
+        // p2hp = p2recurrentDamage[2];
+        // p2Seeded = p2recurrentDamage[3];
+        // if (p1hp > 0) {
+        //     p1hp+= p2recurrentDamage[1];
+        // } 
+        // if (p1hp > p1maxhp) {
+        //     p1hp = p1maxhp;
+        // }
+        p1hp = colorHPbar(p1mon, p1hp, p1maxhp, pP1HPbar, spanP1HPcount, P1img);
+        p2hp = colorHPbar(p2mon, p2hp, p2maxhp, pP2HPbar, spanP2HPcount, P2img);
+        if (p1hp <= 0 && p2hp > 0) {
+            setTimeout(() => {
+                p1loss++;
+                messagebox1.innerHTML = "";
+                spanP1mon.innerHTML = "Your <b>" + p1mon + "</b>&#x1FAA6;";
+                spanP2mon.innerHTML = "CPU <b>" + p2mon + "</b>&#x1F451;";
+                messagebox2.innerHTML = "Your <b>" + p1mon + "</b> fainted, <i><u>you lose...</u></i> :(" + " | Your wins: " + p1win + " | Your losses: " + p1loss;
+                buttonrematchnow.hidden = false;
+                buttonrestart.hidden = false;
+            }, 2000);
+        } else if (p2hp <= 0 && p1hp > 0) {
+            setTimeout(() => {
+                p1win++;
+                defeatedmons++;
+                if (plagiomon1.level < 60) {
+                    plagiomon1.level++;
+                    plagiomon1.maxhp = plagiomon1.basehp * plagiomon1.level + ((-plagiomon1.level/10) + 10) * 1;
+                    plagiomon1.maxpyatk = plagiomon1.pyatk * plagiomon1.level + (((-plagiomon1.level/10) + 10)/2);
+                    plagiomon1.maxpydef = plagiomon1.pydef * plagiomon1.level + (((-plagiomon1.level/10) + 10)/2);
+                    plagiomon1.maxspatk = plagiomon1.spatk * plagiomon1.level + (((-plagiomon1.level/10) + 10)/2);
+                    plagiomon1.maxspdef = plagiomon1.spdef * plagiomon1.level + (((-plagiomon1.level/10) + 10)/2);
+                    plagiomon1.maxspeed = plagiomon1.speed * plagiomon1.level + (((-plagiomon1.level/10) + 10)/2);
+                }
+                plagiomon2.defeated = true;
+                messagebox2.innerHTML = "";
+                spanP1mon.innerHTML = "Your <b>" + p1mon + "</b>&#x1F451;";
+                spanP2mon.innerHTML = "CPU <b>" + p2mon + "</b>&#x1FAA6;";
+                messagebox1.innerHTML = "CPU <b>" + p2mon + "</b> fainted, <i><u>you win!!!</u></i> :)" + " | Your wins: " + p1win + " | Your losses: " + p1loss;
+            }, 2000);
+        } else if (p1hp <= 0 && p2hp <= 0) {
+            setTimeout(() => {
+                p1tie++;
+                messagebox1.innerHTML = "Wow, it's a tie!";
+                messagebox2.innerHTML = "Your ties: " + p1tie;
+                spanP1mon.innerHTML = "Your <b>" + p1mon + "</b>&#x1FAA6;";
+                spanP2mon.innerHTML = "CPU <b>" + p2mon + "</b>&#x1FAA6;";
+                buttonrematchnow.hidden = false;
+                buttonrestart.hidden = false;
+            }, 2000);
+    
+        }
+        if (p1hp > 0 && p2hp > 0) {
+            turncounter++;
+            spanturncounter.innerHTML = "(Turn " + turncounter + ")" + " [Round " + roundcounter + "]";
+        } else {
+            movesectionhider.hidden = true;
+            setTimeout((resetUI), 2000);
+        }
 
-    }
-    if (p1hp > 0 && p2hp > 0) {
-        turncounter++;
-        spanturncounter.innerHTML = "(Turn " + turncounter + ")" + " [Round " + roundcounter + "]";
-    } else {
-        movesectionhider.hidden = true;
-        setTimeout((resetUI), 2000);
-    }
+    }, 3000);
 }
 
 function selectp2Move() {
