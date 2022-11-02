@@ -207,6 +207,7 @@ h1, h2 {
 
 #map-title, #map {
     grid-column: 1/4;
+    justify-self: center;
     /* min-width: 200px;
     width: 95vw;
     max-width: 1280px;

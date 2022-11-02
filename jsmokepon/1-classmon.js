@@ -2,9 +2,10 @@ const moncontainer = document.getElementById("mon-container");
 let plagiodex = [];
 
 class Plagiomon {
-    constructor(name, id, ability, level, type1, type2, basehp, pyatk, pydef, spatk, spdef, speed, x = 10, y = 10) {
+    constructor(name, id, ability, level, type1, type2, basehp, pyatk, pydef, spatk, spdef, speed, x = 10, y = 10, netid = null) {
         this.name = name;
         this.id = id;
+        this.netid = netid;
         this._idname = "_" + id + name;
         this.ability = ability;
         this.img = new Image();
@@ -18,7 +19,7 @@ class Plagiomon {
         this.spatk = spatk;
         this.spdef = spdef;
         this.speed = speed;
-        this.maxhp = basehp * level + ((-level/10) + 10) * 1;
+        this.maxhp = basehp * level + ((-level/10) + 10) * 50;
         this.maxpyatk = pyatk * level + (((-level/10) + 10)/2);
         this.maxpydef = pydef * level + (((-level/10) + 10)/2);
         this.maxspatk = spatk * level + (((-level/10) + 10)/2);
@@ -45,6 +46,7 @@ class Plagiomon {
             description: "You are not supposed to be reading this."
         };
         this.x = x;
+        this.moved = false;
         this.previousX = 0;
         this.previousY = 0;
         this.y = y;
@@ -209,22 +211,22 @@ Kakuchin.moveset = [
     //Tentative Hurricane replacement
     {
         moveid: 3,
-        name: "Shadow Claw",
+        name: "Thunder Punch",
         category: "Physical",
         contact: true,
-        critrate: "increased",
-        power: 70,
+        critrate: "standard",
+        power: 75,
         accuracy: 100,
-        type: "Ghost",
+        type: "Electric",
         stab: true,
         priority: 0,
         setpp: 15,
         minpp: 15,
         maxpp: 24,
-        effect: "highCrit",
+        effect: "paralyze",
         recoil: 0,
         target: "single",
-        description: "The user slashes with a sharp claw made from shadows. It has a high critical-hit ratio.",
+        description: "The user attacks with an electric punch. Has a 10% chance of paralyzing the target.",
     },
     //Tentative Earthquake replacement
     //Tentative Scorching Sands replacement
