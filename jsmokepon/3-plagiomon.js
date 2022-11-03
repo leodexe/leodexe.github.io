@@ -93,7 +93,7 @@ sametypeattackbonus = 1.5;
 function fgetPlayerID() {
     if (clientID == undefined) {
         // fetch("http://192.168.0.5:8080/join")
-        fetch("https://leodexe.vercel.app:8080/join")
+        fetch("https://76.76.21.21:8080/join")
         .then(function(res1) {
             console.log(res1);
             if (res1.ok) {
@@ -119,7 +119,7 @@ function fgetPlayerID() {
 
 function fgetPlayermon(objectmon) {
     // fetch(`http://192.168.0.5:8080/plagiomon/${clientID}`
-    fetch(`https://leodexe.vercel.app:8080/plagiomon/${clientID}`, {
+    fetch(`https://76.76.21.21:8080/plagiomon/${clientID}`, {
         method: "post",
         headers: {
             "Content-Type": "application/json",
@@ -138,7 +138,7 @@ function fgetPlayermon(objectmon) {
 
 function deletePlayerID() {
     if (clientID != undefined) {
-        fetch(`http://192.168.0.5:8080/plagiomon/delete/${clientID}`);
+        fetch(`https://leodexe.vercel.app:8080/plagiomon/delete/${clientID}`);
     }
 }
 window.onbeforeunload = function (event) {
@@ -156,7 +156,7 @@ window.onunload = function (event) {
  }
 
 function fgetPlayerCoords(monid, moved, w, x, y) {
-    fetch(`http://192.168.0.5:8080/plagiomon/${clientID}/getplayerCoords`, {
+    fetch(`https://leodexe.vercel.app:8080/plagiomon/${clientID}/getplayerCoords`, {
         method: "post",
         headers: {
             "Content-Type": "application/json",
@@ -191,7 +191,7 @@ function fgetPlayerCoords(monid, moved, w, x, y) {
 
 function fsetMovedtoclientID(mon) {
     plagiomon2.netid = rivalID = mon.id;
-    fetch(`http://192.168.0.5:8080/plagiomon/${clientID}/setMovedtoclientID`, {
+    fetch(`https://leodexe.vercel.app:8080/plagiomon/${clientID}/setMovedtoclientID`, {
         method: "post",
         headers: {
             "Content-Type": "application/json",
@@ -212,7 +212,7 @@ function fsetMovedtoclientID(mon) {
 function sendMove(p1moveid, turn) {
     p1moveid++;
     console.log("before sending move...");
-    fetch(`http://192.168.0.5:8080/plagiomon/${clientID}/sendMove`, {
+    fetch(`https://leodexe.vercel.app:8080/plagiomon/${clientID}/sendMove`, {
         method: "post",
         headers: {
             "Content-Type": "application/json",
@@ -236,7 +236,7 @@ function sendMove(p1moveid, turn) {
 }
 
 function updatemon(defender_moveid) {
-    fetch(`http://192.168.0.5:8080/plagiomon/${rivalID}`)
+    fetch(`https://leodexe.vercel.app:8080/plagiomon/${rivalID}`)
     .then(function (res1) {
         if (res1.ok) {
             res1.json().then(function ({rivalmon}) {
@@ -290,8 +290,10 @@ function updatemon(defender_moveid) {
     })
 }
 
+//http://192.168.0.5:8080
+
 function getMove() {
-    fetch(`http://192.168.0.5:8080/plagiomon/${clientID}/vs/${rivalID}/getMove`)
+    fetch(`https://leodexe.vercel.app:8080/plagiomon/${clientID}/vs/${rivalID}/getMove`)
     .then(function (res1) {
         console.log("Fetching...");
         if (res1.ok) {
@@ -994,7 +996,7 @@ function fselectedmon() {
 
 function sendConnection() {
     const connected = true;
-    fetch(`http://192.168.0.5:8080/plagiomon/${clientID}/vs/${rivalID}/sendStatus`, {
+    fetch(`https://leodexe.vercel.app:8080/plagiomon/${clientID}/vs/${rivalID}/sendStatus`, {
         method: "post",
         headers: {
             "Content-Type": "application/json",
@@ -1004,7 +1006,7 @@ function sendConnection() {
 }
 
 function getConnection() {
-    fetch(`http://192.168.0.5:8080/plagiomon/${clientID}/vs/${rivalID}/getStatus`)
+    fetch(`https://leodexe.vercel.app:8080/plagiomon/${clientID}/vs/${rivalID}/getStatus`)
         .then(function (res1) {
             if (res1.ok) {
                 res1.text().then(function (res2) {
@@ -1395,7 +1397,7 @@ function sendPlayerData2() {
     if (p2hp == 0) {
         p2hp = -1;
     }
-    fetch(`http://192.168.0.5:8080/plagiomon/${clientID}/vs/${rivalID}/sendPlayerData2`, {
+    fetch(`https://leodexe.vercel.app:8080/plagiomon/${clientID}/vs/${rivalID}/sendPlayerData2`, {
         method: "post",
         headers: {
             "Content-Type": "application/json",
@@ -1594,7 +1596,7 @@ function attackTurn(turnOrder, player, attacker, attackerboxp, spanattackermon, 
 }
 
 function sendPlayerData(gamedata, turndata) {
-    fetch(`http://192.168.0.5:8080/plagiomon/${clientID}/vs/${rivalID}/sendPlayerData`, {
+    fetch(`https://leodexe.vercel.app:8080/plagiomon/${clientID}/vs/${rivalID}/sendPlayerData`, {
         method: "post",
         headers: {
             "Content-Type": "application/json",
@@ -1605,7 +1607,7 @@ function sendPlayerData(gamedata, turndata) {
 
 function getPlayerData() {
     console.log("fetching getPlayerData...");
-    fetch(`http://192.168.0.5:8080/plagiomon/${clientID}/vs/${rivalID}/getPlayerData`)
+    fetch(`https://leodexe.vercel.app:8080/plagiomon/${clientID}/vs/${rivalID}/getPlayerData`)
     .then(function (res1) {
         if (res1.ok) {
             console.log(res1);
@@ -1669,7 +1671,7 @@ function updatePoison(player) {
 }
 
 function getPlayerData2() {
-    fetch(`http://192.168.0.5:8080/plagiomon/${clientID}/vs/${rivalID}/getPlayerData2`)
+    fetch(`https://leodexe.vercel.app:8080/plagiomon/${clientID}/vs/${rivalID}/getPlayerData2`)
         .then(function (res1) {
             if (res1.ok) {
                 clearInterval(drawInterval);
