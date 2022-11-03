@@ -93,7 +93,7 @@ sametypeattackbonus = 1.5;
 function fgetPlayerID() {
     if (clientID == undefined) {
         // fetch("http://192.168.0.5:8080/join")
-        fetch("https://leodexe.vercel.app/join")
+        fetch("https://leodexe.vercel.app:8080/join")
         .then(function(res1) {
             console.log(res1);
             if (res1.ok) {
@@ -119,7 +119,7 @@ function fgetPlayerID() {
 
 function fgetPlayermon(objectmon) {
     // fetch(`http://192.168.0.5:8080/plagiomon/${clientID}`
-    fetch(`https://leodexe.vercel.app/plagiomon/${clientID}`, {
+    fetch(`https://leodexe.vercel.app:8080/plagiomon/${clientID}`, {
         method: "post",
         headers: {
             "Content-Type": "application/json",
