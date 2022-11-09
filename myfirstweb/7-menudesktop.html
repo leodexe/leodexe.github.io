@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Mi página de venta de garaje">
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
+    <title>Yard Sale | Menu (Desktop)</title>
+    <style>
+        :root {
+              --black: #000000;
+              --gray: #777777;
+              --white: #FFFFFF;
+              --sm: 12px;
+              --md: 16px;
+              --lg: 20px;
+              --very-light-pink: #C7C7C7;
+              --text-input-field: #F7F7F7;
+              --hospital-green: #ACD9B2;
+          }
+        body {
+            margin: 0;
+            font-family: 'Quicksand', sans-serif;
+        }
+        .next {
+            position: absolute;
+            right: 0;
+        }
+        .menu-desktop {
+            width: 160px;
+            height: auto;
+            border: solid 1px var(--very-light-pink);
+            border-radius: 8px;
+            padding: 4px 20px 0px 20px;
+        }
+        .menu-desktop ul {
+            list-style: none;
+            margin: 0;
+            padding: 16px 8px 0px 8px;
+            text-align: right; /* al parecer text-align right funciona exactamente igual con .menu-desktop ul li*/
+        }
+        .menu-desktop ul li:last-child {
+            border-top: solid black 1px;
+            padding-top: 16px;
+        }
+        .menu-desktop ul li a {
+            display: inline-block;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-decoration: none;
+        }
+        .menu-desktop ul .list1-2 a {
+            padding: 8px 0 8px 0;
+            color: var(--black);
+            font-size: var(--md);
+        }
+        .menu-desktop ul .list3 a {
+            color: var(--hospital-green);
+            font-size: var(--sm);
+        }
+    </style>
+</head>
+<body>
+    <a href="6-searchpage.html">Clase 6: searchpage.html</a>
+    <a href="8-menumobile.html" class="next">Clase 8: menumobile.html</a>
+    <div class="menu-desktop"> <!--contenedor-->
+        <ul class="menu-list">
+            <li class="list1-2">
+                <a href="/">My orders</a>
+            </li>
+            <li class="list1-2">
+                <a href="/">My account</a>
+            </li>
+            <li class="list3">
+                <a href="/3-login.html">Sign out</a>
+            </li>
+        </ul>
+    </div>
+    <!-- nota: .desktop-menu ul li:not(:last-child) {*estilos*;}-->
+</body>
+</html>

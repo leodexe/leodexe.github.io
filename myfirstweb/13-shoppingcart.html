@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Mi página de venta de garaje">
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
+    <title>YARD Sale | Shopping cart</title>
+    <style>
+        :root {
+              --black: #000000;
+              --gray: #777777;
+              --white: #FFFFFF;
+              --sm: 12px;
+              --md: 16px;
+              --lg: 20px;
+              --very-light-pink: #C7C7C7;
+              --text-input-field: #F7F7F7;
+              --hospital-green: #ACD9B2;
+          }
+        body {
+            margin: 0;
+            font-family: 'Quicksand', sans-serif;
+        }
+        .next {
+            position: absolute;
+            right: 0;
+        }
+        .carts-container {
+            width: 480px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: absolute;
+            right: 0;
+        }
+        .top-container {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+        }
+        .arrow {
+            margin-left: 32px;
+            transform: rotate(180deg);
+        }
+        .menu {
+            display: none;
+            margin-left: 20px;
+        }
+        .title {
+            width: 90%;
+            font-size: var(--lg);
+            padding-left: 32px;
+            text-align: left;
+        }
+        .cart-item{
+            width: 90%;
+            display: grid;
+            grid-template-columns: auto 2fr 1fr auto;
+            align-items: center;
+            margin: 24px 0 0;
+        }
+        .product-img {
+            width: 128px;
+            object-fit: cover;
+        }
+        .product-info {
+            color: var(--very-light-pink);
+        }
+        p:not(.product-info) {
+            font-size: var(--md);
+            font-weight: bold;
+        }
+        .product-value {
+            text-align: center;
+        }
+        .close-button {
+            width: 16px;
+        }
+        .total-value, .checkout {
+            box-sizing: border-box;
+            width: 90%;
+            height: 64px;
+        }
+        .total-value { 
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--text-input-field);
+            border-radius: 8px;
+            margin-top: 64px;
+            padding: 0 16px;
+        }
+        .checkout {
+            background: var(--hospital-green);
+            border: none;
+            border-radius: 8px;
+            color: var(--white);
+            font-size: var(--md);
+            font-weight: bold;
+        }
+        @media (max-width: 800px) {
+            .carts-container {
+                width: 100%;
+            }
+            .top-container {
+                border-bottom: solid 1px var(--very-light-pink);
+                margin: 4px 0;
+            }
+            .arrow {
+                display: none;
+            }
+            .menu {
+                display: inherit;
+            }
+            .title {
+                font-size: var(--md);
+                text-align: center;
+                margin: 0;
+                padding: 12px 0;
+            }
+            .cart-item {
+                margin: 4px 0;
+            }
+            .total-value {
+                margin-top: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="12-productdetail.html">Clase 12: product.html</a>
+    <a href="index.html" class="next">index.html</a>
+    <aside class="carts-container">
+        <div class="top-container">
+            <img src="/icons/flechita.svg" alt="Menu" class="arrow">
+            <a href="8-menumobile.html" class="menu-href">
+                <img src="/icons/icon_menu.svg" alt="menu" class="menu">
+            </a>
+            <h1 class="title">Shopping cart</h1>
+        </div>
+        <div class="cart-item">
+            <img src="/assets/bike.png" alt="bike" class="product-img">
+            <p class="product-info">Ghost Bike</p>
+            <p class="product-value">$ 112.00</p>
+            <img src="icons/icon_close.png" alt="Close" class="close-button">
+        </div>
+        <div class="cart-item">
+            <img src="/assets/bike.png" alt="bike" class="product-img">
+            <p class="product-info">Ghost Bike</p>
+            <p class="product-value">$ 112.00</p>
+            <img src="icons/icon_close.png" alt="Close" class="close-button">
+        </div>
+        <div class="cart-item">
+            <img src="/assets/bike.png" alt="bike" class="product-img">
+            <p class="product-info">Ghost Bike</p>
+            <p class="product-value">$ 112.00</p>
+            <img src="icons/icon_close.png" alt="Close" class="close-button">
+        </div>
+        <div class="cart-item">
+            <img src="/assets/bike.png" alt="bike" class="product-img">
+            <p class="product-info">Ghost Bike</p>
+            <p class="product-value">$ 112.00</p>
+            <img src="icons/icon_close.png" alt="Close" class="close-button">
+        </div>
+        <div class="cart-item">
+            <img src="/assets/bike.png" alt="bike" class="product-img">
+            <p class="product-info">Ghost Bike</p>
+            <p class="product-value">$ 112.00</p>
+            <img src="icons/icon_close.png" alt="Close" class="close-button">
+        </div>
+        <p class="total-value">
+            <span class="total">Total</span>
+            <span class="value">$ 560.00</span>
+        </p>
+        <button class="checkout">Checkout</button>
+    </aside>
+</body>
+</html>

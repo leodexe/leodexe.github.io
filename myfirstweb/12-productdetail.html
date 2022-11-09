@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Mi página de venta de garaje">
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
+    <title>YARD Sale | Product Detail</title>
+    <style>
+        :root {
+              --black: #000000;
+              --white: #FFFFFF;
+              --md: 16px;
+              --lg: 20px;
+              --very-light-pink: #C7C7C7;
+              --text-input-field: #F7F7F7;
+              --hospital-green: #ACD9B2;
+          }
+        body {
+            margin: 0;
+            font-family: 'Quicksand', sans-serif;
+        }
+        .next {
+            position: absolute;
+            right: 0;
+        }
+        .navbar {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--very-light-pink);
+        }
+        .menu-href {
+            align-self: center;
+            display: none;
+            padding-left: 16px;
+        }
+        .flexrow {
+            display: flex;
+            align-items: center;
+            list-style: none;
+        }
+        .flexrow a {
+            text-decoration: none;
+        }
+        .nav-left {
+            display: flex;
+            padding-left: 32px;
+        }
+        .logo {
+            width: 128px;
+        }
+        .nav-left ul li a {
+            border-radius: 8px;
+            color: var(--very-light-pink);
+            padding: 0 16px;
+        }
+        .nav-left ul li a:hover {
+            border: solid 1px var(--hospital-green);
+            color: var(--hospital-green);
+        }
+        .nav-right {
+            display: flex;
+            padding-right: 16px;
+        }
+        .nav-right .flexrow li {
+            display: flex;
+        }
+        .nav-email {
+            display: inherit;
+            color: var(--very-light-pink);
+            font-size: var(--sm);
+            padding-right: 32px;
+        }
+        .shopping-cart {
+            position: relative;
+            width: 32px;
+            height: 32px;
+        }
+        .nav-cart-qty {
+            display: grid;
+            place-content: center;
+            width: 16px;
+            height: 16px;
+            background: var(--hospital-green);
+            border-radius: 50%;
+            font-size: var(--sm);
+            font-weight: bold;
+            position: absolute;
+            top: 23px;
+            right: 19px;
+        }
+        .product-detail {
+            width: 360px;
+            position: absolute;
+            right: 0;
+        }
+        .close-button {
+            background: var(--black);
+            border-radius: 50%;
+            padding: 4px;
+            position: absolute;
+            left: 12px;
+            top: 8px;
+        }
+        .close-button:hover {
+            cursor: pointer;
+        }
+        .product-img {
+            position: relative;
+            width: 100%;
+            height: 360px;
+            object-fit: cover;
+        }
+        .product-info {
+            display: flex;
+            flex-direction: column;
+        }
+        p {
+            margin-left: 16px;
+        }
+        p:first-child {
+            font-weight: bold;
+            margin: 16px 16px 8px;
+        }
+        p:nth-child(2) {
+            margin: 0 0 0 16px;
+        }
+        p:not(:first-child) {
+            color: var(--very-light-pink);
+        }
+        .add-button-href {
+            width: 90%;
+            text-decoration: none;
+            align-self: center;            
+        }
+        .add-button {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            align-self: center;
+            background: var(--hospital-green);
+            margin-top: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .add-button .cart-text {
+            color: var(--white);
+            font-size: var(--md);
+            margin: 0;
+        }
+        @media (max-width: 800px) {
+            .menu-href {
+                display: inherit;
+            }
+            .nav-left ul {
+                display: none;
+            }
+            .navbar .nav-right .nav-email {
+                display: none;
+            }
+            .product-detail {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="11-navbar.html">Clase 11: navbar.html</a>
+    <a href="13-shoppingcart.html" class="next">Clase 13: shoppingcart.html</a>
+    <nav class="navbar">
+        <a href="8-menumobile.html" class="menu-href">
+            <img src="/icons/icon_menu.svg" alt="menu" class="menu">
+        </a>
+        <div class="nav-left">
+            <img src="/logos/logo_yard_sale.svg" alt="logo" class="logo">
+            <ul class="flexrow">
+                <li>
+                    <a href="">All</a>
+                </li>
+                <li>
+                    <a href="">Clothes</a>
+                </li>
+                <li>
+                    <a href="">Electronics</a>
+                </li>
+                <li>
+                    <a href="">Furniture</a>
+                </li>
+                <li>
+                    <a href="">Toys</a>
+                </li>
+                <li>
+                    <a href="">Others</a>
+                </li>
+            </ul>
+        </div>
+        <div class="nav-right">
+            <ul class="flexrow">
+                <li class="nav-email">camilayokoo@gmail.com</li>
+                <li class="nav-cart">
+                    <img src="/icons/icon_shopping_cart.svg" alt="shopping-cart">
+                    <div class="nav-cart-qty">2</div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <aside class="product-detail">
+        <img src="/icons/icon_close.png" alt="Close" class="close-button">
+        <img src="/assets/bike.png" alt="" class="product-img">
+        <div class="product-info">
+            <p>$ 120.00</p>
+            <p>Nirvana Tour</p>
+            <p>La NIRVANA Tour es la rígida definitiva para uso diario en la ciudad o en el campo. Es una bicicleta de montaña auténtica y fiable que te permite escapar y relajarte del estrés diario. Carretera, senderos forestales o singletrack: es la bicicleta perfecta para cualquier aventura. </p>
+            <a class=add-button-href href="13-shoppingcart.html">
+                <button class="add-button">
+                <img src="/icons/bt_add_to_cart.svg" alt="" class="add-button-img">
+                <p class="cart-text">Add to cart</p>
+                </button>
+            </a>
+        </div>
+    </aside>
+</body>
+</html>

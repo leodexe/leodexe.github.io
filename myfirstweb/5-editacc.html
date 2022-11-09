@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Mi página de venta de garaje">
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
+    <title>YARD Sale | Edit account</title>
+    <style>
+        :root {
+              --black: #000000;
+              --gray: #777777;
+              --white: #FFFFFF;
+              --sm: 12px;
+              --md: 16px;
+              --lg: 20px;
+              --very-light-pink: #C7C7C7;
+              --text-input-field: #F7F7F7;
+              --hospital-green: #ACD9B2;
+          }
+        body {
+            font-family: 'Quicksand', sans-serif;
+            margin: 0;
+        }
+        .next {
+            position: absolute;
+            right: 0;
+        }
+        .login {
+            width: 100%;
+            height: 100vh;
+            display: grid;
+            place-items: center;
+        }
+        .form-container {
+            width: 320px;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+        }
+        .logo {
+             width: 160px;
+             margin-bottom: 48px;
+             justify-self: center;
+             display: none;
+        }
+        .title {
+            font-size: var(--lg);
+            margin-bottom: 12px;
+            text-align: left;
+        }
+        .value {
+            color: var(--very-light-pink);
+            padding: 4px 0 0 4px;
+        }
+        .form {
+            display: flex;
+            flex-direction: column;
+        }
+        .form div {
+            display: flex;
+            flex-direction: column;
+        }
+        .label {
+            font-size: var(--sm);
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        .secondary-button {
+            width: 100%;
+            height: 48px;
+            background: var(--white);
+            border: solid 1px var(--hospital-green);
+            border-radius: 4px;
+            color: var(--hospital-green);
+            cursor: pointer;
+            font-size: var(--md);
+            font-weight: bold;
+            margin-top: 12px;
+            margin-bottom: 32px;
+        }
+        @media (max-width: 800px) {
+            .logo {
+                display: inherit;
+                align-self: center;
+            }
+            .form-container {
+                height: 100%;
+            }
+            .form {
+                height: 100%;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="4-createacc.html">Clase 4: createacc.html</a>
+    <a href="6-searchpage.html" class="next">Clase 6: searchpage.html</a>
+    <div class="login"> <!-- div principal, contiene toda la página-->
+        <div class="form-container"> <!-- div secundario, contiene el formulario-->
+            <img src="./logos/logo_yard_sale.svg" class="logo" alt="logo">
+            <form action="/6-searchpage.html" class="form">
+                <div> <!-- div terciario para añadir espacio entre los campos de texto y el submit-->
+                    <h1 class="title">My account</h1>
+                    <label for="name" class="label">Name</label>
+                    <p id="name" class="value">Camila Yokoo</p>
+                    <label for="email" class="label">Email address</label>
+                    <p id="email" class="value">camilayokoo@gmail.com</p>
+                    <label for="password" class="label">Password</label>
+                    <p id="password" class="value">********</p>
+                </div> <!-- todos los elementos a separar deben estar dentro del div o no funcionará-->
+                <input type="submit" class="secondary-button edit-button" value="Edit">
+            </form>
+        </div>
+    </div>
+</body>
+</html>

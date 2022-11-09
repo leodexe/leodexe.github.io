@@ -1,0 +1,12 @@
+main > span, main > div, h2 ~ div span, footer ul li a {
+    font-size: 1.6rem;
+}
+
+main .smash__title {
+    font-size: 3.6rem;
+}
+
+footer ul {
+    flex-direction: row;
+    justify-content: space-evenly;
+}

@@ -95,8 +95,14 @@ main .spanve a:hover {
 main div {
     display: grid;
     grid-template-columns: 1.25fr 1fr;
-    justify-items: center;
-    justify-content: center;
+}
+
+main div a {
+    justify-self: end;
+}
+
+main div span {
+    justify-self: start;
 }
 
 h2 ~ div a {
@@ -121,12 +127,20 @@ h2 ~ div span {
     padding: 1vh 1vw;
 }
 
-.ssc {
+.ssc1 {
+    background: lightgoldenrodyellow;
+}
+
+.ssc1:hover {
+    background: yellowgreen;
+}
+
+.ssc2 {
     background: yellow;
 }
 
-.ssc:hover {
-    background: yellowgreen;
+.ssc2:hover {
+    background: gold;
 }
 
 .scw {
